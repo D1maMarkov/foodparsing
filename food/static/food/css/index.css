@@ -1,0 +1,206 @@
+body {
+    appearance: none;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    height: 100%;
+    color: #212121;
+    font: 16px inter, sans-serif;
+    line-height: 1.4;
+    background: #f2f2f2;
+    font-family: "Arial", "Helvetica", sans-serif;
+}
+
+ul {
+    color: #212121;
+    appearance: none;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+li {
+    list-style: none;
+    appearance: none;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    margin-bottom: 8px;
+    width: 32.5%;
+    color: black;
+}
+
+a.c-list__link {
+    list-style: none;
+    appearance: none;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    background-color: transparent;
+    color: #3757c5;
+    cursor: pointer;
+    transition: 250ms;
+    display: flex;
+    text-decoration: none;
+}
+
+nav {
+    color: #212121;
+    appearance: none;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    background: #fff;
+    height: 86px;
+    box-shadow: inset 0 -2px 2px -2px rgba(0, 0, 0, .15);
+    display: block;
+}
+
+div.l-main__content {
+    color: #212121;
+    appearance: none;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    box-sizing: border-box;
+    max-width: 1096px;
+    min-width: 266px;
+    margin: 0 auto;
+    width: 728px;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 18px;
+}
+
+div.l-header__line-item {
+    appearance: none;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    align-items: center;
+    color: #fff;
+    display: flex;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+a.l-header__logo {
+    appearance: none;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    background-color: transparent;
+    cursor: pointer;
+    transition: 250ms;
+    align-items: center;
+    color: #212121;
+    display: block;
+    font-size: 14px;
+    line-height: 1;
+    margin-right: 24px;
+    text-decoration: none;
+}
+
+div.l-header__logo-text {
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+    appearance: none;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    color: #212121;
+    line-height: 1;
+}
+
+.l-header__logo-text div:first-of-type b {
+    font-weight: 700;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+    text-transform: uppercase;
+    color: #3757c5;
+    appearance: none;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    font-weight: 700;
+}
+
+.l-main {
+    color: #212121;
+    appearance: none;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+body {
+    font-family: 'Arial', 'Helvetica', sans-serif;
+}
+
+#searchInput,
+#searchButton {
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    color: #357ed2;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+#searchInput {
+    border: 1px solid #357ed2;
+    padding: 5px;
+}
+
+#searchButton {
+    background-color: #357ed2;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#searchButton:hover {
+    background-color: #2a6da0;
+}
+
+.c-list__item {
+    color: black;
+    /* Цвет текста элементов списка */
+}

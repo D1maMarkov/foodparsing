@@ -1,0 +1,56 @@
+{% load static %}
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ seo.title }}</title>
+  <meta name="description" content="{{ seo.description }}" />
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon.png" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <meta name="verify-admitad" content="c0a3a75558" />
+  <meta name="format-detection" content="telephone=no" />
+  {% block css %}
+  <link rel="stylesheet" href="{% static 'food/css/index.css' %}" />
+  {% endblock %}
+</head>
+<body>
+  <div class="l-main">
+    <nav class="l-header__line">
+      <div class="l-main__content">
+        <div class="l-header__line-item">
+          <a href="/" class="l-header__logo">
+            <div class="l-header__logo-text">
+              <div>
+                <b>Dostavka</b><b>-eda</b>
+              </div>
+              <div>Поможем найти онлайн доставку в вашем городе</div>
+            </div>
+          </a>
+        </div>
+        <div class="l-header__line-item">
+          <a href="/" style="background-color: #f2f2f2;border-radius: 50px;padding: 7px 17px;">Главная</a>
+        </div>
+      </div>
+    </nav>
+    <div class="l-main__content">
+      {% block content %}
+
+      {% endblock %}
+    </div>
+    <footer class="l-footer">
+      <div class="l-main__content">
+        <p>
+          <a href="/">Главная</a> &nbsp;&nbsp;&nbsp;
+        </p>
+        <p>&nbsp;</p>
+        <p>
+          © 2022-2024 «<a href="/">Доставка еды</a>». Почта для связи: dostavka-eda.com@yandex.ru
+        </p>
+      </div>
+    </footer>
+  </div>
+</body>

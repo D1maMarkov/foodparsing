@@ -1,0 +1,32 @@
+{% extends 'food/base.html' %}
+{% load static %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'food/css/index.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="l-main__box">
+  <main class="l-main__main">
+    <article class="l-article">
+      <header class="l-article__section">
+        <h1 class="l-article__h1">Доставка еды и продуктов по городам</h1>
+        <p class="l-article__h-text">На нашем сайте предоставлен полный список кафе и ресторанов с доставкой еды на дом сервиса Яндекс.Еда. Достаточно выбрать город и найти подходящее заведение. Для быстрого выбора воспользуйтесь нашим поиском.</p>
+      </header>
+      <section class="l-article__section" style="min-height: 500px;">
+        <div>
+          <input type="text" id="searchInput" placeholder="Поиск города..." oninput="filterCities()" />
+          <button id="searchButton" onclick="filterCities()">Поиск</button>
+        </div>
+        <ul class="c-list" id="cityList">
+          {% for city in cities %}
+            <li class="c-list__item c-list__item--4">
+              <a class="c-list__link" href="/{{ city.slug }}/" title="{{ city.title }}"><div class="c-list__name">{{ city.name }}</div></a>
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+    </article>
+  </main>
+</div>
+{% endblock %}

@@ -1,0 +1,171 @@
+{% extends "food/base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'food/css/city.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="l-main__box">
+    <main class="l-main__main">
+
+    <article class="l-article">
+    <div class="l-article__two">
+    <div class="l-article__two-item">
+    <header class="l-article__section">
+    <h1 class="l-article__h1">{{ restoraunt.name }}</h1>
+    </header>
+    <section class="l-article__section">
+    <div class="white-box">
+    <p class="img" itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject">
+    <img itemprop="url contentUrl" src="{{ restoraunt.image }}" class="image-item" style="height: 400px; width: 100%; object-fit: cover;">
+    <link itemprop="url" href="{{ restoraunt.image }}">
+    <meta itemprop="width" content="680">
+    <meta itemprop="height" content="500">
+    </p>
+    <div class="MuiBox-root mui-style-tbp59c">
+    <div class="MuiBox-root mui-style-1n1ctis">
+    <span class="MuiTypography-root MuiTypography-12 MuiTypography-noWrap mui-style-1lmwh5i">Ценовая категория</span><span class="MuiTypography-root MuiTypography-16 MuiTypography-noWrap mui-style-1dt2kdr">₽₽</span>
+    </div>
+    <div class="MuiBox-root mui-style-1n1ctis">
+    <span class="MuiTypography-root MuiTypography-12 MuiTypography-noWrap mui-style-1lmwh5i">Рейтинг заведения</span><span class="MuiTypography-root MuiTypography-16 MuiTypography-noWrap mui-style-1dt2kdr">{{ restoraunt.rating }}</span>
+    </div>
+    <div class="MuiBox-root mui-style-1n1ctis">
+    <span class="MuiTypography-root MuiTypography-12 MuiTypography-noWrap mui-style-1lmwh5i">Дата последнего обновления</span><span class="MuiTypography-root MuiTypography-16 MuiTypography-noWrap mui-style-1dt2kdr">{{ restoraunt.last_update }}</span>
+    </div>
+    </div>
+    </div>
+    <div class="white-box">
+    <h2 class="l-article__h2" style="margin-bottom: 0;">🚚 Доставка</h2>
+    <p class="l-article__h-text">Бесплатно</p>
+    <p class="l-article__h-text">Итоговая сумма зависит от стоимости и веса заказа, расстояния между вами и магазином и того, доставляет курьер пешком или на машине.</p>
+    <h2 class="l-article__h2" style="margin-bottom: 0;margin-top: 20px;">🍳 Как заказать</h2>
+    <p class="l-article__h-text" style="margin-top: 10px;margin-bottom: 20px;">Заказать можно по ссылкам ниже (через сайт или приложение). Заказать очень просто, достаточно добавить нужные позиции в корзину и оформить заказ.</p>
+    <h3 class="l-article__h2" style="margin-bottom: 10px;border-bottom: none;color: #222;font-size: 18px;position: relative;"><div class="Favicon-Icon favicon__icon" style="width: 19px;height: 19px;background-size: 19px;display: inline-block;position: absolute;top: 3px;margin-right: 10px;background-image:url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAe1BMVEUAAAA63ik54C053iw54C042ywzxyghhhoWXBEFCgESSA0mmB4IJQUutSQFFgMeehgPQQwwvyUlJAZLQw0TEwMhHAWIeBrlyy3z1zGqlyF3aRfcwyz94DPOtypXTBC9qCZBOQzt0S9cURCgjh80LgkqqCEaaRRrXxQNOwra4vGmAAAABXRSTlMAH6Lu08/KlXoAAAD5SURBVDjLlZPbcoMwDEQNxDLyRXbACQTatEmLk///wpBpZ9pisKf7qmPJs9IyVpQV31BVFowVO57QrmAlT6pkVRqoGM9oFQABaaBGqdKAznQwpNIAt9qkAe7kGgB7UNaq53xBEAFQEzUtoicL4GLAaDwcu749njwSoY5GSBy6cezGl9dDc0YUSwDIvw3vl8upb6/jh695DJDX7vx57cdu8DjFPhgjTEDE29Agbjjp5ooMhNLuV7c5oTQw2+y21l3T86HBGtYB0OFrUUR3u/YH+/0zMCrQHWKjyP70FeSWVqvf9bnNtASCyBwt/Ouq/wDZ4GSjlw1vLv4PMSwbjckWGwEAAAAASUVORK5CYII=&quot;);"></div><div style="
+        margin-left: 24px;
+    ">Деливери</div></h3>
+    <div style="height: 50px;">
+    <a id="orderbtn" target="_blank" href="/go.php?url=aHR0cHM6Ly9tYXJrZXQtZGVsaXZlcnkueWFuZGV4LnJ1L3IvZXBpY19waXp6YQ==&amp;type=10" style="
+        text-decoration: none;
+    " class="">
+    <div style="
+        display: block;
+        background-color: #1ca812;
+        padding: 10px 4px;
+        border-radius: 8px;
+        font-size: 16px;
+        line-height: 22px;
+        margin-top: 10px;
+        margin-right: 0;
+        text-align: center;">
+    <span class="search-result__link_btn_a_txt" style="color: #ffffff;font-weight: 600;text-decoration: auto;">Сделать заказ в Деливери</span>
+    </div></a>
+    </div>
+    <h3 class="l-article__h2" style="margin-bottom: 10px;margin-top: 20px;border-bottom: none;color: #222;font-size: 18px;position: relative;"><div class="Favicon-Icon favicon__icon" style="width: 19px;height: 19px;background-size: 19px;background-image:url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAhFBMVEUAAAD/4AD/1wD/5QD/3gDsxwH/4gD+2wDt0gDlxwHMtAF+cAJDOggaFgc7MwV4aARVSgURDgQGBQIIBwOSfQUqJQdnWQaZhgO0nAO7pAILCgUiHgiKeARNQwbdwgGrlQLVuALsywH01AANDAlcUAPDqAKAbwQTEgykjQQQDwv+1QA2LwlLKwNcAAAABnRSTlMAZsbjMvTX9jgrAAACDUlEQVQ4y3WTi3KjMAxFCW0RJpi3gBhIsBXq4Pz//614pZnt7mXG2NbRtfAgz2Od/I/glz78k7fp0w/+I/9zjb9lQyhECG8uC/HKh+gcS1aSRi/G5/OPeZTlRVHyUxR5Fh27p8MAKlmUWDftpamxLGQDh8VWAaSq6Jpw2wybrlDNXoW3xXtVDNcARNs0NwHBmBTyshEbcMnLLAxEKhVLpjq4YpGYH8AkJYogwlJJxLwsY8Ep+yEesC6kbnDFMk9HY8aU7QwMZbyEYAXuZWJ4kC2AMcAFUQs3Ja8HEKLqYZQ8mDPi2ZhE3eEqVXsAo8wnqKjT/LFK5Tf4psQYpOYAJmK3TA0gpMoyjKD/C2hJChhUDaO1EYQAAw2gJT1eDvPiQIsD9bxuZk6eFvhVg53YFrW701xXmaVEQ01oDkAjJ0Z2fsD4JJqJniNEks4/95BRbMxAeAVxTjDuNYiYUPwAN2svMEmKx+WmHB8ak11L3AH9ZAtXWeq++a51lHZke/cGwMPab+eajmaJT7QzYbPHd8DcZ1s5N9adXYTp6Nwj2gC3iouyqeZ321TNxBOdWhyXiCc24iu29vnQbucfz9nGCyA8f9/T9eK9/LW3KkNrZb2m+t7J7IRrY8nMvFYhh2ndM9x+hwWvpjRG7hwc+mhP85fWm9yb9NeX0K/VtDWnb9w/ZbbmXdtf/A6Lrf3/AOj2T1w4OfhCAAAAAElFTkSuQmCC&quot;);display: inline-block;position: absolute;top: 3px;margin-right: 10px;"></div><div style="
+        margin-left: 24px;
+    ">Яндекс Еда</div></h3>
+    <div style="height: 94px;">
+    <a target="_blank" href="/go.php?url=aHR0cHM6Ly9lZGEueWFuZGV4LnJ1L3Jlc3RhdXJhbnQvZXBpY182YnRyeA==&amp;type=3" style="
+        text-decoration: none;">
+    <div style="
+        display: block;
+        background-color: #cf2828;
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-size: 16px;
+        line-height: 22px;
+        margin-right: 0;
+        text-align: center;">
+    <span class="search-result__link_btn_a_txt" style="
+        color: #ffffff;
+        font-weight: 600;
+        text-decoration: auto;
+    ">Скидка 20% на первый заказ!</span></div></a>
+    <a id="orderbtn2" target="_blank" href="/go.php?url=aHR0cHM6Ly9lZGEueWFuZGV4LnJ1L3Jlc3RhdXJhbnQvZXBpY182YnRyeA==&amp;type=1" style="
+        text-decoration: none;" class="">
+    <div style="
+        display: block;
+        background-color: #3d7cf6;
+        padding: 10px 4px;
+        border-radius: 8px;
+        font-size: 16px;
+        line-height: 22px;
+        margin-top: 10px;
+        margin-right: 0;
+        text-align: center;">
+    <span class="search-result__link_btn_a_txt" style="
+        color: #ffffff;
+        font-weight: 600;
+        text-decoration: auto;
+    ">Сделать заказ в Яндекс Еда</span></div></a>
+    </div>
+    </div>
+    
+    <div class="white-box">
+    <h2 class="l-article__h2" style="margin-bottom: 0;">📱 Официальные приложения</h2>
+    <p class="l-article__h-text">Оформить заказ можно через официальное приложение для ios и android. Скачать можно по ссылкам ниже.</p>
+    <h3 class="l-article__h2" style="margin-bottom: 10px;margin-top: 20px;border-bottom: none;color: #222;font-size: 18px;position: relative;"><div class="Favicon-Icon favicon__icon" style="width: 19px;height: 19px;background-size: 19px;background-image:url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAhFBMVEUAAAD/4AD/1wD/5QD/3gDsxwH/4gD+2wDt0gDlxwHMtAF+cAJDOggaFgc7MwV4aARVSgURDgQGBQIIBwOSfQUqJQdnWQaZhgO0nAO7pAILCgUiHgiKeARNQwbdwgGrlQLVuALsywH01AANDAlcUAPDqAKAbwQTEgykjQQQDwv+1QA2LwlLKwNcAAAABnRSTlMAZsbjMvTX9jgrAAACDUlEQVQ4y3WTi3KjMAxFCW0RJpi3gBhIsBXq4Pz//614pZnt7mXG2NbRtfAgz2Od/I/glz78k7fp0w/+I/9zjb9lQyhECG8uC/HKh+gcS1aSRi/G5/OPeZTlRVHyUxR5Fh27p8MAKlmUWDftpamxLGQDh8VWAaSq6Jpw2wybrlDNXoW3xXtVDNcARNs0NwHBmBTyshEbcMnLLAxEKhVLpjq4YpGYH8AkJYogwlJJxLwsY8Ep+yEesC6kbnDFMk9HY8aU7QwMZbyEYAXuZWJ4kC2AMcAFUQs3Ja8HEKLqYZQ8mDPi2ZhE3eEqVXsAo8wnqKjT/LFK5Tf4psQYpOYAJmK3TA0gpMoyjKD/C2hJChhUDaO1EYQAAw2gJT1eDvPiQIsD9bxuZk6eFvhVg53YFrW701xXmaVEQ01oDkAjJ0Z2fsD4JJqJniNEks4/95BRbMxAeAVxTjDuNYiYUPwAN2svMEmKx+WmHB8ak11L3AH9ZAtXWeq++a51lHZke/cGwMPab+eajmaJT7QzYbPHd8DcZ1s5N9adXYTp6Nwj2gC3iouyqeZ321TNxBOdWhyXiCc24iu29vnQbucfz9nGCyA8f9/T9eK9/LW3KkNrZb2m+t7J7IRrY8nMvFYhh2ndM9x+hwWvpjRG7hwc+mhP85fWm9yb9NeX0K/VtDWnb9w/ZbbmXdtf/A6Lrf3/AOj2T1w4OfhCAAAAAElFTkSuQmCC&quot;);display: inline-block;position: absolute;top: 3px;margin-right: 10px;"></div><div style="
+        margin-left: 24px;
+    ">Яндекс Еда</div></h3>
+    <ul><li> <a href="/go.php?url=aHR0cHM6Ly9lZGEueWFuZGV4LnJ1L2FwcHM=&amp;type=2" rel="nofollow" target="_blank">iPhone</a></li><li>🤖 <a href="/go.php?url=aHR0cHM6Ly9lZGEueWFuZGV4LnJ1L2FwcHM=&amp;type=2" rel="nofollow" target="_blank">Android</a></li></ul>
+    <h3 class="l-article__h2" style="margin-bottom: 10px;margin-top: 20px;border-bottom: none;color: #222;font-size: 18px;position: relative;"><div class="Favicon-Icon favicon__icon" style="width: 19px;height: 19px;background-size: 19px;display: inline-block;position: absolute;top: 3px;margin-right: 10px;background-image:url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAe1BMVEUAAAA63ik54C053iw54C042ywzxyghhhoWXBEFCgESSA0mmB4IJQUutSQFFgMeehgPQQwwvyUlJAZLQw0TEwMhHAWIeBrlyy3z1zGqlyF3aRfcwyz94DPOtypXTBC9qCZBOQzt0S9cURCgjh80LgkqqCEaaRRrXxQNOwra4vGmAAAABXRSTlMAH6Lu08/KlXoAAAD5SURBVDjLlZPbcoMwDEQNxDLyRXbACQTatEmLk///wpBpZ9pisKf7qmPJs9IyVpQV31BVFowVO57QrmAlT6pkVRqoGM9oFQABaaBGqdKAznQwpNIAt9qkAe7kGgB7UNaq53xBEAFQEzUtoicL4GLAaDwcu749njwSoY5GSBy6cezGl9dDc0YUSwDIvw3vl8upb6/jh695DJDX7vx57cdu8DjFPhgjTEDE29Agbjjp5ooMhNLuV7c5oTQw2+y21l3T86HBGtYB0OFrUUR3u/YH+/0zMCrQHWKjyP70FeSWVqvf9bnNtASCyBwt/Ouq/wDZ4GSjlw1vLv4PMSwbjckWGwEAAAAASUVORK5CYII=&quot;);"></div><div style="
+        margin-left: 24px;
+    ">Деливери</div></h3>
+    <ul><li> <a href="/go.php?url=aHR0cHM6Ly9tYXJrZXQtZGVsaXZlcnkueWFuZGV4LnJ1L2FwcHM=&amp;type=20" rel="nofollow" target="_blank">iPhone</a></li><li>🤖 <a href="/go.php?url=aHR0cHM6Ly9tYXJrZXQtZGVsaXZlcnkueWFuZGV4LnJ1L2FwcHM=&amp;type=20" rel="nofollow" target="_blank">Android</a></li></ul>
+    <h2 class="l-article__h2" style="margin-bottom: 0;margin-top: 20px;">💳 Как оплатить</h2>
+    <p class="l-article__h-text">После оформления заказа, его нужно будет оплатить. Сделать это можно разными способами:</p>
+    <ol><li><strong>Наличными</strong> (в зависимости от выбранного ресторана)</li><li><strong>Картами</strong> Visa, MasterСard, Maestro и Мир</li></ol>
+    
+    <h2 class="l-article__h2" style="margin-bottom: 0;margin-top: 20px;">Кухня</h2>
+    <p class="l-article__h-text">
+        {% for food in foods %}
+        <a class="l-article__btn l-article__btn--small" href="/{{ city.slug }}/{{ food.slug }}/" rel="nofollow" target="_blank">{{ food.name }}</a>
+        {% endfor %}
+    </p>
+    
+    <h2 class="l-article__h2" style="margin-bottom: 0;margin-top: 20px;">Меню заведения</h2>
+    <p class="l-article__h-text">На данной странице представлено {{ dish_categories.count }} категорий меню ресторана {{ restoraunt.name }}, который находится в Туле по адресу Тула, проспект Ленина, 62.</p>
+    <p style="margin-bottom: 10px;"><strong>Выбрать категорию</strong></p>
+    <select id="anchorSelectMenu" onchange="location.href=this.value;">
+        {% for dish_category in dish_categories %}
+            <option value="{{ dish_category.id }}">{{ dish_category.name }}</option>
+        {% endfor %}
+    </select>
+    </div>
+    <ul class="c-list-cards">
+    {% for dish_category in dish_categories %}
+        <h3 class="l-article__h2 menu_h2" id="5003370617">{{ dish_category.name }}</h3>
+        {% for dish in dishes %}
+            {% if dish.category == dish_category %}
+                <li class="c-list-cards__item">
+                <a href="menu/3012036031_pivnaya-tarelka/" class="c-list-cards__link">
+                <div class="c-list-cards__img" style="background-image: url('{{ dish.image }}');"></div>
+                <div>
+                <div class="c-list-cards__header"><h4>{{ dish.name }}</h4></div>
+                <div class="c-list-cards__line c-list-cards__line--gray"><small style="font-size:12px;"><b style="vertical-align: middle;color:#E04F5F;font-size:16px;"> {{ dish.price }}</b></small></div>
+                <div class="c-list-cards__line c-list-cards__line--gray">
+                </div>
+                <div class="c-list-cards__line">
+                <small style="font-size:12px;"></small>
+                </div>
+                </div>
+                </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+
+    </ul>
+    <br>
+    <h2 class="l-article__h2">Исполнитель</h2>
+    <p class="l-article__h-text">Исполнитель (продавец): Индивидуальный предприниматель Баталин Никита Николаевич, 301240, 301240, Щекино, 1, 1, ИНН 711813274816, рег. номер 321710000029503<br><br>Режим работы: с 10:00 до 22:45</p>
+    </section>
+    
+    <div class="l-article__two-item l-article__two-item--small">
+    </div>
+    </div>
+    </article>
+    </main>
+    </div>
+    </div>
+{% endblock %}
