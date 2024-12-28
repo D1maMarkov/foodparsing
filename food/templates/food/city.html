@@ -1,59 +1,322 @@
-{% extends 'food/base.html' %}
 {% load static %}
 
-{% block css %}
-  <link rel="stylesheet" href="{% static 'food/css/city.css' %}" />
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
-  <div class="l-main__box">
-    <main class="l-main__main">
-      <article class="l-article">
-        <header class="l-article__section">
-          <h1 class="l-article__h1">Доставка еды и продуктов в Екатеринбурге</h1>
-          <p class="l-article__h-text">Полный список ресторанов, кафе, магазинов где можно заказать быструю доставку еды и продуктов в Екатеринбурге. Сравните разные заведения и магазины по рейтингу и ценовой категории. В нашем меню представлены блюда всех кухонь мира: русская, итальянская, французская, японская, китайская и многие другие. Чтобы заказать еду, выберите понравившиеся блюда из меню в каталоге и оформите заказ онлайн через сервис Яндекс Еда. У Яндекса действует доставка в любое время дня и ночи, поэтому вы можете вкусно пообедать или поужинать, даже если находитесь в офисе.</p>
-          <p class="l-article__h-text" style="
-            width: 1125px;
-            overflow: auto;
-            overflow-y: hidden;
-            white-space: nowrap;
-            margin-bottom: 36px;
-            ">
-            {% for food in foods %}
-                <a href="/{{ city.slug }}/{{ food.slug }}/" class="l-article__btn l-article__btn--small" title="{{ food.title }}">{{ food.name }}</a>
-            {% endfor %}
-          </p>
-        </header>
-        <div class="l-article__two">
-          <div class="l-article__two-item">
-            <section class="l-article__section">
-              <h2 class="l-article__h2">Список кафе и ресторанов в {{ city.genetive_case }}</h2>
-              <ul class="c-list-cards">
-                {% for restoraunt in restoraunts %}
-                    <li class="c-list-cards__item">
-                    <a href="place/{{ restoraunt.slug }}/" class="c-list-cards__link">
-                        <div class="c-list-cards__img" style="background-image: url('{{ restoraunt.image }}');"></div>
-                        <div>
-                        <div class="c-list-cards__header">{{ restoraunt.name }}</div>
-                        <div class="c-list-cards__line c-list-cards__line--gray">
-                            <small style="font-size:13px;">{{ restoraunt.address }}</small>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="zomo">
+    <meta name="keywords" content="zomo">
+    <meta name="author" content="zomo">
+    <link rel="icon" href="/assets/images/logo/favicon.png" type="image/x-icon">
+    <title>{{ seo.title }}</title>
+    <link rel="apple-touch-icon" href="/assets/images/logo/favicon.png">
+    <meta name="theme-color" content="#ff8d2f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="zomo">
+    <meta name="msapplication-TileImage" content="/assets/images/logo/favicon.png">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!--Google font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- bootstrap css -->
+    <link rel="stylesheet" type="text/css" id="rtl-link" href="/assets/css/vendors/bootstrap.css">
+
+    <!-- remixicon css -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/vendors/remixicon.css">
+
+    <!-- Theme css -->
+    <link rel="stylesheet" id="change-link" type="text/css" href="/assets/css/style.css">
+
+</head>
+
+<body class="bg-color">
+
+    <!-- Header section start -->
+    {% include "food/navbar.html" %}
+    <!-- Header Section end -->
+
+    <!-- page head section starts -->
+    <section class="page-head-section">
+        <div class="container page-heading">
+            <h2 class="h3 mb-3 text-white text-center">{{ seo.title }}</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb flex-lg-nowrap justify-content-center justify-content-lg-star">
+                    <li class="breadcrumb-item">
+                        <a href="index.html"><i class="ri-home-line"></i>Home</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {{ seo.title }}
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+    <!-- page head section end -->
+
+    <!-- foods section starts -->
+    <section class="section-b-space">
+        <div class="container">
+            <div class="accordion-body">
+                <ul class="filter-item-list">
+                    {% for food in foods %}
+                    <li>
+                        <a href="/{{ city.slug }}/{{ food.id }}/">{{ food.name }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- foods section ends -->
+
+    <!-- popular restaurant section starts -->
+    <section class="restaurant-list section-b-space ratio3_2">
+        <div class="container">
+            <div class="title restaurant-title pb-0 w-border">
+                <h2>Рестораны</h2>
+            </div>
+            <div class="tab-content restaurant-content" id="TabContent">
+                <div class="tab-pane fade show active" id="delivery-tab">
+                    <div class="row g-lg-4 g-3">
+                        {% for restoraunt in restoraunts_obj %}
+                            {% include "food/restoraunt-item.html" with restoraunt=restoraunt %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <nav class="custom-pagination">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item {% if restoraunts_obj.has_previous %}{% else %}disabled{% endif %}">
+                            <a class="page-link" href="?page={% if restoraunts_obj.has_previous %}{{ restoraunts_obj.previous_page_number }}{% endif %}" tabindex="-1">
+                                <i class="ri-arrow-left-s-line"></i>
+                            </a>
+                        </li>
+
+                        {% if restoraunts_obj.has_previous %}
+                            {% if restoraunts_obj.previous_page_number > 1 %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1">1</a>
+                                </li>
+                            {% endif %}
+
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ restoraunts_obj.previous_page_number }}">{{ restoraunts_obj.previous_page_number }}</a>
+                            </li>
+                        {% endif %}
+
+                        <li class="page-item active">
+                            <a class="page-link" href="?page={{ restoraunts_obj.number }}">{{ restoraunts_obj.number }}</a>
+                        </li>
+
+                        {% if restoraunts_obj.has_next %}
+                            {% if restoraunts_obj.next_page_number < restoraunts_obj.paginator.num_pages %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ restoraunts_obj.next_page_number }}">{{ restoraunts_obj.next_page_number }}</a>
+                                </li>
+                            {% endif %}
+
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ restoraunts_obj.paginator.num_pages }}">{{ restoraunts_obj.paginator.num_pages }}</a>
+                            </li>
+                        {% endif %}
+
+                        <li class="page-item {% if restoraunts_obj.has_next %}{% else %}disabled{% endif %}">
+                            <a class="page-link" href="?page={% if restoraunts_obj.has_next %}{{ restoraunts_obj.next_page_number }}{% endif %}">
+                                <i class="ri-arrow-right-s-line"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </section>
+    <!-- popular restaurant section end -->
+
+    <!-- shops section starts -->
+    <section class="restaurant-list section-b-space ratio3_2">
+        <div class="container">
+            <div class="title restaurant-title pb-0 w-border">
+                <h2>Список магазинов с доставкой в {{ city.genetive_case }}</h2>
+            </div>
+            <div class="tab-content restaurant-content" id="TabContent">
+                <div class="tab-pane fade show active" id="delivery-tab">
+                    <div class="row g-lg-4 g-3">
+                        {% for shop in shops %}
+                            {% include "food/shop-item.html" with shop=shop %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!--<nav class="custom-pagination">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item {% if shops_obj.has_previous %}{% else %}disabled{% endif %}">
+                            <a class="page-link" href="?page={% if shops_obj.has_previous %}{{ shops_obj.previous_page_number }}{% endif %}" tabindex="-1">
+                                <i class="ri-arrow-left-s-line"></i>
+                            </a>
+                        </li>
+
+                        {% if shops_obj.has_previous %}
+                            {% if shops_obj.previous_page_number > 1 %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1">1</a>
+                                </li>
+                            {% endif %}
+
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ shops_obj.previous_page_number }}">{{ shops_obj.previous_page_number }}</a>
+                            </li>
+                        {% endif %}
+
+                        <li class="page-item active">
+                            <a class="page-link" href="?page={{ shops_obj.number }}">{{ shops_obj.number }}</a>
+                        </li>
+
+                        {% if shops_obj.has_next %}
+                            {% if shops_obj.next_page_number < shops_obj.paginator.num_pages %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ shops_obj.next_page_number }}">{{ shops_obj.next_page_number }}</a>
+                                </li>
+                            {% endif %}
+
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ shops_obj.paginator.num_pages }}">{{ shops_obj.paginator.num_pages }}</a>
+                            </li>
+                        {% endif %}
+
+                        <li class="page-item {% if shops_obj.has_next %}{% else %}disabled{% endif %}">
+                            <a class="page-link" href="?page={% if shops_obj.has_next %}{{ shops_obj.next_page_number }}{% endif %}">
+                                <i class="ri-arrow-right-s-line"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>-->
+            </div>
+        </div>
+    </section>
+    <!-- shops section end -->
+
+    <!-- footer section starts -->
+    {% include "food/footer.html" %}
+    <!-- footer section end -->
+
+    <!-- mobile fix menu start -->
+    <!--
+    <div class="mobile-menu d-md-none d-block mobile-cart">
+        <ul>
+            <li>
+                <a href="index.html" class="menu-box">
+                    <i class="ri-home-4-line"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="wishlist.html" class="menu-box">
+                    <i class="ri-heart-3-line"></i>
+                    <span>Wishlist</span>
+                </a>
+            </li>
+            <li>
+                <a href="checkout.html" class="menu-box">
+                    <i class="ri-shopping-cart-2-line"></i>
+                    <span>Cart</span>
+                </a>
+            </li>
+            <li>
+                <a href="profile.html" class="menu-box">
+                    <i class="ri-user-line"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    -->
+    <!-- mobile fix menu end -->
+
+    <!-- location offcanvas start -->
+    <div class="modal fade location-modal" id="location" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">
+                        <h5 class="fw-semibold">Select a Location</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="search-section">
+                        <form class="form_search" role="form">
+                            <input type="search" placeholder="Search Location" class="nav-search nav-search-field">
+                        </form>
+                    </div>
+                    <a href="#!" class="current-location">
+                        <div class="current-address">
+                            <i class="ri-focus-3-line focus"></i>
+                            <div>
+                                <h5>Use current-location</h5>
+                                <h6>Wellington St., Ottawa, Ontario, Canada</h6>
+                            </div>
                         </div>
-                        <div class="c-list-cards__line c-list-cards__line--gray price-range">
-                            <small><span class="option_place">Ценовая категория:</span><b style="vertical-align: middle;">₽₽</b></small>
-                        </div>
-                        <div class="c-list-cards__line c-list-cards__line--gray">
-                            <small><span class="option_place">Минимальный заказ:</span><b style="vertical-align: middle;">0 ₽</b></small>
-                        </div>
+                        <i class="ri-arrow-right-s-line arrow"></i>
+                    </a>
+                    <h5 class="mt-sm-3 mt-2 fw-medium recent-title dark-text">
+                        Recent Location
+                    </h5>
+                    <a href="#!" class="recent-location">
+                        <div class="recant-address">
+                            <i class="ri-map-pin-line theme-color"></i>
+                            <div>
+                                <h5>Bayshore</h5>
+                                <h6>kingston St., Ottawa, Ontario, Canada</h6>
+                            </div>
                         </div>
                     </a>
-                    </li>
-                {% endfor %}
-              </ul>
-            </section>
-          </div>
-          <div class="l-article__two-item l-article__two-item--small"></div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn gray-btn" data-bs-dismiss="modal">Close</a>
+                    <a href="#" class="btn theme-btn mt-0" data-bs-dismiss="modal">Save</a>
+                </div>
+            </div>
         </div>
-      </article>
-    </main>
-  </div>
-{% endblock %}
+    </div>
+    <!-- location offcanvas end -->
+
+    <!-- theme btn start -->
+    <div class="theme-btns">
+        <button type="button" class="btntheme mode-change-button">
+            <i id="themeIcon" class="ri-moon-line icon mode-icon"></i>
+            <span class="text-value">Dark</span>
+        </button>
+    </div>
+    <!-- theme btn end -->
+
+    <!-- tap to top start -->
+    <button class="scroll scroll-to-top">
+        <i class="ri-arrow-up-s-line arrow"></i>
+    </button>
+    <!-- tap to top end -->
+
+    <!-- responsive space -->
+    <div class="responsive-space"></div>
+    <!-- responsive space -->
+
+    <!-- bootstrap js -->
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+
+    <!-- footer accordion js -->
+    <script src="/assets/js/footer-accordion.js"></script>
+
+    <!-- script js -->
+    <script src="/assets/js/script.js"></script>
+</body>
+
+</html>

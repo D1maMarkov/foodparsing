@@ -1,171 +1,645 @@
-{% extends "food/base.html" %}
 {% load static %}
 
-{% block css %}
-<link rel="stylesheet" href="{% static 'food/css/city.css' %}" />
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
-<div class="l-main__box">
-    <main class="l-main__main">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="zomo">
+    <meta name="keywords" content="zomo">
+    <meta name="author" content="zomo">
+    <link rel="icon" href="assets/images/logo/favicon.png" type="image/x-icon">
+    <title>{{ seo.title }}</title>
+    <meta name="description" content="{{ seo.description }}" />
+    <link rel="apple-touch-icon" href="assets/images/logo/favicon.png">
+    <meta name="theme-color" content="#ff8d2f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="zomo">
+    <meta name="msapplication-TileImage" content="assets/images/logo/favicon.png">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <article class="l-article">
-    <div class="l-article__two">
-    <div class="l-article__two-item">
-    <header class="l-article__section">
-    <h1 class="l-article__h1">{{ restoraunt.name }}</h1>
-    </header>
-    <section class="l-article__section">
-    <div class="white-box">
-    <p class="img" itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject">
-    <img itemprop="url contentUrl" src="{{ restoraunt.image }}" class="image-item" style="height: 400px; width: 100%; object-fit: cover;">
-    <link itemprop="url" href="{{ restoraunt.image }}">
-    <meta itemprop="width" content="680">
-    <meta itemprop="height" content="500">
-    </p>
-    <div class="MuiBox-root mui-style-tbp59c">
-    <div class="MuiBox-root mui-style-1n1ctis">
-    <span class="MuiTypography-root MuiTypography-12 MuiTypography-noWrap mui-style-1lmwh5i">Ценовая категория</span><span class="MuiTypography-root MuiTypography-16 MuiTypography-noWrap mui-style-1dt2kdr">₽₽</span>
-    </div>
-    <div class="MuiBox-root mui-style-1n1ctis">
-    <span class="MuiTypography-root MuiTypography-12 MuiTypography-noWrap mui-style-1lmwh5i">Рейтинг заведения</span><span class="MuiTypography-root MuiTypography-16 MuiTypography-noWrap mui-style-1dt2kdr">{{ restoraunt.rating }}</span>
-    </div>
-    <div class="MuiBox-root mui-style-1n1ctis">
-    <span class="MuiTypography-root MuiTypography-12 MuiTypography-noWrap mui-style-1lmwh5i">Дата последнего обновления</span><span class="MuiTypography-root MuiTypography-16 MuiTypography-noWrap mui-style-1dt2kdr">{{ restoraunt.last_update }}</span>
-    </div>
-    </div>
-    </div>
-    <div class="white-box">
-    <h2 class="l-article__h2" style="margin-bottom: 0;">🚚 Доставка</h2>
-    <p class="l-article__h-text">Бесплатно</p>
-    <p class="l-article__h-text">Итоговая сумма зависит от стоимости и веса заказа, расстояния между вами и магазином и того, доставляет курьер пешком или на машине.</p>
-    <h2 class="l-article__h2" style="margin-bottom: 0;margin-top: 20px;">🍳 Как заказать</h2>
-    <p class="l-article__h-text" style="margin-top: 10px;margin-bottom: 20px;">Заказать можно по ссылкам ниже (через сайт или приложение). Заказать очень просто, достаточно добавить нужные позиции в корзину и оформить заказ.</p>
-    <h3 class="l-article__h2" style="margin-bottom: 10px;border-bottom: none;color: #222;font-size: 18px;position: relative;"><div class="Favicon-Icon favicon__icon" style="width: 19px;height: 19px;background-size: 19px;display: inline-block;position: absolute;top: 3px;margin-right: 10px;background-image:url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAe1BMVEUAAAA63ik54C053iw54C042ywzxyghhhoWXBEFCgESSA0mmB4IJQUutSQFFgMeehgPQQwwvyUlJAZLQw0TEwMhHAWIeBrlyy3z1zGqlyF3aRfcwyz94DPOtypXTBC9qCZBOQzt0S9cURCgjh80LgkqqCEaaRRrXxQNOwra4vGmAAAABXRSTlMAH6Lu08/KlXoAAAD5SURBVDjLlZPbcoMwDEQNxDLyRXbACQTatEmLk///wpBpZ9pisKf7qmPJs9IyVpQV31BVFowVO57QrmAlT6pkVRqoGM9oFQABaaBGqdKAznQwpNIAt9qkAe7kGgB7UNaq53xBEAFQEzUtoicL4GLAaDwcu749njwSoY5GSBy6cezGl9dDc0YUSwDIvw3vl8upb6/jh695DJDX7vx57cdu8DjFPhgjTEDE29Agbjjp5ooMhNLuV7c5oTQw2+y21l3T86HBGtYB0OFrUUR3u/YH+/0zMCrQHWKjyP70FeSWVqvf9bnNtASCyBwt/Ouq/wDZ4GSjlw1vLv4PMSwbjckWGwEAAAAASUVORK5CYII=&quot;);"></div><div style="
-        margin-left: 24px;
-    ">Деливери</div></h3>
-    <div style="height: 50px;">
-    <a id="orderbtn" target="_blank" href="/go.php?url=aHR0cHM6Ly9tYXJrZXQtZGVsaXZlcnkueWFuZGV4LnJ1L3IvZXBpY19waXp6YQ==&amp;type=10" style="
-        text-decoration: none;
-    " class="">
-    <div style="
-        display: block;
-        background-color: #1ca812;
-        padding: 10px 4px;
-        border-radius: 8px;
-        font-size: 16px;
-        line-height: 22px;
-        margin-top: 10px;
-        margin-right: 0;
-        text-align: center;">
-    <span class="search-result__link_btn_a_txt" style="color: #ffffff;font-weight: 600;text-decoration: auto;">Сделать заказ в Деливери</span>
-    </div></a>
-    </div>
-    <h3 class="l-article__h2" style="margin-bottom: 10px;margin-top: 20px;border-bottom: none;color: #222;font-size: 18px;position: relative;"><div class="Favicon-Icon favicon__icon" style="width: 19px;height: 19px;background-size: 19px;background-image:url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAhFBMVEUAAAD/4AD/1wD/5QD/3gDsxwH/4gD+2wDt0gDlxwHMtAF+cAJDOggaFgc7MwV4aARVSgURDgQGBQIIBwOSfQUqJQdnWQaZhgO0nAO7pAILCgUiHgiKeARNQwbdwgGrlQLVuALsywH01AANDAlcUAPDqAKAbwQTEgykjQQQDwv+1QA2LwlLKwNcAAAABnRSTlMAZsbjMvTX9jgrAAACDUlEQVQ4y3WTi3KjMAxFCW0RJpi3gBhIsBXq4Pz//614pZnt7mXG2NbRtfAgz2Od/I/glz78k7fp0w/+I/9zjb9lQyhECG8uC/HKh+gcS1aSRi/G5/OPeZTlRVHyUxR5Fh27p8MAKlmUWDftpamxLGQDh8VWAaSq6Jpw2wybrlDNXoW3xXtVDNcARNs0NwHBmBTyshEbcMnLLAxEKhVLpjq4YpGYH8AkJYogwlJJxLwsY8Ep+yEesC6kbnDFMk9HY8aU7QwMZbyEYAXuZWJ4kC2AMcAFUQs3Ja8HEKLqYZQ8mDPi2ZhE3eEqVXsAo8wnqKjT/LFK5Tf4psQYpOYAJmK3TA0gpMoyjKD/C2hJChhUDaO1EYQAAw2gJT1eDvPiQIsD9bxuZk6eFvhVg53YFrW701xXmaVEQ01oDkAjJ0Z2fsD4JJqJniNEks4/95BRbMxAeAVxTjDuNYiYUPwAN2svMEmKx+WmHB8ak11L3AH9ZAtXWeq++a51lHZke/cGwMPab+eajmaJT7QzYbPHd8DcZ1s5N9adXYTp6Nwj2gC3iouyqeZ321TNxBOdWhyXiCc24iu29vnQbucfz9nGCyA8f9/T9eK9/LW3KkNrZb2m+t7J7IRrY8nMvFYhh2ndM9x+hwWvpjRG7hwc+mhP85fWm9yb9NeX0K/VtDWnb9w/ZbbmXdtf/A6Lrf3/AOj2T1w4OfhCAAAAAElFTkSuQmCC&quot;);display: inline-block;position: absolute;top: 3px;margin-right: 10px;"></div><div style="
-        margin-left: 24px;
-    ">Яндекс Еда</div></h3>
-    <div style="height: 94px;">
-    <a target="_blank" href="/go.php?url=aHR0cHM6Ly9lZGEueWFuZGV4LnJ1L3Jlc3RhdXJhbnQvZXBpY182YnRyeA==&amp;type=3" style="
-        text-decoration: none;">
-    <div style="
-        display: block;
-        background-color: #cf2828;
-        padding: 10px 12px;
-        border-radius: 8px;
-        font-size: 16px;
-        line-height: 22px;
-        margin-right: 0;
-        text-align: center;">
-    <span class="search-result__link_btn_a_txt" style="
-        color: #ffffff;
-        font-weight: 600;
-        text-decoration: auto;
-    ">Скидка 20% на первый заказ!</span></div></a>
-    <a id="orderbtn2" target="_blank" href="/go.php?url=aHR0cHM6Ly9lZGEueWFuZGV4LnJ1L3Jlc3RhdXJhbnQvZXBpY182YnRyeA==&amp;type=1" style="
-        text-decoration: none;" class="">
-    <div style="
-        display: block;
-        background-color: #3d7cf6;
-        padding: 10px 4px;
-        border-radius: 8px;
-        font-size: 16px;
-        line-height: 22px;
-        margin-top: 10px;
-        margin-right: 0;
-        text-align: center;">
-    <span class="search-result__link_btn_a_txt" style="
-        color: #ffffff;
-        font-weight: 600;
-        text-decoration: auto;
-    ">Сделать заказ в Яндекс Еда</span></div></a>
-    </div>
-    </div>
-    
-    <div class="white-box">
-    <h2 class="l-article__h2" style="margin-bottom: 0;">📱 Официальные приложения</h2>
-    <p class="l-article__h-text">Оформить заказ можно через официальное приложение для ios и android. Скачать можно по ссылкам ниже.</p>
-    <h3 class="l-article__h2" style="margin-bottom: 10px;margin-top: 20px;border-bottom: none;color: #222;font-size: 18px;position: relative;"><div class="Favicon-Icon favicon__icon" style="width: 19px;height: 19px;background-size: 19px;background-image:url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAhFBMVEUAAAD/4AD/1wD/5QD/3gDsxwH/4gD+2wDt0gDlxwHMtAF+cAJDOggaFgc7MwV4aARVSgURDgQGBQIIBwOSfQUqJQdnWQaZhgO0nAO7pAILCgUiHgiKeARNQwbdwgGrlQLVuALsywH01AANDAlcUAPDqAKAbwQTEgykjQQQDwv+1QA2LwlLKwNcAAAABnRSTlMAZsbjMvTX9jgrAAACDUlEQVQ4y3WTi3KjMAxFCW0RJpi3gBhIsBXq4Pz//614pZnt7mXG2NbRtfAgz2Od/I/glz78k7fp0w/+I/9zjb9lQyhECG8uC/HKh+gcS1aSRi/G5/OPeZTlRVHyUxR5Fh27p8MAKlmUWDftpamxLGQDh8VWAaSq6Jpw2wybrlDNXoW3xXtVDNcARNs0NwHBmBTyshEbcMnLLAxEKhVLpjq4YpGYH8AkJYogwlJJxLwsY8Ep+yEesC6kbnDFMk9HY8aU7QwMZbyEYAXuZWJ4kC2AMcAFUQs3Ja8HEKLqYZQ8mDPi2ZhE3eEqVXsAo8wnqKjT/LFK5Tf4psQYpOYAJmK3TA0gpMoyjKD/C2hJChhUDaO1EYQAAw2gJT1eDvPiQIsD9bxuZk6eFvhVg53YFrW701xXmaVEQ01oDkAjJ0Z2fsD4JJqJniNEks4/95BRbMxAeAVxTjDuNYiYUPwAN2svMEmKx+WmHB8ak11L3AH9ZAtXWeq++a51lHZke/cGwMPab+eajmaJT7QzYbPHd8DcZ1s5N9adXYTp6Nwj2gC3iouyqeZ321TNxBOdWhyXiCc24iu29vnQbucfz9nGCyA8f9/T9eK9/LW3KkNrZb2m+t7J7IRrY8nMvFYhh2ndM9x+hwWvpjRG7hwc+mhP85fWm9yb9NeX0K/VtDWnb9w/ZbbmXdtf/A6Lrf3/AOj2T1w4OfhCAAAAAElFTkSuQmCC&quot;);display: inline-block;position: absolute;top: 3px;margin-right: 10px;"></div><div style="
-        margin-left: 24px;
-    ">Яндекс Еда</div></h3>
-    <ul><li> <a href="/go.php?url=aHR0cHM6Ly9lZGEueWFuZGV4LnJ1L2FwcHM=&amp;type=2" rel="nofollow" target="_blank">iPhone</a></li><li>🤖 <a href="/go.php?url=aHR0cHM6Ly9lZGEueWFuZGV4LnJ1L2FwcHM=&amp;type=2" rel="nofollow" target="_blank">Android</a></li></ul>
-    <h3 class="l-article__h2" style="margin-bottom: 10px;margin-top: 20px;border-bottom: none;color: #222;font-size: 18px;position: relative;"><div class="Favicon-Icon favicon__icon" style="width: 19px;height: 19px;background-size: 19px;display: inline-block;position: absolute;top: 3px;margin-right: 10px;background-image:url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAe1BMVEUAAAA63ik54C053iw54C042ywzxyghhhoWXBEFCgESSA0mmB4IJQUutSQFFgMeehgPQQwwvyUlJAZLQw0TEwMhHAWIeBrlyy3z1zGqlyF3aRfcwyz94DPOtypXTBC9qCZBOQzt0S9cURCgjh80LgkqqCEaaRRrXxQNOwra4vGmAAAABXRSTlMAH6Lu08/KlXoAAAD5SURBVDjLlZPbcoMwDEQNxDLyRXbACQTatEmLk///wpBpZ9pisKf7qmPJs9IyVpQV31BVFowVO57QrmAlT6pkVRqoGM9oFQABaaBGqdKAznQwpNIAt9qkAe7kGgB7UNaq53xBEAFQEzUtoicL4GLAaDwcu749njwSoY5GSBy6cezGl9dDc0YUSwDIvw3vl8upb6/jh695DJDX7vx57cdu8DjFPhgjTEDE29Agbjjp5ooMhNLuV7c5oTQw2+y21l3T86HBGtYB0OFrUUR3u/YH+/0zMCrQHWKjyP70FeSWVqvf9bnNtASCyBwt/Ouq/wDZ4GSjlw1vLv4PMSwbjckWGwEAAAAASUVORK5CYII=&quot;);"></div><div style="
-        margin-left: 24px;
-    ">Деливери</div></h3>
-    <ul><li> <a href="/go.php?url=aHR0cHM6Ly9tYXJrZXQtZGVsaXZlcnkueWFuZGV4LnJ1L2FwcHM=&amp;type=20" rel="nofollow" target="_blank">iPhone</a></li><li>🤖 <a href="/go.php?url=aHR0cHM6Ly9tYXJrZXQtZGVsaXZlcnkueWFuZGV4LnJ1L2FwcHM=&amp;type=20" rel="nofollow" target="_blank">Android</a></li></ul>
-    <h2 class="l-article__h2" style="margin-bottom: 0;margin-top: 20px;">💳 Как оплатить</h2>
-    <p class="l-article__h-text">После оформления заказа, его нужно будет оплатить. Сделать это можно разными способами:</p>
-    <ol><li><strong>Наличными</strong> (в зависимости от выбранного ресторана)</li><li><strong>Картами</strong> Visa, MasterСard, Maestro и Мир</li></ol>
-    
-    <h2 class="l-article__h2" style="margin-bottom: 0;margin-top: 20px;">Кухня</h2>
-    <p class="l-article__h-text">
-        {% for food in foods %}
-        <a class="l-article__btn l-article__btn--small" href="/{{ city.slug }}/{{ food.slug }}/" rel="nofollow" target="_blank">{{ food.name }}</a>
-        {% endfor %}
-    </p>
-    
-    <h2 class="l-article__h2" style="margin-bottom: 0;margin-top: 20px;">Меню заведения</h2>
-    <p class="l-article__h-text">На данной странице представлено {{ dish_categories.count }} категорий меню ресторана {{ restoraunt.name }}, который находится в Туле по адресу Тула, проспект Ленина, 62.</p>
-    <p style="margin-bottom: 10px;"><strong>Выбрать категорию</strong></p>
-    <select id="anchorSelectMenu" onchange="location.href=this.value;">
-        {% for dish_category in dish_categories %}
-            <option value="{{ dish_category.id }}">{{ dish_category.name }}</option>
-        {% endfor %}
-    </select>
-    </div>
-    <ul class="c-list-cards">
-    {% for dish_category in dish_categories %}
-        <h3 class="l-article__h2 menu_h2" id="5003370617">{{ dish_category.name }}</h3>
-        {% for dish in dishes %}
-            {% if dish.category == dish_category %}
-                <li class="c-list-cards__item">
-                <a href="menu/3012036031_pivnaya-tarelka/" class="c-list-cards__link">
-                <div class="c-list-cards__img" style="background-image: url('{{ dish.image }}');"></div>
-                <div>
-                <div class="c-list-cards__header"><h4>{{ dish.name }}</h4></div>
-                <div class="c-list-cards__line c-list-cards__line--gray"><small style="font-size:12px;"><b style="vertical-align: middle;color:#E04F5F;font-size:16px;"> {{ dish.price }}</b></small></div>
-                <div class="c-list-cards__line c-list-cards__line--gray">
-                </div>
-                <div class="c-list-cards__line">
-                <small style="font-size:12px;"></small>
-                </div>
-                </div>
-                </a>
-                </li>
-            {% endif %}
-        {% endfor %}
-    {% endfor %}
+    <!--Google font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
 
-    </ul>
-    <br>
-    <h2 class="l-article__h2">Исполнитель</h2>
-    <p class="l-article__h-text">Исполнитель (продавец): Индивидуальный предприниматель Баталин Никита Николаевич, 301240, 301240, Щекино, 1, 1, ИНН 711813274816, рег. номер 321710000029503<br><br>Режим работы: с 10:00 до 22:45</p>
+    <!-- bootstrap css -->
+    <link rel="stylesheet" type="text/css" id="rtl-link" href="/assets/css/vendors/bootstrap.css">
+
+    <!-- fancybox css -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/fancybox.css">
+
+    <!-- remixicon css -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/vendors/remixicon.css">
+
+    <!-- Theme css -->
+    <link rel="stylesheet" id="change-link" type="text/css" href="/assets/css/style.css">
+    <!-- Подключение библиотеки jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+</head>
+
+<body class="bg-color position-relative">
+
+    <!-- Header section start -->
+    {% include "food/navbar.html" %}
+    <!-- Header Section end -->
+
+    <!-- banner section starts -->
+    <section class="product-banner-section">
+        <div class="container">
+            <div class="restaurant-box">
+                <div class="restaurant-image">
+                    <img class="img-fluid img" src="{{ restoraunt.image }}" alt="brand13">
+                </div>
+                <div class="restaurant-details">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <div>
+                            <h2 class="restaurant-name">
+                                {{ restoraunt.name }}
+                            </h2>
+                            <h4 class="restaurant-place">{{ restoraunt.address }}</h4>
+                        </div>
+                        <div class="restaurant-description">
+                            <div class="categories-icon">
+                                <a href="#!" id="liveToastBtn">
+                                    <i class="ri-share-line icon text-white"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
-    
-    <div class="l-article__two-item l-article__two-item--small">
+    <!-- banner section end -->
+
+    <!-- tab section starts -->
+    <section class="tab-details-section section-b-space">
+        <div class="container">
+            <div class="category-detail-tab">
+                <div class="row g-4">
+                    <div class="col-lg-9">
+                        <div class="menu-button d-inline-block d-lg-none">
+                            <a href="#!"><i class="ri-book-open-line"></i> Menu</a>
+                        </div>
+                        <div class="tab-content product-details-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="online" role="tabpanel" tabindex="0">
+                                <div class="row g-lg-3 g-2">
+                                    <div class="col-lg-4">
+                                        <div class="product-sidebar sticky-top">
+                                            <div class="sidebar-search">
+                                                <input type="text" placeholder="Search Dishes..">
+                                                <i class="ri-search-line"></i>
+                                            </div>
+                                            <nav id="navbar" class="product-items pb-0">
+                                                <ul class="nav nav-pills">
+                                                    {% for dish_category in dish_categories %}
+                                                        <li data-id={{dish_category.id}} onclick="selectFoodCategory(this)">
+                                                            <a>{{ dish_category.name }}</a>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <div class="product-box-section section-b-space">
+                                            <div data-bs-spy="scroll" data-bs-target="#navbar"
+                                                data-bs-smooth-scroll="true" class="scrollspy-example-2" tabindex="0">
+                                                {% include "food/restoraunt-content.html" %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="overview" role="tabpanel" tabindex="0">
+                                <div class="overview-section">
+                                    <div class="row g-3">
+                                        <div class="col-md-6 col-12">
+                                            <div class="overview-content mt-0">
+                                                <h6 class="overview-heading">Phone Number</h6>
+                                                <ul class="content-list">
+                                                    <li>+1 (692)52 - 95555</li>
+                                                </ul>
+                                            </div>
+                                            <div class="overview-content">
+                                                <h6 class="overview-heading">Cuisines</h6>
+                                                <ul class="content-list w-grid">
+                                                    <li>Mexican</li>
+                                                    <li>Italian</li>
+                                                    <li>Chinese</li>
+                                                    <li>Panjabi</li>
+                                                    <li>Street Food</li>
+                                                </ul>
+                                            </div>
+                                            <div class="overview-content">
+                                                <h6 class="overview-heading">Average Cost</h6>
+                                                <ul class="content-list">
+                                                    <li>$300 for Two people (approx.)</li>
+                                                    <li>Cash and Cards accepted</li>
+                                                    <li>Digital payments accepted</li>
+                                                </ul>
+                                            </div>
+                                            <div class="overview-content">
+                                                <h6 class="overview-heading">Known For</h6>
+                                                <ul class="content-list">
+                                                    <li class="w-75">
+                                                        Calming Atmosphere, Weekend Brunch, Elaborate
+                                                        Menu, Staff, Fresh Food, Good Quality
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="overview-content mt-0">
+                                                <h6 class="overview-heading">Address</h6>
+                                                <ul class="content-list">
+                                                    <li class="content-address">
+                                                        +874 Trans-Canada Hwy, Peterborough, ON K9J 6X8,
+                                                        Canada
+                                                    </li>
+                                                    <li>
+                                                        8970 Trans-Canada Hwy, Emo, ON P0W 1E0, Canada
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="overview-content">
+                                                <h6 class="overview-heading">More Info</h6>
+                                                <ul class="content-list w-grid">
+                                                    <li>Breakfast</li>
+                                                    <li>Takeaway</li>
+                                                    <li>Home Delivery</li>
+                                                    <li>Valet Parking</li>
+                                                    <li>Luxury Dining</li>
+                                                    <li>Table booking</li>
+                                                    <li>Brunch</li>
+                                                    <li>Buffet</li>
+                                                    <li>Indoor Seating</li>
+                                                    <li>Outdoor Seating</li>
+                                                    <li>4/5 Star</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="photo" role="tabpanel" tabindex="0">
+                                <div class="photos-section ratio_landscape">
+                                    <ul class="photos-list">
+                                        <li>
+                                            <a href="assets/images/service/6.jpg" data-fancybox="images"
+                                                data-type="image">
+                                                <img class="img-fluid bg-img" src="/assets/images/service/6.jpg" alt="6">
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="assets/images/service/7.jpg" data-fancybox="images"
+                                                data-type="image">
+                                                <img class="img-fluid bg-img" src="/assets/images/service/7.jpg" alt="7">
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="assets/images/service/8.jpg" data-fancybox="images"
+                                                data-type="image">
+                                                <img class="img-fluid bg-img" src="/assets/images/service/8.jpg" alt="8">
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="assets/images/service/9.jpg" data-fancybox="images"
+                                                data-type="image">
+                                                <img class="img-fluid bg-img" src="/assets/images/service/9.jpg" alt="9">
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="assets/images/service/10.jpg" data-fancybox="images"
+                                                data-type="image">
+                                                <img class="img-fluid bg-img" src="/assets/images/service/10.jpg"
+                                                    alt="10">
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="assets/images/service/11.jpg" data-fancybox="images"
+                                                data-type="image">
+                                                <img class="img-fluid bg-img" src="/assets/images/service/11.jpg"
+                                                    alt="11">
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="assets/images/service/12.jpg" data-fancybox="images"
+                                                data-type="image">
+                                                <img class="img-fluid bg-img" src="/assets/images/service/12.jpg"
+                                                    alt="12">
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="assets/images/service/13.jpg" data-fancybox="images"
+                                                data-type="image">
+                                                <img class="img-fluid bg-img" src="/assets/images/service/13.jpg"
+                                                    alt="13">
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="review" role="tabpanel" tabindex="0">
+                                <div class="review-section">
+                                    <ul class="review-box-list">
+                                        <li>
+                                            <div class="review-box">
+                                                <div class="review-head">
+                                                    <div class="review-image">
+                                                        <img class="img-fluid img" src="/assets/images/icons/p1.png"
+                                                            alt="p1">
+                                                    </div>
+                                                    <div
+                                                        class="d-flex align-sm-items-center justify-content-between w-100">
+                                                        <div>
+                                                            <h6 class="reviewer-name">Gunjan Puri</h6>
+                                                            <ul class="rating-star">
+                                                                <li>
+                                                                    <i class="ri-star-fill star"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-fill star"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-fill star"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-fill star"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-fill star"></i>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div>
+                                                            <h6>1 month ago</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="review-content">
+                                                    <h6>Wonderful Experience...!!</h6>
+                                                    <p>
+                                                        Serve a healthy and good food. Having a parking
+                                                        facility and there are also waiting area
+                                                        available. These place is perfect for Celebration
+                                                        of birthday. Serve a healthy and good food. Having
+                                                        a parking facility and there are also waiting area
+                                                        available.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="review-box">
+                                                <div class="review-head">
+                                                    <div class="review-image">
+                                                        <img class="img-fluid img" src="/assets/images/icons/p2.png"
+                                                            alt="p2">
+                                                    </div>
+                                                    <div
+                                                        class="d-flex align-sm-items-center justify-content-between w-100">
+                                                        <div>
+                                                            <h6 class="reviewer-name">Gunjan Puri</h6>
+                                                            <ul class="rating-star">
+                                                                <li>
+                                                                    <i class="ri-star-fill star"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-fill star"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-fill star"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-fill star"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-fill star"></i>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div>
+                                                            <h6>1 month ago</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="review-content">
+                                                    <h6>Wonderful Experience...!!</h6>
+                                                    <p>
+                                                        Serve a healthy and good food. Having a parking
+                                                        facility and there are also waiting area
+                                                        available. These place is perfect for Celebration
+                                                        of birthday. Serve a healthy and good food. Having
+                                                        a parking facility and there are also waiting area
+                                                        available.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="review-box">
+                                                <div class="review-head">
+                                                    <div class="review-image">
+                                                        <img class="img-fluid img" src="/assets/images/icons/p5.png"
+                                                            alt="p5">
+                                                    </div>
+                                                    <div
+                                                        class="d-flex align-sm-items-center justify-content-between w-100">
+                                                        <div>
+                                                            <h6 class="reviewer-name">Gunjan Puri</h6>
+                                                            <ul class="rating-star">
+                                                                <li>
+                                                                    <i class="ri-star-fill star"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-fill star"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-fill star"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-fill star"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-fill star"></i>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div>
+                                                            <h6>1 month ago</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="review-content">
+                                                    <h6>Wonderful Experience...!!</h6>
+                                                    <p>
+                                                        Serve a healthy and good food. Having a parking
+                                                        facility and there are also waiting area
+                                                        available. These place is perfect for Celebration
+                                                        of birthday. Serve a healthy and good food. Having
+                                                        a parking facility and there are also waiting area
+                                                        available.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="review-box">
+                                                <div class="review-head">
+                                                    <div class="review-image">
+                                                        <img class="img-fluid img" src="/assets/images/icons/p4.png"
+                                                            alt="p4">
+                                                    </div>
+                                                    <div
+                                                        class="d-flex align-sm-items-center justify-content-between w-100">
+                                                        <div>
+                                                            <h6 class="reviewer-name">Gunjan Puri</h6>
+                                                            <ul class="rating-star">
+                                                                <li>
+                                                                    <i class="ri-star-fill star"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-fill star"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-fill star"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-fill star"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-fill star"></i>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div>
+                                                            <h6>1 month ago</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="review-content">
+                                                    <h6>Wonderful Experience...!!</h6>
+                                                    <p>
+                                                        Serve a healthy and good food. Having a parking
+                                                        facility and there are also waiting area
+                                                        available. These place is perfect for Celebration
+                                                        of birthday. Serve a healthy and good food. Having
+                                                        a parking facility and there are also waiting area
+                                                        available.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- tab section end -->
+
+    <!-- footer section starts -->
+    {% include "food/footer.html" %}
+    <!-- footer section end -->
+
+    <!-- cart fix panel -->
+    <!-- <div class="fixed-btn d-lg-none d-block">
+        <div class="custom-container">
+            <div class="cart-fixed-bottom">
+                <h6 class="fw-medium">3 items</h6>
+                <a href="checkout.html" class="cart-fixed-right">
+                    <h6 class="fw-medium text-white">
+                        View cart <i class="ri-arrow-right-line"></i>
+                    </h6>
+                </a>
+            </div>
+        </div>
+    </div> -->
+    <!-- cart fix panel -->
+
+    <!-- location offcanvas start -->
+    <div class="modal fade location-modal" id="location" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">
+                        <h5 class="fw-semibold">Select a Location</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="search-section">
+                        <form class="form_search" role="form">
+                            <input type="search" placeholder="Search Location" class="nav-search nav-search-field">
+                        </form>
+                    </div>
+                    <a href="#!" class="current-location">
+                        <div class="current-address">
+                            <i class="ri-focus-3-line focus"></i>
+                            <div>
+                                <h5>Use current-location</h5>
+                                <h6>Wellington St., Ottawa, Ontario, Canada</h6>
+                            </div>
+                        </div>
+                        <i class="ri-arrow-right-s-line arrow"></i>
+                    </a>
+                    <h5 class="mt-sm-3 mt-2 fw-medium recent-title dark-text">
+                        Recent Location
+                    </h5>
+                    <a href="#!" class="recent-location">
+                        <div class="recant-address">
+                            <i class="ri-map-pin-line theme-color"></i>
+                            <div>
+                                <h5>Bayshore</h5>
+                                <h6>kingston St., Ottawa, Ontario, Canada</h6>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn gray-btn" data-bs-dismiss="modal">Close</a>
+                    <a href="#" class="btn theme-btn mt-0" data-bs-dismiss="modal">Save</a>
+                </div>
+            </div>
+        </div>
     </div>
+    <!-- location offcanvas end -->
+
+    <!-- customized modal starts -->
+    <div class="modal customized-modal" id="customized" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="container">
+                    <div class="filter-header">
+                        <h5 class="title">Custom Food</h5>
+                        <a href="#" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></a>
+                    </div>
+                    <div class="filter-body">
+                        <div class="filter-title">
+                            <h5 class="fw-medium dark-text">Choose Size</h5>
+                        </div>
+                        <ul class="filter-list">
+                            <li>
+                                <h6 class="product-size">Size S</h6>
+                                <div class="form-check product-price">
+                                    <label class="form-check-label" for="reverseCheck1">$18</label>
+                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck1">
+                                </div>
+                            </li>
+                            <li>
+                                <h6 class="product-size">Size M</h6>
+                                <div class="form-check product-price">
+                                    <label class="form-check-label" for="reverseCheck1">$20</label>
+                                    <input class="form-check-input" type="checkbox" id="reverseCheck2" checked>
+                                </div>
+                            </li>
+                            <li>
+                                <h6 class="product-size">Size L</h6>
+                                <div class="form-check product-price">
+                                    <label class="form-check-label" for="reverseCheck1">$22</label>
+                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck3">
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="filter-title">
+                            <h5 class="fw-medium dark-text">Choose Size</h5>
+                        </div>
+                        <ul class="filter-list border-0">
+                            <li>
+                                <h6 class="product-size">Chili sauce</h6>
+                                <div class="form-check product-price">
+                                    <label class="form-check-label" for="reverseCheck1">$18</label>
+                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck4">
+                                </div>
+                            </li>
+                            <li>
+                                <h6 class="product-size">Mustard</h6>
+                                <div class="form-check product-price">
+                                    <label class="form-check-label" for="reverseCheck1">$20</label>
+                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck5" checked>
+                                </div>
+                            </li>
+                            <li>
+                                <h6 class="product-size">Special dipping sauce</h6>
+                                <div class="form-check product-price">
+                                    <label class="form-check-label" for="reverseCheck1">$22</label>
+                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck6">
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="filter-footer">
+                        <a href="#" class="btn theme-btn add-btn w-100 mt-0" data-bs-dismiss="modal">Apply</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    </article>
-    </main>
+    <!-- customized modal end -->
+
+    <!-- toast starts -->
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex bg-theme text-white">
+                <div class="toast-body">Restaurant URL Copied to Clipboard</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
     </div>
+    <!-- toast end -->
+
+    <!-- Bg Overlay Start -->
+    <div class="bg-overlay" id="overlay"></div>
+    <!-- Bg Overlay end -->
+
+    <!-- theme btn start -->
+    <div class="theme-btns">
+        <button type="button" class="btntheme mode-change-button">
+            <i id="themeIcon" class="ri-moon-line icon mode-icon"></i>
+            <span class="text-value">Dark</span>
+        </button>
     </div>
-{% endblock %}
+    <!-- theme btn end -->
+
+    <!-- tap to top start -->
+    <button class="scroll scroll-to-top menu-page">
+        <i class="ri-arrow-up-s-line arrow"></i>
+    </button>
+    <!-- tap to top end -->
+
+    <!-- bootstrap js -->
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+
+    <!-- swiper js -->
+    <script src="/assets/js/swiper-bundle.min.js"></script>
+    <script src="/assets/js/custom-swiper.js"></script>
+
+    <!-- footer accordion js -->
+    <script src="/assets/js/footer-accordion.js"></script>
+
+    <!-- menu button js -->
+    <script src="/assets/js/menu-button.js"></script>
+
+    <!-- fancybox js -->
+    <script src="/assets/js/fancybox.js"></script>
+
+    <!-- toast js -->
+    <script src="/assets/js/toast.js"></script>
+
+    <!-- script js -->
+    <script src="/assets/js/script.js"></script>
+    <script src="{% static 'food/js/restoraunt-page.js' %}"></script>
+</body>
+
+</html>

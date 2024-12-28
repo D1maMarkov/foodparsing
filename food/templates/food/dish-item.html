@@ -1,0 +1,31 @@
+<div id="item-1">
+    <div class="product-details-box">
+        <div class="product-img">
+            <img class="img-fluid img"
+                src="{{ dish.image }}" alt="{{ dish.name }}">
+        </div>
+        <div class="product-content">
+            <div
+                class="description d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="d-flex align-items-center gap-2">
+                        <img class="img-fluid"
+                            src="/assets/images/svg/veg.svg"
+                            alt="non-veg">
+                        <h6 class="product-name">
+                            {{ dish.name }}
+                        </h6>
+                    </div>
+                    <p>
+                        {{ dish.weight }}
+                    </p>
+                </div>
+                <div class="product-box-price">
+                    <h2 class="theme-color fw-semibold">
+                        {{ dish.price }}
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

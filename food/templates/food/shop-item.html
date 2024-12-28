@@ -1,0 +1,32 @@
+<div class="col-xl-3 col-lg-4 col-sm-6">
+    <div class="vertical-product-box shop">
+        <div class="vertical-product-box-img">
+            <a href="menu-listing.html" style="background-color: rgb(220, 220, 220); ">
+                <img class="product-img-top w-100 bg-img" src="{{ shop.shop.image }}"
+                    alt="vp1">
+            </a>
+            <div class="offers">
+                <h6>upto $2</h6>
+                <div class="d-flex align-items-center justify-content-between">
+                    <h4>50% OFF</h4>
+                </div>
+            </div>
+        </div>
+        <div class="vertical-product-body">
+            <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
+                <a href="menu-listing.html">
+                    <h4 class="vertical-product-title">{{ shop.shop.name }}</h4>
+                </a>
+                <h6 class="rating-star">
+                    <span class="star"><i class="ri-star-s-fill"></i></span>3.9
+                </h6>
+            </div>
+            <h5 class="product-items">
+                Минимальный заказ: {{ shop.shop.min_order }}
+            </h5>
+            <h5 class="product-items">
+                Ценовая категория: {{ shop.shop.price_category }}
+            </h5>
+        </div>
+    </div>
+</div>
