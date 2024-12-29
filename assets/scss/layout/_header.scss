@@ -421,7 +421,7 @@ header {
   }
 
   .logo {
-    height: calc(16px + (30 - 16) * ((100vw - 320px) / (1920 - 320)));
+    height: calc(40px + 14*(100vw - 320px) / 1600);
   }
 
   .navbar-toggler {

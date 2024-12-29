@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from food.models import City, Dish, DishCategory, Food, Restoraunt, RestorauntFood
+from food.models import Dish, DishCategory, Food, Restoraunt, RestorauntFood
 
 
 class RestorauntFoodSerializer(serializers.ModelSerializer):
@@ -60,6 +60,11 @@ class DishCategorySerialzier(serializers.ModelSerializer):
 
 
 class RestorauntHintSerialzier(serializers.ModelSerializer):
+    ref = serializers.SerializerMethodField()
+
     class Meta:
         model = Restoraunt
-        fields = ["name", "id"]
+        fields = ["name", "ref"]
+
+    def get_ref(self, restoraunt: dict[str, str]) -> str:
+        return f"/{restoraunt['city__slug']}/place/{restoraunt['slug']}/"

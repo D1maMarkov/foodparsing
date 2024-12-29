@@ -34,14 +34,14 @@ class GetDishesView(View):
 
         dishes_context = get_dishes_context(restoraunt_slug=restoraunt_slug, city_slug=city_slug, categories=categories)
 
-        return JsonResponse({"content": loader.render_to_string(f"food/restoraunt-content.html", dishes_context, None)})
+        return JsonResponse({"content": loader.render_to_string("food/restoraunt-content.html", dishes_context, None)})
 
 
 class GetFilteredRestorauntsView(View):
     def get(self, request: HttpRequest) -> JsonResponse:
         restoraunt_name_starts_with = request.GET.get("restoraunt_name")
-        restoraunts = Restoraunt.objects.filter(name__istartswith=restoraunt_name_starts_with).values("id", "name")[
-            0:10
-        ]
+        restoraunts = Restoraunt.objects.filter(name__istartswith=restoraunt_name_starts_with).values(
+            "slug", "city__slug", "name"
+        )[0:10]
 
-        return JsonResponse({"restorunts": RestorauntHintSerialzier(restoraunts, many=True).data})
+        return JsonResponse({"restoraunts": RestorauntHintSerialzier(restoraunts, many=True).data})

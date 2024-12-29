@@ -3116,16 +3116,7 @@ li {
   padding-left: unset;
   padding-right: 12px;
 }
-@media (max-width: 1400px) and (min-width: 1200px) {
-  .vertical-product-box .vertical-product-body .location-distance .place {
-    max-width: 56px;
-  }
-}
-@media (max-width: 768px) and (min-width: 576px) {
-  .vertical-product-box .vertical-product-body .location-distance .place {
-    max-width: 56px;
-  }
-}
+
 .vertical-product-box .vertical-product-body .location-distance .place::after {
   content: "";
   position: absolute;
@@ -5520,7 +5511,7 @@ header.header2 .navbar .nav-option .cart-bag {
   color: rgb(255, 255, 255);
 }
 .navbar .logo {
-  height: calc(16px + 14 * (100vw - 320px) / 1600);
+  height: calc(40px + 14*(100vw - 320px) / 1600);
 }
 .navbar .navbar-toggler {
   padding: 0;

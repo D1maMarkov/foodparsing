@@ -1,3 +1,4 @@
+from ckeditor.fields import RichTextField
 from django.db import models
 
 
@@ -142,6 +143,8 @@ class Seo(models.Model):
     page_type = models.CharField(max_length=100, choices=PAGE_TYPES, verbose_name="страница")
     title = models.CharField(max_length=300)
     description = models.TextField(max_length=3000)
+
+    text = RichTextField(max_length=7000, null=True, blank=True)
 
     class Meta:
         verbose_name = "Seo"
