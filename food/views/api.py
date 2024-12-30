@@ -3,7 +3,15 @@ from django.http import HttpRequest, JsonResponse
 from django.template import loader
 from django.views import View
 
-from food.models import City, Dish, DishCategory, Restoraunt
+from food.models import (
+    City,
+    CityShop,
+    Dish,
+    DishCategory,
+    Restoraunt,
+    ShopCategory,
+    ShopProduct,
+)
 from food.serializers import RestorauntHintSerialzier
 
 
@@ -24,6 +32,22 @@ def get_dishes_context(restoraunt_slug, city_slug, categories):
     dishes_query = Dish.objects.filter(restoraunt_id=restoraunt.id)
 
     return {"dishes": dishes_query, "dish_categories": categories, "city": city, "restoraunt": restoraunt}
+
+
+def get_shop_context(shop_slug, city_slug):
+    city = City.objects.get(slug=city_slug)
+
+    shop = CityShop.objects.get(city_id=city.id, slug=shop_slug)
+
+    query = Q()
+
+    query &= Q(products__shop_id=shop)
+
+    categories = ShopCategory.objects.filter(query).order_by("-id")
+
+    products_query = ShopProduct.objects.filter(shop_id=shop.id)
+
+    return {"products": products_query, "shop_categories": categories, "city": city, "shop": shop}
 
 
 class GetDishesView(View):

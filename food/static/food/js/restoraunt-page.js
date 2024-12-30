@@ -1,28 +1,27 @@
 function selectFoodCategory(element){
-    element.classList.toggle("selected")
-
-    const pathList = window.location.pathname.split("/");
-    const citySlug = pathList[1];
-    const restorauntSlug = pathList[3]
-
-    let categories = '';
-
-    document.querySelectorAll(".nav-pills li.selected").forEach(
-        a => {
-            categories += $(a).attr("data-id") + ","
+    document.querySelectorAll(".nav-pills li").forEach(
+        li => {
+            li.classList.remove("selected")
         }
     )
 
-    if (categories[categories.length - 1] == ","){
-        console.log(categories)
-        categories = categories.slice(0, categories.length - 1)
-        console.log(categories)
-    }
-    fetch(`/api/dishes?restoraunt=${restorauntSlug}&city=${citySlug}&categories=${categories}`).then(
-        response => response.json()
-    ).then(
-        response => {
-            document.querySelector(".product-details-box-list").innerHTML = response.content
+    element.classList.add("selected")
+
+    const pathList = window.location.pathname.split("/");
+
+    let categoryName = '';
+
+    document.querySelectorAll(".nav-pills li.selected a").forEach(
+        a => {
+            categoryName = a.innerHTML;
+        }
+    )
+
+    document.querySelectorAll(".product-details-box-title").forEach(
+        category => {
+            if (category.innerHTML.includes(categoryName)){
+                category.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
         }
     )
 }

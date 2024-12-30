@@ -81,6 +81,7 @@ const btn = document.querySelector(".scroll");
 
 btn.addEventListener("click", function () {
   scroll(0, 200);
+  console.log("scroll")
 });
 
 window.onscroll = function showHide() {
@@ -98,11 +99,12 @@ function scroll(target, duration) {
   if (duration <= 0) {
     return;
   }
-  let difference = target - document.documentElement.scrollTop;
+  let difference = target - (window.scrollY || window.pageYOffset);
   let speed = (difference / duration) * 10;
   setTimeout(function () {
-    document.documentElement.scrollTop += speed;
-    if (document.documentElement.scrollTop == target) {
+    window.scrollBy(0, speed);
+    //document.documentElement.scrollTop += speed;
+    if (window.scrollY == target) {
       return;
     }
     scroll(target, duration - 10);

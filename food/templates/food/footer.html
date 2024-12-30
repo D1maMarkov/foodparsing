@@ -1,15 +1,12 @@
 <!-- footer section starts -->
 <footer class="footer-section section-t-space">
     <div class="container">
-        <div class="main-footer">
-            <div class="row g-3">
-                <ul style="display: flex;
-    flex-direction: column;">
-                    {% for city in block_cities %}
-                        <li style="margin: 3px 0px;"><a style="text-decoration: none; color: white; font-size: calc(14px + 2*(100vw - 320px) / 1600);" href="{{ city.slug }}/">Доставка продуктов в {{ city.genitive_case }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
+        <div class="main-footer" style="padding-top: 0px;">
+            <ul style="column-count: 3;">
+                {% for city in footer_cities %}
+                    <li style="margin: 3px 0px;"><a style="text-decoration: none; color: white; font-size: calc(14px + 2*(100vw - 320px) / 1600);" href="/{{ city.slug }}/">Доставка продуктов в {{ city.genitive_case }}</a></li>
+                {% endfor %}
+            </ul>
         </div>
         <div class="bottom-footer-part">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">

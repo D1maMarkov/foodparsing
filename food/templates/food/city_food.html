@@ -88,7 +88,7 @@
                 <div class="tab-pane fade show active" id="delivery-tab">
                     <div class="row g-lg-4 g-3">
                         {% for restoraunt in restoraunts_obj %}
-                            {% include "food/restoraunt-item.html" with restoraunt=restoraunt %}
+                            {% include "food/restoraunt-item.html" with restoraunt=restoraunt city=city %}
                         {% endfor %}
                     </div>
                 </div>
@@ -231,7 +231,7 @@
     <div class="theme-btns">
         <button type="button" class="btntheme mode-change-button">
             <i id="themeIcon" class="ri-moon-line icon mode-icon"></i>
-            <span class="text-value">Dark</span>
+            <span class="text-value">Тёмная тема</span>
         </button>
     </div>
     <!-- theme btn end -->

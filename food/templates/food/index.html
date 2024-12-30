@@ -39,6 +39,7 @@
     <!-- Theme css -->
     <link rel="stylesheet" id="change-link" type="text/css" href="/assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="{% static 'food/css/index.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
 
 <body class="position-relative">
@@ -276,9 +277,47 @@
     </section>
     <!-- home section end -->
 
+
+    <style>
+        .button-container {
+            position: relative;
+        }
+
+        .sticky {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
+    </style>
+    <div class="button-container" style="margin-top: 70px; text-align: center;">
+        {% for button in buttons %}
+        <button class="link-button">
+            <a target="_blank" href="{{button.ref}}" >{{ button.text }}</a>
+        </button>
+        {% endfor %}
+    </div>
+    <script>
+        document.querySelectorAll(".button-container").forEach(button => {
+            // Сохраняем изначальное вертикальное положение кнопки
+            const rect = button.getBoundingClientRect();
+            var originalTop3 = rect.top; // Позиция кнопки относительно начала страницы
+
+            window.addEventListener('scroll', function() {
+            var stickyClass3 = 'sticky';
+            if (window.pageYOffset > originalTop3) {
+                button.classList.add(stickyClass3);
+            } else {
+                button.classList.remove(stickyClass3);
+            }
+            });
+        })
+    </script>
+
     <!-- cities section start -->
-    <section class="section-b-space overflow-hidden" style="padding-top: calc((30px + 50 * (100vw - 320px) / 1600) * 2);">
-        <div class="container">
+    <section class="section-b-space overflow-hidden" style="padding-top: calc((50 * (100vw - 320px) / 1600) * 2);">
+        <div class="container index-main-text">
             {{ seo.text|safe }}
         </div>
     </section>
@@ -380,10 +419,10 @@
                         {% for shop in shops %}
                         <div class="swiper-slide">
                             <div class="brand-box">
-                                <a href="menu-listing.html" class="food-brands">
+                                <a href="/{{ city.slug }}/place-market/{{ shop.slug }}/" class="food-brands">
                                     <img class="img-fluid brand-img" src="{{ shop.image }}" alt="{{ shop.name }}">
                                 </a>
-                                <a href="menu-listing.html">
+                                <a href="/{{ city.slug }}/place-market/{{ shop.slug }}/">
                                     <h4>{{ shop.name }}</h4>
                                 </a>
                             </div>
@@ -508,7 +547,7 @@
     <div class="theme-btns">
         <button type="button" class="btntheme mode-change-button">
             <i id="themeIcon" class="ri-moon-line icon mode-icon"></i>
-            <span class="text-value">Dark</span>
+            <span class="text-value">Тёмная тема</span>
         </button>
     </div>
     <!-- theme btn end -->

@@ -1,3 +1,4 @@
+import random
 import re
 
 from django.core.paginator import Paginator
@@ -8,14 +9,14 @@ from food.models import (
     City,
     CityShop,
     Dish,
-    DishCategory,
     Food,
+    IndexPageButton,
     Restoraunt,
     RestorauntRef,
     Seo,
     Shop,
 )
-from food.views.api import get_dishes_context
+from food.views.api import get_dishes_context, get_shop_context
 
 
 def get_wildcard_seo(seo, wildcard_variables):
@@ -32,7 +33,31 @@ def get_wildcard_seo(seo, wildcard_variables):
     return seo
 
 
-class Index(TemplateView):
+class BaseTemplateView(TemplateView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        footer_city_names = [
+            "Москва",
+            "Санкт-Петербург",
+            "Нижний Новгород",
+            "Екатеринбург",
+            "Казань",
+            "Краснодар",
+            "Ростов-на-Дону",
+            "Уфа",
+            "Саратов",
+            "Иркутск",
+            "Красноярск",
+            "Новосибирск",
+        ]
+
+        footer_cities = City.objects.filter(name__in=footer_city_names)
+
+        context["footer_cities"] = footer_cities
+        return context
+
+
+class Index(BaseTemplateView):
     template_name = "food/index.html"
 
     def get_context_data(self, **kwargs):
@@ -40,7 +65,6 @@ class Index(TemplateView):
         context["cities"] = City.objects.all()
 
         seo = Seo.objects.get(page_type="Главная")
-        # print(time.time() - start)
 
         context["seo"] = seo
         block_cities = [
@@ -57,7 +81,6 @@ class Index(TemplateView):
         context["block_cities"] = City.objects.filter(name__in=block_cities)
 
         ids = list(Restoraunt.objects.values_list("id", flat=True))
-        import random
 
         random_ids = random.sample(ids, 10)
         random_records = Restoraunt.objects.filter(id__in=random_ids)[0:8]
@@ -68,10 +91,12 @@ class Index(TemplateView):
 
         context["shops"] = Shop.objects.order_by("?")[0:16]
 
+        context["buttons"] = IndexPageButton.objects.all()
+
         return context
 
 
-class CityView(TemplateView):
+class CityView(BaseTemplateView):
     template_name = "food/city.html"
 
     def get_context_data(self, **kwargs):
@@ -96,7 +121,7 @@ class CityView(TemplateView):
         return context
 
 
-class RestorauntView(TemplateView):
+class RestorauntView(BaseTemplateView):
     template_name = "food/restoraunt.html"
 
     def get_context_data(self, **kwargs):
@@ -131,7 +156,36 @@ class RestorauntView(TemplateView):
         return context
 
 
-class CityFoodView(TemplateView):
+class ShopView(BaseTemplateView):
+    template_name = "food/shop.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        shop_slug = kwargs.get("shop_slug")
+        city_slug = kwargs.get("city_slug")
+
+        dishes_context = get_shop_context(shop_slug=shop_slug, city_slug=city_slug)
+
+        context |= dishes_context
+
+        context["seo"] = get_wildcard_seo(Seo.objects.get(page_type="Ресторан"), dishes_context)
+
+        """refs = RestorauntRef.objects.filter(restoraunt=dishes_context["restoraunt"]).values_list("ref", flat=True)
+        refs_dict = {}
+        for ref in refs:
+            if "market-delivery.yandex.ru" in ref:
+                refs_dict["Деливери"] = refs_dict.get("Деливери", []) + [ref]
+            elif "eda.yandex.ru" in ref:
+                refs_dict["Яндекс Еда"] = refs_dict.get("Яндекс Еда", []) + [ref]
+            elif "kuper.ru" in ref:
+                refs_dict["Сбер Купер"] = refs_dict.get("Сбер Купер", []) + [ref]
+
+        context["refs"] = refs_dict"""
+
+        return context
+
+
+class CityFoodView(BaseTemplateView):
     template_name = "food/city_food.html"
 
     def get_context_data(self, **kwargs):
@@ -160,7 +214,7 @@ class CityFoodView(TemplateView):
         return context
 
 
-class DishView(TemplateView):
+class DishView(BaseTemplateView):
     template_name = "food/dish.html"
 
     def get_context_data(self, **kwargs):
@@ -172,7 +226,6 @@ class DishView(TemplateView):
         city = City.objects.get(slug=city_slug)
         restoraunt = Restoraunt.objects.filter(slug=restoraunt_slug).first()
 
-        print(dish_slug, restoraunt)
         dish = Dish.objects.filter(slug=dish_slug, restoraunt_id=restoraunt.id).first()
 
         context["city"] = city

@@ -1,3 +1,5 @@
+import random
+
 from rest_framework import serializers
 
 from food.models import Dish, DishCategory, Food, Restoraunt, RestorauntFood
@@ -19,18 +21,18 @@ class RestorauntFoodSerializer(serializers.ModelSerializer):
 
 
 class RestorauntSerializer(serializers.ModelSerializer):
-    foods = serializers.SerializerMethodField()
-    dish_categories = serializers.SerializerMethodField()
+    rating = serializers.SerializerMethodField()
+    city = serializers.SerializerMethodField()
 
     class Meta:
         model = Restoraunt
-        fields = ["slug", "name", "image", "foods", "dish_categories"]
+        fields = ["slug", "name", "image", "id", "rating", "min_order", "price_category", "address", "city"]
 
-    def get_dish_categories(self, restoraunt):
-        return DishCategory.objects.filter(dishes__restoraunt=restoraunt)
+    def get_rating(self, restoraunt) -> str:
+        return f"4.{random.randrange(5, 10)}"
 
-    def get_foods(self, restoraunt):
-        return RestorauntFoodSerializer(restoraunt.foods.all(), many=True).data
+    def get_city(self, restoraunt):
+        return restoraunt.city
 
 
 class FoodSerializer(serializers.ModelSerializer):

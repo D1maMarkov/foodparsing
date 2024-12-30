@@ -1,5 +1,8 @@
+import random
+
 from ckeditor.fields import RichTextField
 from django.db import models
+from django.db.models import Index
 
 
 class City(models.Model):
@@ -58,6 +61,10 @@ class Restoraunt(models.Model):
     price_category = models.CharField(null=True, max_length=20, verbose_name="Ценовая категория")
     min_order = models.CharField(null=True, max_length=20, verbose_name="Минимальный заказ")
     unique_key = models.CharField(null=True, max_length=100, unique=True, blank=True)
+
+    @property
+    def rating(self):
+        return f"4.{random.randrange(5, 10)}"
 
     def __str__(self):
         return self.name
@@ -118,6 +125,10 @@ class Dish(models.Model):
     class Meta:
         verbose_name = "Блюдо"
         verbose_name_plural = "Блюда"
+
+        indexes = [
+            Index(fields=["restoraunt_id"]),
+        ]
 
 
 class DishRef(BaseRef):
@@ -213,3 +224,12 @@ class ShopProduct(models.Model):
 
     def __str__(self):
         return f"{self.shop.shop.name} {self.name}"
+
+
+class IndexPageButton(models.Model):
+    ref = models.CharField(max_length=400, verbose_name="ссылка")
+    text = models.CharField(max_length=50, verbose_name="текст", default="Заказать")
+
+    class Meta:
+        verbose_name = "Кнопка на главной"
+        verbose_name_plural = "Кнопки на главной"

@@ -8668,7 +8668,7 @@ header.header2 .navbar .nav-option .cart-bag {
    5.8 Home-section style start
 ==========================*/
 .home-wrapper {
-  background-image: url(../images/background/bg.jpg);
+  background: rgb(38, 34, 31);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -10341,7 +10341,7 @@ header.header2 .navbar .nav-option .cart-bag {
   5.11  product detail style start
 ==========================*/
 .product-banner-section {
-  background-image: url("../images/background/home-bg.jpg");
+  background: rgb(38, 34, 31);
   background-position: top;
   background-repeat: no-repeat;
   background-size: cover;

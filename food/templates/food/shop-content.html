@@ -1,0 +1,13 @@
+<div class="product-details-box-list">
+    {% for shop_category in shop_categories %}
+        <div class="product-details-box-title pt-0">
+            {{ shop_category.name }}
+        </div>
+
+        {% for product in products %}
+            {% if product.category == shop_category %}
+                {% include "food/dish-item.html" with dish=product %}
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+</div>

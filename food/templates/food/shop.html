@@ -55,15 +55,15 @@
         <div class="container">
             <div class="restaurant-box">
                 <div class="restaurant-image">
-                    <img class="img-fluid img" src="{{ restoraunt.image }}" alt="brand13">
+                    <img class="img-fluid img" style="width: auto;" src="{{ shop.shop.image }}" alt="brand13">
                 </div>
                 <div class="restaurant-details">
                     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                         <div>
                             <h2 class="restaurant-name">
-                                {{ restoraunt.name }}
+                                {{ shop.shop.name }}
                             </h2>
-                            <h4 class="restaurant-place">{{ restoraunt.address }}</h4>
+                            <h4 class="restaurant-place">{{ shop.shop.address }}</h4>
                         </div>
                         <div class="restaurant-description">
                             <div class="categories-icon">
@@ -144,9 +144,9 @@
                                             </div>
                                             <nav id="navbar" class="product-items pb-0">
                                                 <ul class="nav nav-pills">
-                                                    {% for dish_category in dish_categories %}
-                                                        <li data-id={{dish_category.id}} onclick="selectFoodCategory(this)">
-                                                            <a>{{ dish_category.name }}</a>
+                                                    {% for shop_category in shop_categories %}
+                                                        <li data-id={{shop_category.id}} onclick="selectFoodCategory(this)">
+                                                            <a>{{ shop_category.name }}</a>
                                                         </li>
                                                     {% endfor %}
                                                 </ul>
@@ -157,7 +157,7 @@
                                         <div class="product-box-section section-b-space">
                                             <div data-bs-spy="scroll" data-bs-target="#navbar"
                                                 data-bs-smooth-scroll="true" class="scrollspy-example-2" tabindex="0">
-                                                {% include "food/restoraunt-content.html" %}
+                                                {% include "food/shop-content.html" %}
                                             </div>
                                         </div>
                                     </div>

@@ -22,3 +22,21 @@
     z-index: 3;
     box-shadow: 0 15px 60px -20px rgba(0, 0, 0, 0.1);
 }
+
+body.dark .index-main-text *{
+    color: rgba(var(--dark-text), 1) !important;
+}
+
+.link-button{
+    background-color: rgba(var(--theme-color), 1) !important;
+    padding: 6px 10px;
+    border: none;
+    width: 170px;
+    border-radius: 8px;
+}
+
+.link-button a{
+    color: white;
+    text-decoration: none;
+    font-size: calc(18px + 2*(100vw - 320px) / 1600);
+}

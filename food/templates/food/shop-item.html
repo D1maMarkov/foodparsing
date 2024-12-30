@@ -1,7 +1,7 @@
 <div class="col-xl-3 col-lg-4 col-sm-6">
     <div class="vertical-product-box shop">
         <div class="vertical-product-box-img">
-            <a href="menu-listing.html" style="background-color: rgb(220, 220, 220); ">
+            <a href="/{{ city.slug }}/place-market/{{ shop.slug }}/" style="background-color: rgb(220, 220, 220); ">
                 <img class="product-img-top w-100 bg-img" src="{{ shop.shop.image }}"
                     alt="vp1">
             </a>
@@ -14,7 +14,7 @@
         </div>
         <div class="vertical-product-body">
             <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
-                <a href="menu-listing.html">
+                <a href="/{{ city.slug }}/place-market/{{ shop.slug }}/">
                     <h4 class="vertical-product-title">{{ shop.shop.name }}</h4>
                 </a>
                 <h6 class="rating-star">

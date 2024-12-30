@@ -7,6 +7,7 @@ from food.models import (
     DishCategory,
     DishRef,
     Food,
+    IndexPageButton,
     Restoraunt,
     RestorauntRef,
     Seo,
@@ -73,3 +74,4 @@ admin.site.register(Shop, ShopAdmin)
 admin.site.register(CityShop)
 admin.site.register(Seo)
 admin.site.register(ShopProduct)
+admin.site.register(IndexPageButton)
