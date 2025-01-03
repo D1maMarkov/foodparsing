@@ -5,7 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("food", "0048_dish_food_dish_restora_518a65_idx"),
+        ("food", "0047_alter_seo_text"),
     ]
 
     operations = [

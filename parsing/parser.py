@@ -10,7 +10,6 @@ from django.db.models import Count
 
 from food.models import (
     City,
-    CityFood,
     CityShop,
     Dish,
     DishCategory,
@@ -160,55 +159,38 @@ class RestorauntPageScrapper(WebScrapper):
                 self.dish_models.clear()
 
 
-class CityPageScrapper(WebScrapper):
-    def __init__(self, maximum_connections: int = 10):
-        super().__init__(maximum_connections)
-        self.food_models: list[Food] = []
+def from_htm_to_restoraunt_model(restoraunt, url, city_id):
+    name = restoraunt.find("div", class_="c-list-cards__header").text
 
-    async def parse_city_page(self, session, url, ind, city_slug, city_id, proxy) -> None:
-        try:
-            async with self.semaphore:
-                response = await session.get(url, headers=self.headers, proxy=proxy)
-                print(response.status, proxy)
-                print(ind)
-                if response.status == 200:
-                    page_content = await response.read()
-                    soup = BeautifulSoup(page_content, "html.parser")
+    slug = restoraunt.get("href")
+    slug = slug.replace("/", "")
+    slug = slug.replace("place", "")
 
-                    foods = soup.findAll("a", class_="l-article__btn l-article__btn--small")
+    image = restoraunt.find("div", "c-list-cards__img")
+    image = image.get("style")
 
-                    for food in foods:
-                        name = food.text
+    image = image.replace("background-image: url('", "")
+    image = image.replace("');", "")
 
-                        slug = food.get("href")
-                        slug = slug.replace("/", "")
-                        slug = slug.replace(city_slug, "")
-                        food_obj, created = await Food.objects.aget_or_create(name=name)
-                        # if not exist:
-                        # food_obj = await Food.objects.acreate(
-                        #    name=name, slug=slug
-                        # )
+    if "https://" not in image:
+        image = f"{url}/{image}"
 
-                        await CityFood.objects.acreate(food=food_obj, city_id=city_id)
+    address = restoraunt.find("small").text
 
-        except Exception as e:
-            print(e)
+    price_category = restoraunt.find("div", "price-range")
+    price_category = price_category.find("b").text
 
-    async def __call__(self):
-        cities = await get_cities()
-        proxies = await self.get_proxies()
+    min_order = restoraunt.findAll("b")[-1].text
 
-        async with aiohttp.ClientSession() as session:
-            reqs = []
-            for ind, city in enumerate(cities):
-                city_slug = city.slug
-
-                url = f"{self.url}/{city_slug}/"
-
-                reqs.append(self.parse_city_page(session, url, ind, city_slug, city.id, proxy=random.choice(proxies)))
-
-            await asyncio.gather(*reqs)
-            reqs.clear()
+    return (
+        name,
+        city_id,
+        address,
+        slug,
+        image,
+        min_order,
+        price_category,
+    )
 
 
 class RestorauntsParser(WebScrapper):
@@ -365,7 +347,7 @@ class RestorauntFoodScrapper(WebScrapper):
                         # print("returned")
                         return
 
-                    # print(foods, restoraunt_slug, city_slug)
+                    print(foods, city_slug, restoraunt_slug)
 
                     for food in foods:
                         slug = food.get("href")
@@ -421,7 +403,7 @@ class RestorauntFoodScrapper(WebScrapper):
                 reqs.clear()
 
         #        await RestorauntRef.objects.abulk_create(self.refs_to_create)
-        self.refs_to_create.clear()
+        # self.refs_to_create.clear()
 
 
 class RestorauntRefsScrapper(WebScrapper):
@@ -814,6 +796,7 @@ class ShopPageScrapper(WebScrapper):
     async def __call__(self):
         proxies = await self.get_proxies()
         shops = await get_city_shops()
+        shops = shops[0:10]
         print(len(shops))
 
         async with aiohttp.ClientSession() as session:
@@ -829,6 +812,7 @@ class ShopPageScrapper(WebScrapper):
                 await asyncio.gather(*reqs)
                 reqs.clear()
                 print("creating...")
+                print(len(self.product_models))
                 # try:
                 await ShopProduct.objects.abulk_create(
                     self.product_models,
@@ -840,3 +824,163 @@ class ShopPageScrapper(WebScrapper):
                 #    print("something went wrong while creating")
                 print("created")
                 self.product_models.clear()
+
+
+class FoodScrapper(WebScrapper):
+    foods: list[tuple] = []
+
+    async def parse_city_food_page(
+        self, session: aiohttp.ClientSession, url: str, ind: int, proxy: str | None = None
+    ) -> None:
+        try:
+            async with self.semaphore:
+                response = await session.get(url, headers=self.headers, proxy=proxy)
+                print(response.status, ind)
+
+                if response.status == 200:
+                    page_content = await response.read()
+
+                    soup = BeautifulSoup(page_content, "html.parser")
+
+                    foods_container = soup.findAll("article", class_="l-article")[0]
+                    foods = foods_container.findAll("p", class_="l-article__h-text")[1]
+                    foods = foods.findAll("a", class_="l-article__btn")
+
+                    for food in foods:
+                        self.foods.append((food.get("href").split("/")[-2], food.text))
+
+        except Exception as e:
+            print(e)
+
+    async def __call__(self):
+        proxies = await self.get_proxies()
+        cities = await get_cities()
+
+        async with aiohttp.ClientSession() as session:
+            for i in range(0, len(cities), 100):
+                reqs = []
+                len_shops = len(cities)
+
+                for k in range(i, min(i + 100, i + len_shops)):
+                    city = cities.pop(0)
+                    current_link = f"{self.url}/{city.slug}/"
+                    reqs.append(self.parse_city_food_page(session, current_link, k, random.choice(proxies)))
+
+                await asyncio.gather(*reqs)
+                reqs.clear()
+
+        self.foods = [Food(slug=food[0], name=food[1]) for food in set(self.foods)]
+        await Food.objects.abulk_create(self.foods)
+
+
+class RestorauntFoodNewScrapper(WebScrapper):
+    foods: list[RestorauntFood] = []
+    restoraunts: list[Restoraunt] = []
+
+    async def parse_city_food_page(
+        self,
+        session: aiohttp.ClientSession,
+        url: str,
+        city_slug: str,
+        city: City,
+        food: Food,
+        ind: int,
+        proxy: str | None = None,
+    ) -> None:
+        try:
+            async with self.semaphore:
+                response = await session.get(url, headers=self.headers, proxy=proxy)
+                print(response.status, ind)
+
+                if response.status == 200:
+                    page_content = await response.read()
+
+                    soup = BeautifulSoup(page_content, "html.parser")
+
+                    # try:
+                    restoraunts_container = soup.findAll("section", class_="l-article__section")[0]
+                    restoraunts = restoraunts_container.findAll("a", class_="c-list-cards__link")
+                    restoraunt_slugs = [restoraunt.get("href").split("/")[-2] for restoraunt in restoraunts]
+
+                    # print(city_slug)
+                    for ind, restoraunt in enumerate(restoraunt_slugs):
+                        try:
+                            self.foods.append(
+                                RestorauntFood(restoraunt=self.res_dict[city_slug][restoraunt], food=food)
+                            )
+                        except:
+                            print("key error", restoraunt)
+                            # res_model = from_htm_to_restoraunt_model(restoraunts[ind], self.url, city.id)
+                            # self.restoraunts.append(res_model)
+
+        except Exception as e:
+            print(e, "error")
+
+    async def __call__(self):
+        proxies = await self.get_proxies()
+        cities = await get_cities()
+
+        # cities = [cities[0]]
+
+        res_dict = {}
+
+        async for city in City.objects.all():
+            res_dict[city.slug] = {}
+            async for restoraunt in Restoraunt.objects.filter(city_id=city.id):
+                res_dict[city.slug][restoraunt.slug] = restoraunt
+
+        self.res_dict = res_dict
+
+        async with aiohttp.ClientSession() as session:
+            for i in range(0, len(cities), 100):
+                reqs = []
+                len_shops = len(cities)
+
+                for k in range(i, min(i + 100, i + len_shops)):
+                    city = cities.pop(0)
+                    async for food in Food.objects.all():
+                        current_link = f"{self.url}/{city.slug}/{food.slug}"
+                        reqs.append(
+                            self.parse_city_food_page(
+                                session, current_link, city.slug, city, food, k, random.choice(proxies)
+                            )
+                        )
+
+                    await asyncio.gather(*reqs)
+                    reqs.clear()
+                    print("creating...")
+                    await RestorauntFood.objects.abulk_create(self.foods, batch_size=500)
+                    print("created")
+                    self.foods.clear()
+                    # print(len(self.restoraunts))
+                    # self.restoraunts = [
+                    #    Restoraunt(
+                    #        name=r[0],
+                    #        city_id=r[1],
+                    #        address=r[2],
+                    #        slug=r[3],
+                    #        image=r[4],
+                    #        min_order=r[5],
+                    #        price_category=[6],
+                    #    )
+                    #
+                    #    for r in set(self.restoraunts)
+                    # ]
+                    # print(len(self.restoraunts))
+                    # await Restoraunt.objects.abulk_create(
+                    #    self.restoraunts,
+                    #    batch_size=500
+                    # )
+                    # self.restoraunts.clear()'''
+                    # print("created")
+
+                    # print(self.foods[0:50])
+                    # '''await RestorauntFood.objects.abulk_create(
+                    #    self.foods
+                    # )'''
+                    # self.foods.clear()
+                # '''await Restoraunt.objects.abulk_create(
+                #    self.restoraunts
+                # )
+                # self.restoraunts.clear()
+                # print("created")'''

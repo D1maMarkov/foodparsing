@@ -6,11 +6,14 @@ from food.models import City, CityShop, Restoraunt, Shop
 
 @sync_to_async
 def get_restoraunts():
+    # return list(
+    #    Restoraunt.objects.annotate(count=Count("foods")).filter(count=0)
+    #    .values_list("city__slug", "slug", "id")
+    # )
     return list(
-        Restoraunt.objects.annotate(count=Count("foods"))
-        .filter(count=0)
-        .order_by("?")
-        .values_list("city__slug", "slug", "id")
+        Restoraunt.objects.filter(slug="sushi_lend_hd7jq", city__slug="Georgievsk").values_list(
+            "city__slug", "slug", "id"
+        )
     )
 
 

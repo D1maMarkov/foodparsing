@@ -1,17 +1,9 @@
-from django.db.models import Count, Q
+from django.db.models import Q
 from django.http import HttpRequest, JsonResponse
 from django.template import loader
 from django.views import View
 
-from food.models import (
-    City,
-    CityShop,
-    Dish,
-    DishCategory,
-    Restoraunt,
-    ShopCategory,
-    ShopProduct,
-)
+from food.models import City, CityShop, Dish, DishCategory, Restoraunt, ShopCategory
 from food.serializers import RestorauntHintSerialzier
 
 
@@ -27,9 +19,9 @@ def get_dishes_context(restoraunt_slug, city_slug, categories):
     if categories:
         query &= Q(id__in=category_ids)
 
-    categories = DishCategory.objects.annotate(count=Count("name")).filter(query).order_by("-id")
+    categories = DishCategory.objects.filter(query).order_by("-id")
 
-    dishes_query = Dish.objects.filter(restoraunt_id=restoraunt.id)
+    dishes_query = Dish.objects.select_related("category").filter(restoraunt_id=restoraunt.id)
 
     return {"dishes": dishes_query, "dish_categories": categories, "city": city, "restoraunt": restoraunt}
 
@@ -45,7 +37,7 @@ def get_shop_context(shop_slug, city_slug):
 
     categories = ShopCategory.objects.filter(query).order_by("-id")
 
-    products_query = ShopProduct.objects.filter(shop_id=shop.id)
+    products_query = shop.products.all()
 
     return {"products": products_query, "shop_categories": categories, "city": city, "shop": shop}
 

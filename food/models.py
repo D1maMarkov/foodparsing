@@ -39,14 +39,6 @@ class Food(models.Model):
         verbose_name_plural = "Кухни"
 
 
-class CityFood(models.Model):
-    city = models.ForeignKey(City, verbose_name="город", on_delete=models.CASCADE, related_name="foods")
-    food = models.ForeignKey(Food, verbose_name="кухня", on_delete=models.CASCADE, related_name="city_foods")
-
-    def __str__(self):
-        return f"{self.city.name}-{self.food.name}"
-
-
 class Restoraunt(models.Model):
     name = models.CharField(max_length=150, verbose_name="Ресторан")
     slug = models.CharField(max_length=150, null=True)

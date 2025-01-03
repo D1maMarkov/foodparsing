@@ -10,7 +10,7 @@
     <meta name="description" content="zomo">
     <meta name="keywords" content="zomo">
     <meta name="author" content="zomo">
-    <link rel="icon" href="assets/images/logo/favicon.png" type="image/x-icon">
+    <link rel="icon" href="/assets/images/logo/favicon.png" type="image/x-icon">
     <title>{{ seo.title }}</title>
     <meta name="description" content="{{ seo.description }}" />
     <link rel="apple-touch-icon" href="assets/images/logo/favicon.png">
@@ -55,7 +55,7 @@
         <div class="container">
             <div class="restaurant-box">
                 <div class="restaurant-image">
-                    <img class="img-fluid img" src="{{ restoraunt.image }}" alt="brand13">
+                    <img class="img-fluid img" src="{{ restoraunt.image }}" alt="{{ restoraunt.name }}">
                 </div>
                 <div class="restaurant-details">
                     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
@@ -638,7 +638,7 @@
     <div class="toast-container position-fixed top-0 end-0 p-3">
         <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex bg-theme text-white">
-                <div class="toast-body">Restaurant URL Copied to Clipboard</div>
+                <div class="toast-body">Ссылка скопирована</div>
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
             </div>
         </div>

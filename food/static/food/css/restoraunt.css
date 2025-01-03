@@ -11,3 +11,17 @@
     text-decoration: none;
     font-size: calc(18px + 2*(100vw - 320px) / 1600);
 }
+
+.image-container{
+    border-radius: 10px;
+    background-color: rgb(50, 50, 50);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-container img{
+    width: 60%;
+    height: 60%;
+    opacity: .7;
+}

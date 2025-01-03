@@ -9,6 +9,7 @@ from food.models import (
     Food,
     IndexPageButton,
     Restoraunt,
+    RestorauntFood,
     RestorauntRef,
     Seo,
     Shop,
@@ -75,3 +76,4 @@ admin.site.register(CityShop)
 admin.site.register(Seo)
 admin.site.register(ShopProduct)
 admin.site.register(IndexPageButton)
+admin.site.register(RestorauntFood)

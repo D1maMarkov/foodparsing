@@ -2,7 +2,7 @@ import random
 import re
 
 from django.core.paginator import Paginator
-from django.db.models import Count, Q
+from django.db.models import Max, Q
 from django.views.generic import TemplateView
 
 from food.models import (
@@ -14,7 +14,6 @@ from food.models import (
     Restoraunt,
     RestorauntRef,
     Seo,
-    Shop,
 )
 from food.views.api import get_dishes_context, get_shop_context
 
@@ -83,13 +82,16 @@ class Index(BaseTemplateView):
         ids = list(Restoraunt.objects.values_list("id", flat=True))
 
         random_ids = random.sample(ids, 10)
-        random_records = Restoraunt.objects.filter(id__in=random_ids)[0:8]
+        random_records = Restoraunt.objects.select_related("city").filter(id__in=random_ids)[0:8]
 
         context["popular_restoraunts"] = random_records
 
-        context["restoraunts"] = Restoraunt.objects.all()[0:16]
+        context["restoraunts"] = Restoraunt.objects.select_related("city").all()[0:16]
 
-        context["shops"] = Shop.objects.order_by("?")[0:16]
+        shop_ids = CityShop.objects.values("shop_id").annotate(max_id=Max("id"))[0:16]
+        context["shops"] = (
+            CityShop.objects.select_related("city", "shop").filter(id__in=[p["max_id"] for p in shop_ids]).order_by("?")
+        )
 
         context["buttons"] = IndexPageButton.objects.all()
 
@@ -103,20 +105,20 @@ class CityView(BaseTemplateView):
         context = super().get_context_data(**kwargs)
         slug = kwargs.get("city_slug")
         city = City.objects.get(slug=slug)
-        restoraunts = Restoraunt.objects.filter(city=city)
+        restoraunts = Restoraunt.objects.select_related("city").filter(city=city)
 
         paginator = Paginator(restoraunts, 24)  # Show 25 contacts per page.
 
         page_number = self.request.GET.get("page")
         restoraunts_obj = paginator.get_page(page_number)
 
-        foods = Food.objects.filter(city_foods__city=city)
+        foods = Food.objects.filter(restoraunt_foods__restoraunt__city_id=city.id).distinct()
         context["city"] = city
         context["restoraunts_obj"] = restoraunts_obj
         context["foods"] = foods
 
         context["seo"] = get_wildcard_seo(Seo.objects.get(page_type="Город"), {"city": city})
-        context["shops"] = CityShop.objects.filter(city_id=city.id)
+        context["shops"] = CityShop.objects.select_related("city", "shop").filter(city_id=city.id)
 
         return context
 
@@ -129,11 +131,11 @@ class RestorauntView(BaseTemplateView):
         restoraunt_slug = kwargs.get("restoraunt_slug")
         city_slug = kwargs.get("city_slug")
 
-        foods = Food.objects.prefetch_related("restoraunt_foods").filter(
+        """foods = Food.objects.filter(
             restoraunt_foods__restoraunt__slug=restoraunt_slug
-        )
+        ).distinct()
 
-        context["foods"] = foods
+        context["foods"] = foods"""
 
         dishes_context = get_dishes_context(restoraunt_slug=restoraunt_slug, city_slug=city_slug, categories=None)
 
@@ -196,8 +198,8 @@ class CityFoodView(BaseTemplateView):
         city = City.objects.get(slug=city_slug)
         food = Food.objects.get(id=food_id)
 
-        restoraunts = Restoraunt.objects.annotate(count=Count("foods")).filter(
-            Q(city=city), Q(foods__food=food) | Q(count=0)
+        restoraunts = (
+            Restoraunt.objects.prefetch_related("foods").select_related("city").filter(Q(city=city, foods__food=food))
         )
         paginator = Paginator(restoraunts, 24)  # Show 25 contacts per page.
 
@@ -206,7 +208,7 @@ class CityFoodView(BaseTemplateView):
 
         context["city"] = city
         context["food"] = food
-        context["foods"] = Food.objects.filter(city_foods__city=city)
+        context["foods"] = Food.objects.filter(restoraunt_foods__restoraunt__city_id=city.id).distinct()
         context["restoraunts_obj"] = restoraunts_obj
 
         context["seo"] = get_wildcard_seo(Seo.objects.get(page_type="Кухня"), {"city": city, "food": food})

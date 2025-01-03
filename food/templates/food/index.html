@@ -234,7 +234,7 @@
                         <form class="auth-form search-head" target="_blank">
                             <div class="form-group" style="position: relative;">
                                 <div class="form-input mb-0">
-                                    <input onchange="searchRestoraunts(event)" type="search" class="form-control search" id="inputusername"
+                                    <input oninput="searchRestoraunts(event)" onchange="searchRestoraunts(event)" type="search" class="form-control search" id="inputusername"
                                         placeholder="Найти ресторан">
                                     <i class="ri-search-line search-icon"></i>
                                 </div>
@@ -298,22 +298,6 @@
         </button>
         {% endfor %}
     </div>
-    <script>
-        document.querySelectorAll(".button-container").forEach(button => {
-            // Сохраняем изначальное вертикальное положение кнопки
-            const rect = button.getBoundingClientRect();
-            var originalTop3 = rect.top; // Позиция кнопки относительно начала страницы
-
-            window.addEventListener('scroll', function() {
-            var stickyClass3 = 'sticky';
-            if (window.pageYOffset > originalTop3) {
-                button.classList.add(stickyClass3);
-            } else {
-                button.classList.remove(stickyClass3);
-            }
-            });
-        })
-    </script>
 
     <!-- cities section start -->
     <section class="section-b-space overflow-hidden" style="padding-top: calc((50 * (100vw - 320px) / 1600) * 2);">
@@ -407,22 +391,17 @@
             <div class="title">
                 <h2>Магазины</h2>
                 <div class="loader-line"></div>
-                <div class="sub-title">
-                    <p>
-                        Browse out top brands here to discover different food cuision.
-                    </p>
-                </div>
             </div>
             <div class="theme-arrow">
                 <div class="swiper brands-logo">
-                    <div class="swiper-wrapper">
+                    <div class="swiper-wrapper" style="height: auto;">
                         {% for shop in shops %}
                         <div class="swiper-slide">
                             <div class="brand-box">
-                                <a href="/{{ city.slug }}/place-market/{{ shop.slug }}/" class="food-brands">
-                                    <img class="img-fluid brand-img" src="{{ shop.image }}" alt="{{ shop.name }}">
+                                <a href="/{{ shop.city.slug }}/place-market/{{ shop.slug }}/" class="food-brands">
+                                    <img class="img-fluid brand-img" src="{{ shop.shop.image }}" alt="{{ shop.name }}">
                                 </a>
-                                <a href="/{{ city.slug }}/place-market/{{ shop.slug }}/">
+                                <a href="/{{ shop.city.slug }}/place-market/{{ shop.slug }}/">
                                     <h4>{{ shop.name }}</h4>
                                 </a>
                             </div>

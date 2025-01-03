@@ -1,8 +1,14 @@
 <div id="item-1">
     <div class="product-details-box">
         <div class="product-img">
+            {% if dish.image == "/nofoto.png" %}
+            <div class="image-container img-fluid img" >
+                <img src="/assets/images/logo/favicon.png" alt="{{ restoraunt.name }}">
+            </div>
+            {% else %}
             <img class="img-fluid img"
                 src="{{ dish.image }}" alt="{{ dish.name }}">
+            {% endif %}
         </div>
         <div class="product-content">
             <div
