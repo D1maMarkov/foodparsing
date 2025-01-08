@@ -196,10 +196,13 @@ class CityFoodView(BaseTemplateView):
         food_id = kwargs.get("food_slug")
 
         city = City.objects.get(slug=city_slug)
-        food = Food.objects.get(id=food_id)
+        food = Food.objects.get(slug=food_id)
 
         restoraunts = (
-            Restoraunt.objects.prefetch_related("foods").select_related("city").filter(Q(city=city, foods__food=food))
+            Restoraunt.objects.prefetch_related("foods")
+            .select_related("city")
+            .filter(Q(city=city, foods__food=food))
+            .distinct()
         )
         paginator = Paginator(restoraunts, 24)  # Show 25 contacts per page.
 

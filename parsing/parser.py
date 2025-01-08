@@ -98,7 +98,7 @@ class RestorauntPageScrapper(WebScrapper):
                                                 category=dish_category,
                                                 price=product_price,
                                                 weight=product_weight,
-                                                unique_key=f"{restoraunt_id}/{product_slug}",
+                                                unique_key="new",
                                             )
                                         )
 
@@ -136,6 +136,7 @@ class RestorauntPageScrapper(WebScrapper):
 
                 for k in range(i, min(i + 1, i + len_resporaunts)):
                     restoraunt = restoraunts.pop(0)
+
                     current_link = f"{self.url}/{restoraunt[0]}/place/{restoraunt[1]}/"
                     reqs.append(
                         self.parse_restoraunt_page(
@@ -145,6 +146,7 @@ class RestorauntPageScrapper(WebScrapper):
 
                 await asyncio.gather(*reqs)
                 reqs.clear()
+
                 print("creating...")
                 try:
                     await Dish.objects.abulk_create(
@@ -890,28 +892,35 @@ class RestorauntFoodNewScrapper(WebScrapper):
         try:
             async with self.semaphore:
                 response = await session.get(url, headers=self.headers, proxy=proxy)
-                print(response.status, ind)
+                # print(response.status, ind)
 
                 if response.status == 200:
                     page_content = await response.read()
 
                     soup = BeautifulSoup(page_content, "html.parser")
+                    foods = soup.find("header").findAll("p", class_="l-article__h-text")
+                    if 13:
+                        # try:
+                        restoraunts_container = soup.find("section", class_="l-article__section")
+                        restoraunts = restoraunts_container.findAll("a", class_="c-list-cards__link")
+                        restoraunt_slugs = [restoraunt.get("href").split("/")[-2] for restoraunt in restoraunts]
 
-                    # try:
-                    restoraunts_container = soup.findAll("section", class_="l-article__section")[0]
-                    restoraunts = restoraunts_container.findAll("a", class_="c-list-cards__link")
-                    restoraunt_slugs = [restoraunt.get("href").split("/")[-2] for restoraunt in restoraunts]
+                        if not restoraunt_slugs:
+                            return
 
-                    # print(city_slug)
-                    for ind, restoraunt in enumerate(restoraunt_slugs):
-                        try:
-                            self.foods.append(
-                                RestorauntFood(restoraunt=self.res_dict[city_slug][restoraunt], food=food)
-                            )
-                        except:
-                            print("key error", restoraunt)
-                            # res_model = from_htm_to_restoraunt_model(restoraunts[ind], self.url, city.id)
-                            # self.restoraunts.append(res_model)
+                        # print(city_slug)
+                        for ind, restoraunt in enumerate(restoraunt_slugs):
+                            try:
+                                self.foods.append(
+                                    RestorauntFood(restoraunt=self.res_dict[city_slug][restoraunt], food=food)
+                                )
+                                # print("!!!")
+                            except:
+                                # print("key error", restoraunt)
+                                res_model = from_htm_to_restoraunt_model(restoraunts[ind], self.url, city.id)
+                                self.restoraunts.append(res_model)
+                    else:
+                        print("exited", len(foods))
 
         except Exception as e:
             print(e, "error")
@@ -938,8 +947,9 @@ class RestorauntFoodNewScrapper(WebScrapper):
 
                 for k in range(i, min(i + 100, i + len_shops)):
                     city = cities.pop(0)
+                    print(city.slug, city.id)
                     async for food in Food.objects.all():
-                        current_link = f"{self.url}/{city.slug}/{food.slug}"
+                        current_link = f"{self.url}/{city.slug}/{food.slug}/"
                         reqs.append(
                             self.parse_city_food_page(
                                 session, current_link, city.slug, city, food, k, random.choice(proxies)
@@ -948,31 +958,30 @@ class RestorauntFoodNewScrapper(WebScrapper):
 
                     await asyncio.gather(*reqs)
                     reqs.clear()
-                    print("creating...")
+                    print("foods creating...")
+                    print(len(self.foods))
                     await RestorauntFood.objects.abulk_create(self.foods, batch_size=500)
                     print("created")
                     self.foods.clear()
+
+                    print("restoraunts creating...")
                     # print(len(self.restoraunts))
-                    # self.restoraunts = [
-                    #    Restoraunt(
-                    #        name=r[0],
-                    #        city_id=r[1],
-                    #        address=r[2],
-                    #        slug=r[3],
-                    #        image=r[4],
-                    #        min_order=r[5],
-                    #        price_category=[6],
-                    #    )
-                    #
-                    #    for r in set(self.restoraunts)
-                    # ]
-                    # print(len(self.restoraunts))
-                    # await Restoraunt.objects.abulk_create(
-                    #    self.restoraunts,
-                    #    batch_size=500
-                    # )
-                    # self.restoraunts.clear()'''
-                    # print("created")
+                    self.restoraunts = [
+                        Restoraunt(
+                            name=r[0],
+                            city_id=r[1],
+                            address=r[2],
+                            slug=r[3],
+                            image=r[4],
+                            min_order=r[5],
+                            price_category=[6],
+                        )
+                        for r in set(self.restoraunts)
+                    ]
+                    print(len(self.restoraunts))
+                    await Restoraunt.objects.abulk_create(self.restoraunts, batch_size=500)
+                    self.restoraunts.clear()
+                    print("created")
 
                     # print(self.foods[0:50])
                     # '''await RestorauntFood.objects.abulk_create(

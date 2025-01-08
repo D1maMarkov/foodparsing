@@ -51,7 +51,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb flex-lg-nowrap justify-content-center justify-content-lg-star">
                     <li class="breadcrumb-item">
-                        <a href="index.html"><i class="ri-home-line"></i>Home</a>
+                        <a href="/"><i class="ri-home-line"></i>Home</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
                         {{ food.name }} доставка еды в {{ city.genitive_case }}
@@ -69,7 +69,7 @@
                 <ul class="filter-item-list">
                     {% for food in foods %}
                         <li>
-                            <a href="/{{ city.slug }}/{{ food.id }}/">{{ food.name }}</a>
+                            <a href="/{{ city.slug }}/{{ food.slug }}/">{{ food.name }}</a>
                         </li>
                     {% endfor %}
                 </ul>
@@ -93,49 +93,51 @@
                     </div>
                 </div>
 
-                <nav class="custom-pagination">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item {% if restoraunts_obj.has_previous %}{% else %}disabled{% endif %}">
-                            <a class="page-link" href="?page={% if restoraunts_obj.has_previous %}{{ restoraunts_obj.previous_page_number }}{% endif %}" tabindex="-1">
-                                <i class="ri-arrow-left-s-line"></i>
-                            </a>
-                        </li>
+                {% if restoraunts_obj.paginator.num_pages > 1 %}
+                    <nav class="custom-pagination">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item {% if restoraunts_obj.has_previous %}{% else %}disabled{% endif %}">
+                                <a class="page-link" href="?page={% if restoraunts_obj.has_previous %}{{ restoraunts_obj.previous_page_number }}{% endif %}" tabindex="-1">
+                                    <i class="ri-arrow-left-s-line"></i>
+                                </a>
+                            </li>
 
-                        {% if restoraunts_obj.has_previous %}
-                            {% if restoraunts_obj.previous_page_number > 1 %}
+                            {% if restoraunts_obj.has_previous %}
+                                {% if restoraunts_obj.previous_page_number > 1 %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=1">1</a>
+                                    </li>
+                                {% endif %}
+
                                 <li class="page-item">
-                                    <a class="page-link" href="?page=1">1</a>
+                                    <a class="page-link" href="?page={{ restoraunts_obj.previous_page_number }}">{{ restoraunts_obj.previous_page_number }}</a>
                                 </li>
                             {% endif %}
 
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ restoraunts_obj.previous_page_number }}">{{ restoraunts_obj.previous_page_number }}</a>
+                            <li class="page-item active">
+                                <a class="page-link" href="?page={{ restoraunts_obj.number }}">{{ restoraunts_obj.number }}</a>
                             </li>
-                        {% endif %}
 
-                        <li class="page-item active">
-                            <a class="page-link" href="?page={{ restoraunts_obj.number }}">{{ restoraunts_obj.number }}</a>
-                        </li>
+                            {% if restoraunts_obj.has_next %}
+                                {% if restoraunts_obj.next_page_number < restoraunts_obj.paginator.num_pages %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ restoraunts_obj.next_page_number }}">{{ restoraunts_obj.next_page_number }}</a>
+                                    </li>
+                                {% endif %}
 
-                        {% if restoraunts_obj.has_next %}
-                            {% if restoraunts_obj.next_page_number < restoraunts_obj.paginator.num_pages %}
                                 <li class="page-item">
-                                    <a class="page-link" href="?page={{ restoraunts_obj.next_page_number }}">{{ restoraunts_obj.next_page_number }}</a>
+                                    <a class="page-link" href="?page={{ restoraunts_obj.paginator.num_pages }}">{{ restoraunts_obj.paginator.num_pages }}</a>
                                 </li>
                             {% endif %}
 
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ restoraunts_obj.paginator.num_pages }}">{{ restoraunts_obj.paginator.num_pages }}</a>
+                            <li class="page-item {% if restoraunts_obj.has_next %}{% else %}disabled{% endif %}">
+                                <a class="page-link" href="?page={% if restoraunts_obj.has_next %}{{ restoraunts_obj.next_page_number }}{% endif %}">
+                                    <i class="ri-arrow-right-s-line"></i>
+                                </a>
                             </li>
-                        {% endif %}
-
-                        <li class="page-item {% if restoraunts_obj.has_next %}{% else %}disabled{% endif %}">
-                            <a class="page-link" href="?page={% if restoraunts_obj.has_next %}{{ restoraunts_obj.next_page_number }}{% endif %}">
-                                <i class="ri-arrow-right-s-line"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                        </ul>
+                    </nav>
+                {% endif %}
             </div>
         </div>
     </section>

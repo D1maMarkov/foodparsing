@@ -2,7 +2,6 @@ import random
 
 from ckeditor.fields import RichTextField
 from django.db import models
-from django.db.models import Index
 
 
 class City(models.Model):
@@ -109,7 +108,7 @@ class Dish(models.Model):
     )
     price = models.CharField(max_length=10, verbose_name="Цена", null=True)
     weight = models.CharField(max_length=15, verbose_name="Вес", null=True, blank=True)
-    unique_key = models.CharField(max_length=300, unique=True, null=True)
+    unique_key = models.CharField(max_length=300, null=True)
 
     def __str__(self):
         return self.name
@@ -117,10 +116,6 @@ class Dish(models.Model):
     class Meta:
         verbose_name = "Блюдо"
         verbose_name_plural = "Блюда"
-
-        indexes = [
-            Index(fields=["restoraunt_id"]),
-        ]
 
 
 class DishRef(BaseRef):

@@ -11,9 +11,7 @@ def get_restoraunts():
     #    .values_list("city__slug", "slug", "id")
     # )
     return list(
-        Restoraunt.objects.filter(slug="sushi_lend_hd7jq", city__slug="Georgievsk").values_list(
-            "city__slug", "slug", "id"
-        )
+        Restoraunt.objects.annotate(count=Count("dishes")).filter(count=0).values_list("city__slug", "slug", "id")
     )
 
 

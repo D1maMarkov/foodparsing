@@ -19,7 +19,7 @@ def get_dishes_context(restoraunt_slug, city_slug, categories):
     if categories:
         query &= Q(id__in=category_ids)
 
-    categories = DishCategory.objects.filter(query).order_by("-id")
+    categories = DishCategory.objects.filter(query).order_by("-id").distinct()
 
     dishes_query = Dish.objects.select_related("category").filter(restoraunt_id=restoraunt.id)
 
