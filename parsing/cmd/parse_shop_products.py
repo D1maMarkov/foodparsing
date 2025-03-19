@@ -9,11 +9,11 @@ django.setup()
 
 
 def main():
-    from parsing.parser import DishRefsGenerator
-
-    parser = DishRefsGenerator()
+    from parsing.parser import ShopPageScrapper
+    
+    parser = ShopPageScrapper()
     asyncio.run(parser())
-
+    
 
 if __name__ == "__main__":
     main()

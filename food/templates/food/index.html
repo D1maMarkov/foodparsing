@@ -1,225 +1,9 @@
+{% extends "food/base.html" %}
+
 {% load static %}
 
-<html lang="en">
-
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="zomo">
-    <meta name="keywords" content="zomo">
-    <meta name="author" content="zomo">
-    <link rel="icon" href="assets/images/logo/favicon.png" type="image/x-icon">
-    <title>{{ seo.title }}</title>
-    <link rel="apple-touch-icon" href="assets/images/logo/favicon.png">
-    <meta name="theme-color" content="#ff8d2f">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="zomo">
-    <meta name="msapplication-TileImage" content="assets/images/logo/favicon.png">
-    <meta name="msapplication-TileColor" content="#FFFFFF">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <!--Google font-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
-
-
-    <!-- bootstrap css -->
-    <link rel="stylesheet" type="text/css" id="rtl-link" href="assets/css/vendors/bootstrap.css">
-
-    <!-- swiper css -->
-    <link rel="stylesheet" type="text/css" href="/assets/css/vendors/swiper-bundle.min.css">
-
-    <!-- remixicon css -->
-    <link rel="stylesheet" type="text/css" href="/assets/css/vendors/remixicon.css">
-
-    <!-- Theme css -->
-    <link rel="stylesheet" id="change-link" type="text/css" href="/assets/css/style.css">
-    <link rel="stylesheet" type="text/css" href="{% static 'food/css/index.css' %}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-</head>
-
+{% block content %}
 <body class="position-relative">
-    <!-- skeleton loader start -->
-    <div class="skeleton-loader" style="display: none;">
-        {% include "food/navbar.html" %}
-        <section class="home-wrapper">
-            <div class="container text-center">
-                <div class="loader-gif">
-                    <img src="assets/images/gif/food.gif" alt="food-gif" class="img-fluid">
-                </div>
-                <h2>Searching the most delicious dish in your area...</h2>
-            </div>
-        </section>
-        <div class="categories-section">
-            <div class="container">
-                <div class="position-relative category-top">
-                    <div class="swiper categories-no-arrow categories-style">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <a href="restaurant-listing.html" class="food-categories">
-                                    <span class="categories-img"></span>
-                                    <h4 class="placeholder col-10"></h4>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="restaurant-listing.html" class="food-categories">
-                                    <span class="categories-img"></span>
-                                    <h4 class="placeholder col-10"></h4>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="restaurant-listing.html" class="food-categories">
-                                    <span class="categories-img"></span>
-                                    <h4 class="placeholder col-10"></h4>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="restaurant-listing.html" class="food-categories">
-                                    <span class="categories-img"></span>
-                                    <h4 class="placeholder col-10"></h4>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="restaurant-listing.html" class="food-categories">
-                                    <span class="categories-img"></span>
-                                    <h4 class="placeholder col-10"></h4>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="restaurant-listing.html" class="food-categories">
-                                    <span class="categories-img"></span>
-                                    <h4 class="placeholder col-10"></h4>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="restaurant-listing.html" class="food-categories">
-                                    <span class="categories-img"></span>
-                                    <h4 class="placeholder col-10"></h4>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="restaurant-listing.html" class="food-categories">
-                                    <span class="categories-img"></span>
-                                    <h4 class="placeholder col-10"></h4>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="restaurant-listing.html" class="food-categories">
-                                    <span class="categories-img"></span>
-                                    <h4 class="placeholder col-10"></h4>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="restaurant-listing.html" class="food-categories">
-                                    <span class="categories-img"></span>
-                                    <h4 class="placeholder col-10"></h4>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="restaurant-listing.html" class="food-categories">
-                                    <span class="categories-img"></span>
-                                    <h4 class="placeholder col-10"></h4>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="restaurant-listing.html" class="food-categories">
-                                    <span class="categories-img"></span>
-                                    <h4 class="placeholder col-10"></h4>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="restaurant-listing.html" class="food-categories">
-                                    <span class="categories-img"></span>
-                                    <h4 class="placeholder col-10"></h4>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="restaurant-listing.html" class="food-categories">
-                                    <span class="categories-img"></span>
-                                    <h4 class="placeholder col-10"></h4>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="restaurant-listing.html" class="food-categories">
-                                    <span class="categories-img"></span>
-                                    <h4 class="placeholder col-10"></h4>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="restaurant-listing.html" class="food-categories">
-                                    <span class="categories-img"></span>
-                                    <h4 class="placeholder col-10"></h4>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="restaurant-listing.html" class="food-categories">
-                                    <span class="categories-img"></span>
-                                    <h4 class="placeholder col-10"></h4>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="restaurant-listing.html" class="food-categories">
-                                    <span class="categories-img"></span>
-                                    <h4 class="placeholder col-10"></h4>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="restaurant-listing.html" class="food-categories">
-                                    <span class="categories-img"></span>
-                                    <h4 class="placeholder col-10"></h4>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <section class="section-b-space">
-            <div class="container">
-                <div class="title placeholder-glow">
-                    <span class="placeholder col-md-2 col-5"></span>
-                    <p class="placeholder col-5 w-50"></p>
-                </div>
-                <div class="position-relative">
-                    <div class="swiper banner1-slider">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide placeholder-glow">
-                                <div class="banner-part">
-                                    <a href="offer.html" class="placeholder"></a>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="banner-part">
-                                    <a href="offer.html" class="placeholder"></a>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="banner-part">
-                                    <a href="offer.html" class="placeholder"></a>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="banner-part">
-                                    <a href="offer.html" class="placeholder"></a>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="banner-part">
-                                    <a href="offer.html" class="placeholder"></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-    <!-- skeleton loader end -->
-
     <!-- Header section start -->
     {% include "food/navbar.html" %}
     <!-- Header Section end -->
@@ -229,7 +13,7 @@
         <div class="container text-center">
             <div class="row">
                 <div class="col-lg-7 col-12">
-                    <h2>Доставка еды и продуктов по городам</h2>
+                    <h1>{{ seo.h1 }}</h1>
                     <div class="search-section">
                         <form class="auth-form search-head" target="_blank">
                             <div class="form-group" style="position: relative;">
@@ -264,7 +48,7 @@
                             {% for city in block_cities %}
                                 <div class="swiper-slide">
                                     <a href="{{ city.slug }}/" class="food-categories">
-                                        <h4 class="dark-text">{{ city.name }}</h4>
+                                        <p class="dark-text">{{ city.name }}</p>
                                     </a>
                                 </div>
                             {% endfor %}
@@ -277,13 +61,21 @@
     </section>
     <!-- home section end -->
 
+    <div class="button-container">
+        {% for button in buttons %}
+        {% include "food/components/link-button.html" with button=button %}
+        {% endfor %}
+    </div>
 
     <style>
-        .button-container {
+        .button-container{
+            margin-top: 70px;
+            text-align: center;
             position: relative;
         }
-
+        
         .sticky {
+            margin-top: 0 !important;
             position: fixed;
             top: 10px;
             left: 50%;
@@ -291,16 +83,9 @@
             z-index: 1000;
         }
     </style>
-    <div class="button-container" style="margin-top: 70px; text-align: center;">
-        {% for button in buttons %}
-        <button class="link-button">
-            <a target="_blank" href="{{button.ref}}" >{{ button.text }}</a>
-        </button>
-        {% endfor %}
-    </div>
 
     <!-- cities section start -->
-    <section class="section-b-space overflow-hidden" style="padding-top: calc((50 * (100vw - 320px) / 1600) * 2);">
+    <section class="section-b-space overflow-hidden" style="padding-top: calc((50 * (100vw - 320px) / 1600) * 2); padding-bottom: 0;">
         <div class="container index-main-text">
             {{ seo.text|safe }}
         </div>
@@ -402,7 +187,7 @@
                                     <img class="img-fluid brand-img" src="{{ shop.shop.image }}" alt="{{ shop.name }}">
                                 </a>
                                 <a href="/{{ shop.city.slug }}/place-market/{{ shop.slug }}/">
-                                    <h4>{{ shop.name }}</h4>
+                                    <p>{{ shop.name }}</p>
                                 </a>
                             </div>
                         </div>
@@ -437,7 +222,7 @@
     <!-- popular restaurant section end -->
 
     <!-- footer section start -->
-    {% include "food/footer.html" %}
+    {% include "food/components/footer.html" %}
     <!-- footer section end -->
 
     <!-- mobile fix menu start -->
@@ -473,55 +258,6 @@
     -->
     <!-- mobile fix menu end -->
 
-    <!-- location offcanvas start -->
-    <div class="modal fade location-modal" id="location" data-bs-backdrop="static" data-bs-keyboard="false"
-        tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="modal-title">
-                        <h5 class="fw-semibold">Select a Location</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <div class="search-section">
-                        <form class="form_search" role="form">
-                            <input type="search" placeholder="Search Location" class="nav-search nav-search-field">
-                        </form>
-                    </div>
-                    <a href="#!" class="current-location">
-                        <div class="current-address">
-                            <i class="ri-focus-3-line focus"></i>
-                            <div>
-                                <h5>Use current-location</h5>
-                                <h6>Wellington St., Ottawa, Ontario, Canada</h6>
-                            </div>
-                        </div>
-                        <i class="ri-arrow-right-s-line arrow"></i>
-                    </a>
-                    <h5 class="mt-sm-3 mt-2 fw-medium recent-title dark-text">
-                        Recent Location
-                    </h5>
-                    <a href="#!" class="recent-location">
-                        <div class="recant-address">
-                            <i class="ri-map-pin-line theme-color"></i>
-                            <div>
-                                <h5>Bayshore</h5>
-                                <h6>kingston St., Ottawa, Ontario, Canada</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="modal-footer">
-                    <a href="#" class="btn gray-btn" data-bs-dismiss="modal">Close</a>
-                    <a href="#" class="btn theme-btn mt-0" data-bs-dismiss="modal">Save</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- location offcanvas end -->
-
     <!-- theme btn start -->
     <div class="theme-btns">
         <button type="button" class="btntheme mode-change-button">
@@ -536,10 +272,6 @@
         <i class="ri-arrow-up-s-line arrow"></i>
     </button>
     <!-- tap to top end -->
-
-    <!-- responsive space -->
-    <div class="responsive-space"></div>
-    <!-- responsive space -->
 
     <!-- bootstrap js -->
     <script src="/assets/js/bootstrap.bundle.min.js"></script>
@@ -557,6 +289,9 @@
     <!-- script js -->
     <script src="/assets/js/script.js"></script>
     <script src="{% static 'food/js/index-page.js' %}"></script>
+    <script src="{% static 'food/js/restoraunt-page.js' %}"></script>
 </body>
 
 </html>
+
+{% endblock %}

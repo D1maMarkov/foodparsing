@@ -531,11 +531,11 @@ a {
 
 section,
 .section-t-space {
-  padding-top: calc(30px + 50 * (100vw - 320px) / 1600);
+  padding-top: calc(30px + 20 * (100vw - 320px) / 1600);
 }
 
 .section-b-space {
-  padding-bottom: calc(30px + 50 * (100vw - 320px) / 1600);
+  padding-bottom: calc(30px + 20 * (100vw - 320px) / 1600);
 }
 
 .section-md-t-space {
@@ -8721,23 +8721,6 @@ header.header2 .navbar .nav-option .cart-bag {
   }
 }
 .home-wrapper h1 {
-  text-align: center;
-  font-style: italic;
-  font-size: calc(40px + 46 * (100vw - 320px) / 1600);
-  line-height: 1;
-  letter-spacing: 1.5px;
-  margin-top: calc(0px + 71 * (100vw - 320px) / 1600);
-  color: rgba(var(--theme-color), 1);
-  background: -webkit-gradient(linear, left top, right top, from(rgba(var(--theme-color), 1)), to(rgba(var(--theme-color2), 1)));
-  background: linear-gradient(to right, rgba(var(--theme-color), 1), rgba(var(--theme-color2), 1));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-size: 100%;
-  display: inline-block;
-  letter-spacing: 0.06em;
-  margin-top: -11px;
-}
-.home-wrapper h2 {
   margin-top: 5px;
   text-align: center;
   font-weight: 400;

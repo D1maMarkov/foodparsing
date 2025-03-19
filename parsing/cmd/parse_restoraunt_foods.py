@@ -9,9 +9,9 @@ django.setup()
 
 
 def main():
-    from parsing.parser import DishRefsGenerator
+    from parsing.parser import RestorauntFoodNewScrapper
 
-    parser = DishRefsGenerator()
+    parser = RestorauntFoodNewScrapper()
     asyncio.run(parser())
 
 

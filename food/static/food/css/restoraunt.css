@@ -1,15 +1,14 @@
 .link-button{
-    background-color: rgba(var(--theme-color), 1) !important;
     padding: 6px 10px;
     border: none;
-    width: 170px;
+    width: 280px;
     border-radius: 8px;
 }
 
 .link-button a{
     color: white;
     text-decoration: none;
-    font-size: calc(18px + 2*(100vw - 320px) / 1600);
+    font-size: calc(15px + 2*(100vw - 320px) / 1600);
 }
 
 .image-container{
@@ -24,4 +23,18 @@
     width: 60%;
     height: 60%;
     opacity: .7;
+}
+
+.button-container {
+    position: relative;
+    opacity: 0;
+}
+
+.sticky {
+    position: fixed;
+    opacity: 1;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
 }

@@ -2,28 +2,28 @@
     <div class="vertical-product-box">
         <div class="vertical-product-box-img">
             <a href="/{{ restoraunt.city.slug }}/place/{{ restoraunt.slug }}/">
-                <img class="product-img-top w-100 bg-img" src="{{ restoraunt.image }}"
+                <img class="product-img-top w-100 bg-img" src="{{ restoraunt.image_link }}"
                     alt="vp1">
             </a>
         </div>
         <div class="vertical-product-body">
             <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
                 <a href="/{{ restoraunt.city.slug }}/place/{{ restoraunt.slug }}/">
-                    <h4 class="vertical-product-title">{{ restoraunt.name }}</h4>
+                    <p class="vertical-product-title">{{ restoraunt.name }}</p>
                 </a>
-                <h6 class="rating-star">
+                <p class="rating-star">
                     <span class="star"><i class="ri-star-s-fill"></i></span>{{ restoraunt.rating }}
-                </h6>
+                </p>
             </div>
-            <h5 class="product-items">
+            <p class="product-items">
                 Минимальный заказ: {{ restoraunt.min_order }}
-            </h5>
-            <h5 class="product-items">
+            </p>
+            <p class="product-items">
                 Ценовая категория: {{ restoraunt.price_category }}
-            </h5>
+            </p>
             <div
                 class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
-                <h5 class="place">{{ restoraunt.address }}</h5>
+                <p class="place">{{ restoraunt.address }}</p>
             </div>
         </div>
     </div>

@@ -10,6 +10,7 @@ from food.views.templates import (
     ShopView,
 )
 
+
 urlpatterns = [
     path("", Index.as_view()),
     path("<city_slug>/place/<restoraunt_slug>/", RestorauntView.as_view()),

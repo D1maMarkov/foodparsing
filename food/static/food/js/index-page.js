@@ -30,7 +30,7 @@ function generateResHints(restoraunts){
     let restorauntsHTML = ``;
     for (let restoraunt of restoraunts){
         restorauntsHTML += `
-            <li class="hint"><a href=${restoraunt.ref}>${restoraunt.name}</a></li>
+            <li class="hint"><a href=${restoraunt.ref}>${restoraunt.name} ${restoraunt.address}</a></li>
         `
     }
 

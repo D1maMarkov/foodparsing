@@ -66,7 +66,7 @@ class RestorauntHintSerialzier(serializers.ModelSerializer):
 
     class Meta:
         model = Restoraunt
-        fields = ["name", "ref"]
+        fields = ["name", "ref", "address"]
 
     def get_ref(self, restoraunt: dict[str, str]) -> str:
         return f"/{restoraunt['city__slug']}/place/{restoraunt['slug']}/"

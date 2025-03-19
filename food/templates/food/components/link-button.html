@@ -1,0 +1,10 @@
+<button class="link-button"
+    {% if button.type == "Деливери" %}
+        style="background-color: #1ca812;"
+    {% elif button.type == "Яндекс"%}
+        style="background-color: rgb(255, 230, 0);"
+    {% else %}
+        style="background-color: rgb(18, 109, 18);"
+    {% endif %}>
+    <a target="_blank" rel="nofollow external noopener noreferrer sponsored" href="{{ button.ref }}" >{{ button.text }}</a>
+</button>

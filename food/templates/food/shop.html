@@ -1,49 +1,12 @@
+{% extends "food/base.html" %}
+
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
+{% block extra_styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'food/css/restoraunt.css' %}">
+{% endblock %}
 
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="zomo">
-    <meta name="keywords" content="zomo">
-    <meta name="author" content="zomo">
-    <link rel="icon" href="assets/images/logo/favicon.png" type="image/x-icon">
-    <title>{{ seo.title }}</title>
-    <meta name="description" content="{{ seo.description }}" />
-    <link rel="apple-touch-icon" href="assets/images/logo/favicon.png">
-    <meta name="theme-color" content="#ff8d2f">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="zomo">
-    <meta name="msapplication-TileImage" content="assets/images/logo/favicon.png">
-    <meta name="msapplication-TileColor" content="#FFFFFF">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <!--Google font-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
-
-    <!-- bootstrap css -->
-    <link rel="stylesheet" type="text/css" id="rtl-link" href="/assets/css/vendors/bootstrap.css">
-
-    <!-- fancybox css -->
-    <link rel="stylesheet" type="text/css" href="/assets/css/fancybox.css">
-
-    <!-- remixicon css -->
-    <link rel="stylesheet" type="text/css" href="/assets/css/vendors/remixicon.css">
-
-    <link rel="stylesheet" type="text/css" href="{% static 'food/css/restoraunt.css' %}">
-    <!-- Theme css -->
-    <link rel="stylesheet" id="change-link" type="text/css" href="/assets/css/style.css">
-    <!-- Подключение библиотеки jQuery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-</head>
-
+{% block content %}
 <body class="bg-color position-relative">
 
     <!-- Header section start -->
@@ -60,10 +23,10 @@
                 <div class="restaurant-details">
                     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                         <div>
-                            <h2 class="restaurant-name">
+                            <h1 class="restaurant-name">
                                 {{ shop.shop.name }}
-                            </h2>
-                            <h4 class="restaurant-place">{{ shop.shop.address }}</h4>
+                            </h1>
+                            <p class="restaurant-place">{{ shop.shop.address }}</p>
                         </div>
                         <div class="restaurant-description">
                             <div class="categories-icon">
@@ -82,44 +45,11 @@
     <!-- links section starts -->
     <section>
         <div class="container">
-            <style>
-                .button-container {
-                    position: relative;
-                }
-
-                .sticky {
-                    position: fixed;
-                    top: 10px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    z-index: 1000;
-                }
-            </style>
-            <div class="button-container">
-                {% for key, values in refs.items %}
-                {% for link in values %}
-                <button class="link-button">
-                    <a target="_blank" href="{{link}}" >{{ key }}</a>
-                </button>
-                {% endfor %}
+            <div class="button-container" style="opacity: 1;">
+                {% for button in buttons %}
+                {% include "food/components/link-button.html" with button=button %}
                 {% endfor %}
             </div>
-            <script>
-                document.querySelectorAll(".button-container").forEach(button => {
-                    // Сохраняем изначальное вертикальное положение кнопки
-                    const rect = button.getBoundingClientRect();
-                    var originalTop3 = rect.top; // Позиция кнопки относительно начала страницы
-
-                    window.addEventListener('scroll', function() {
-                    var stickyClass3 = 'sticky';
-                    if (window.pageYOffset > originalTop3) {
-                        button.classList.add(stickyClass3);
-                    } else {
-                        button.classList.remove(stickyClass3);
-                    }
-                    });
-                })
-            </script>
         </div>
     </section>
     <!-- links section end -->
@@ -138,15 +68,11 @@
                                 <div class="row g-lg-3 g-2">
                                     <div class="col-lg-4">
                                         <div class="product-sidebar sticky-top">
-                                            <div class="sidebar-search">
-                                                <input type="text" placeholder="Поиск блюд..">
-                                                <i class="ri-search-line"></i>
-                                            </div>
                                             <nav id="navbar" class="product-items pb-0">
                                                 <ul class="nav nav-pills">
                                                     {% for shop_category in shop_categories %}
                                                         <li data-id={{shop_category.id}} onclick="selectFoodCategory(this)">
-                                                            <a>{{ shop_category.name }}</a>
+                                                            <h2 style="cursor: pointer; font-size: calc(13px + 6*(100vw - 320px) / 1600); font-weight: normal;">{{ shop_category.name }}</h2>
                                                         </li>
                                                     {% endfor %}
                                                 </ul>
@@ -158,77 +84,6 @@
                                             <div data-bs-spy="scroll" data-bs-target="#navbar"
                                                 data-bs-smooth-scroll="true" class="scrollspy-example-2" tabindex="0">
                                                 {% include "food/shop-content.html" %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="overview" role="tabpanel" tabindex="0">
-                                <div class="overview-section">
-                                    <div class="row g-3">
-                                        <div class="col-md-6 col-12">
-                                            <div class="overview-content mt-0">
-                                                <h6 class="overview-heading">Phone Number</h6>
-                                                <ul class="content-list">
-                                                    <li>+1 (692)52 - 95555</li>
-                                                </ul>
-                                            </div>
-                                            <div class="overview-content">
-                                                <h6 class="overview-heading">Cuisines</h6>
-                                                <ul class="content-list w-grid">
-                                                    <li>Mexican</li>
-                                                    <li>Italian</li>
-                                                    <li>Chinese</li>
-                                                    <li>Panjabi</li>
-                                                    <li>Street Food</li>
-                                                </ul>
-                                            </div>
-                                            <div class="overview-content">
-                                                <h6 class="overview-heading">Average Cost</h6>
-                                                <ul class="content-list">
-                                                    <li>$300 for Two people (approx.)</li>
-                                                    <li>Cash and Cards accepted</li>
-                                                    <li>Digital payments accepted</li>
-                                                </ul>
-                                            </div>
-                                            <div class="overview-content">
-                                                <h6 class="overview-heading">Known For</h6>
-                                                <ul class="content-list">
-                                                    <li class="w-75">
-                                                        Calming Atmosphere, Weekend Brunch, Elaborate
-                                                        Menu, Staff, Fresh Food, Good Quality
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="overview-content mt-0">
-                                                <h6 class="overview-heading">Address</h6>
-                                                <ul class="content-list">
-                                                    <li class="content-address">
-                                                        +874 Trans-Canada Hwy, Peterborough, ON K9J 6X8,
-                                                        Canada
-                                                    </li>
-                                                    <li>
-                                                        8970 Trans-Canada Hwy, Emo, ON P0W 1E0, Canada
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="overview-content">
-                                                <h6 class="overview-heading">More Info</h6>
-                                                <ul class="content-list w-grid">
-                                                    <li>Breakfast</li>
-                                                    <li>Takeaway</li>
-                                                    <li>Home Delivery</li>
-                                                    <li>Valet Parking</li>
-                                                    <li>Luxury Dining</li>
-                                                    <li>Table booking</li>
-                                                    <li>Brunch</li>
-                                                    <li>Buffet</li>
-                                                    <li>Indoor Seating</li>
-                                                    <li>Outdoor Seating</li>
-                                                    <li>4/5 Star</li>
-                                                </ul>
                                             </div>
                                         </div>
                                     </div>
@@ -292,200 +147,6 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="review" role="tabpanel" tabindex="0">
-                                <div class="review-section">
-                                    <ul class="review-box-list">
-                                        <li>
-                                            <div class="review-box">
-                                                <div class="review-head">
-                                                    <div class="review-image">
-                                                        <img class="img-fluid img" src="/assets/images/icons/p1.png"
-                                                            alt="p1">
-                                                    </div>
-                                                    <div
-                                                        class="d-flex align-sm-items-center justify-content-between w-100">
-                                                        <div>
-                                                            <h6 class="reviewer-name">Gunjan Puri</h6>
-                                                            <ul class="rating-star">
-                                                                <li>
-                                                                    <i class="ri-star-fill star"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill star"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill star"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill star"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill star"></i>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                        <div>
-                                                            <h6>1 month ago</h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="review-content">
-                                                    <h6>Wonderful Experience...!!</h6>
-                                                    <p>
-                                                        Serve a healthy and good food. Having a parking
-                                                        facility and there are also waiting area
-                                                        available. These place is perfect for Celebration
-                                                        of birthday. Serve a healthy and good food. Having
-                                                        a parking facility and there are also waiting area
-                                                        available.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="review-box">
-                                                <div class="review-head">
-                                                    <div class="review-image">
-                                                        <img class="img-fluid img" src="/assets/images/icons/p2.png"
-                                                            alt="p2">
-                                                    </div>
-                                                    <div
-                                                        class="d-flex align-sm-items-center justify-content-between w-100">
-                                                        <div>
-                                                            <h6 class="reviewer-name">Gunjan Puri</h6>
-                                                            <ul class="rating-star">
-                                                                <li>
-                                                                    <i class="ri-star-fill star"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill star"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill star"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill star"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill star"></i>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                        <div>
-                                                            <h6>1 month ago</h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="review-content">
-                                                    <h6>Wonderful Experience...!!</h6>
-                                                    <p>
-                                                        Serve a healthy and good food. Having a parking
-                                                        facility and there are also waiting area
-                                                        available. These place is perfect for Celebration
-                                                        of birthday. Serve a healthy and good food. Having
-                                                        a parking facility and there are also waiting area
-                                                        available.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="review-box">
-                                                <div class="review-head">
-                                                    <div class="review-image">
-                                                        <img class="img-fluid img" src="/assets/images/icons/p5.png"
-                                                            alt="p5">
-                                                    </div>
-                                                    <div
-                                                        class="d-flex align-sm-items-center justify-content-between w-100">
-                                                        <div>
-                                                            <h6 class="reviewer-name">Gunjan Puri</h6>
-                                                            <ul class="rating-star">
-                                                                <li>
-                                                                    <i class="ri-star-fill star"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill star"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill star"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill star"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill star"></i>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                        <div>
-                                                            <h6>1 month ago</h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="review-content">
-                                                    <h6>Wonderful Experience...!!</h6>
-                                                    <p>
-                                                        Serve a healthy and good food. Having a parking
-                                                        facility and there are also waiting area
-                                                        available. These place is perfect for Celebration
-                                                        of birthday. Serve a healthy and good food. Having
-                                                        a parking facility and there are also waiting area
-                                                        available.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="review-box">
-                                                <div class="review-head">
-                                                    <div class="review-image">
-                                                        <img class="img-fluid img" src="/assets/images/icons/p4.png"
-                                                            alt="p4">
-                                                    </div>
-                                                    <div
-                                                        class="d-flex align-sm-items-center justify-content-between w-100">
-                                                        <div>
-                                                            <h6 class="reviewer-name">Gunjan Puri</h6>
-                                                            <ul class="rating-star">
-                                                                <li>
-                                                                    <i class="ri-star-fill star"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill star"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill star"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill star"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill star"></i>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                        <div>
-                                                            <h6>1 month ago</h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="review-content">
-                                                    <h6>Wonderful Experience...!!</h6>
-                                                    <p>
-                                                        Serve a healthy and good food. Having a parking
-                                                        facility and there are also waiting area
-                                                        available. These place is perfect for Celebration
-                                                        of birthday. Serve a healthy and good food. Having
-                                                        a parking facility and there are also waiting area
-                                                        available.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -495,7 +156,7 @@
     <!-- tab section end -->
 
     <!-- footer section starts -->
-    {% include "food/footer.html" %}
+    {% include "food/components/footer.html" %}
     <!-- footer section end -->
 
     <!-- cart fix panel -->
@@ -688,4 +349,4 @@
     <script src="{% static 'food/js/restoraunt-page.js' %}"></script>
 </body>
 
-</html>
+{% endblock %}

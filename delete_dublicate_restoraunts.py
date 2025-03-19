@@ -1,7 +1,6 @@
-from food.models import Restoraunt
 import os
-
 import django
+
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "fooddelivery.settings")
 django.setup()
@@ -20,14 +19,20 @@ class RestorauntInterface:
         return self.city_id == other.city_id and self.slug == other.slug
 
 
-restoraunts = [
-    RestorauntInterface(city_id=r["city_id"], id=r["id"], slug=r["slug"])
-    for r in Restoraunt.objects.values("city_id", "slug", "id")
-][::-1]
+def main():
+    from food.models import Restoraunt
+    restoraunts = [
+        RestorauntInterface(city_id=r["city_id"], id=r["id"], slug=r["slug"])
+        for r in Restoraunt.objects.values("city_id", "slug", "id")
+    ][::-1]
 
-ids = [r.id for r in restoraunts]
-set_ids = [r.id for r in set(restoraunts)]
+    ids = [r.id for r in restoraunts]
+    set_ids = [r.id for r in set(restoraunts)]
 
-ids_to_delete = set(ids) - set(set_ids)
+    ids_to_delete = set(ids) - set(set_ids)
 
-Restoraunt.objects.filter(id__in=ids_to_delete).delete()
+    Restoraunt.objects.filter(id__in=ids_to_delete).delete()
+
+
+if __name__ == "__main__":
+    main()

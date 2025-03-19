@@ -1,4 +1,4 @@
-from django.db.models import Q
+from django.db.models import Q, Exists, OuterRef
 from django.http import HttpRequest, JsonResponse
 from django.template import loader
 from django.views import View
@@ -29,13 +29,13 @@ def get_dishes_context(restoraunt_slug, city_slug, categories):
 def get_shop_context(shop_slug, city_slug):
     city = City.objects.get(slug=city_slug)
 
-    shop = CityShop.objects.get(city_id=city.id, slug=shop_slug)
+    shop = CityShop.objects.select_related('shop').get(city_id=city.id, slug=shop_slug)
 
     query = Q()
 
     query &= Q(products__shop_id=shop)
 
-    categories = ShopCategory.objects.filter(query).order_by("-id")
+    categories = ShopCategory.objects.filter(query).order_by("-id").distinct()
 
     products_query = shop.products.all()
 
@@ -56,8 +56,8 @@ class GetDishesView(View):
 class GetFilteredRestorauntsView(View):
     def get(self, request: HttpRequest) -> JsonResponse:
         restoraunt_name_starts_with = request.GET.get("restoraunt_name")
-        restoraunts = Restoraunt.objects.filter(name__istartswith=restoraunt_name_starts_with).values(
-            "slug", "city__slug", "name"
+        restoraunts = Restoraunt.objects.filter(name__istartswith=restoraunt_name_starts_with).filter(Exists(Dish.objects.filter(restoraunt=OuterRef("pk")))).values(
+            "slug", "city__slug", "name", "address"
         )[0:10]
 
         return JsonResponse({"restoraunts": RestorauntHintSerialzier(restoraunts, many=True).data})

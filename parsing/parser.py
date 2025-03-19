@@ -407,6 +407,11 @@ class RestorauntFoodScrapper(WebScrapper):
         #        await RestorauntRef.objects.abulk_create(self.refs_to_create)
         # self.refs_to_create.clear()
 
+from asgiref.sync import sync_to_async
+from django.db.models import Count
+
+from food.models import City, CityShop, Restoraunt, Shop
+
 
 class RestorauntRefsScrapper(WebScrapper):
     refs_to_create: list[RestorauntRef] = []
@@ -474,14 +479,20 @@ class RestorauntRefsScrapper(WebScrapper):
                     refs = list(refs)
                     for ref in refs:
                         self.refs_to_create.append(
-                            RestorauntRef(ref=ref, restoraunt_id=restoraunt_id, unique_key=f"{restoraunt_id}/{ref}")
+                            RestorauntRef(ref=ref, restoraunt_id=restoraunt_id, unique_key=f"new")
                         )
         except Exception as e:
             print(e)
+    
+    @sync_to_async
+    def get_restoraunts(self):
+        return list(
+            Restoraunt.objects.annotate(count=Count("refs")).filter(count=0).values_list("city__slug", "slug", "id")
+        )
 
     async def __call__(self):
         proxies = await self.get_proxies()
-        restoraunts = await get_restoraunts()
+        restoraunts = await self.get_restoraunts()
         print(len(restoraunts))
 
         async with aiohttp.ClientSession() as session:
@@ -498,18 +509,16 @@ class RestorauntRefsScrapper(WebScrapper):
 
                 await asyncio.gather(*reqs)
                 print("creating...")
-                print(len(self.res_foods))
-                await RestorauntFood.objects.abulk_create(self.res_foods, batch_size=150)
+                await RestorauntRef.objects.abulk_create(
+                    self.refs_to_create
+                )
                 print("created")
-                self.res_foods.clear()
-                # await RestorauntRef.objects.abulk_create(
-                #    self.refs_to_create,
-                #    batch_size=150
+                self.refs_to_create.clear()
+               
                 # update_conflicts=True,
                 # unique_fields=["unique_key"],
                 # update_fields=["restoraunt_id", "ref"]
                 # )
-                # self.refs_to_create.clear()
                 reqs.clear()
 
         #        await RestorauntRef.objects.abulk_create(self.refs_to_create)

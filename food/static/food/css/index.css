@@ -28,15 +28,36 @@ body.dark .index-main-text *{
 }
 
 .link-button{
-    background-color: rgba(var(--theme-color), 1) !important;
     padding: 6px 10px;
     border: none;
-    width: 170px;
+    width: 280px;
     border-radius: 8px;
 }
 
 .link-button a{
     color: white;
     text-decoration: none;
-    font-size: calc(18px + 2*(100vw - 320px) / 1600);
+    font-size: calc(15px + 2*(100vw - 320px) / 1600);
+}
+.sticky button{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+.home-wrapper.home2 h1 {
+    font-size: calc(22px + 26*(100vw - 320px) / 1600);
+    text-align: left;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-top: 0;
+    color: white;
+    letter-spacing: 0.6px;
+}
+
+.footer-section ul{
+    column-count: 3
+}
+@media (max-width: 500px) {
+    .footer-section ul {
+        column-count: 2;
+    }
 }

@@ -6,7 +6,7 @@
 
         {% for product in products %}
             {% if product.category == shop_category %}
-                {% include "food/dish-item.html" with dish=product %}
+                {% include "food/shop-product-item.html" with dish=product %}
             {% endif %}
         {% endfor %}
     {% endfor %}
