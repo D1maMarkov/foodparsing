@@ -21,6 +21,68 @@
 /*=====================
   01. wishlist added start
 ==========================*/
+
+/*======================
+set default theme
+==========================*/
+/*====================
+  08. Dark js
+======================*/
+document.body.style = "transition: 0.5s;";
+const sun = "ri-sun-line";
+const moon = "ri-moon-line";
+
+var theme = "dark";
+const root = document.querySelector(":root");
+const container = document.getElementsByClassName("mode-change-button")[0];
+const themeIcon = document.getElementById("themeIcon");
+container.addEventListener("click", setTheme);
+
+function setTheme() {
+  switch (theme) {
+    case "dark":
+      setLight();
+      theme = "light";
+      break;
+    case "light":
+      setDark();
+      theme = "dark";
+      break;
+  }
+}
+
+function setLight() {
+  root.style.setProperty(
+    "--black-gradient",
+    " linear-gradient(318.32deg, #c3d1e4 0%, #dde7f3 55%, #d4e0ed 100%)"
+  );
+
+  container.classList.remove("shadow-dark");
+  document.body.classList.add("dark");
+  document.body.classList.remove("light");
+  themeIcon.classList.remove(moon);
+  themeIcon.classList.add(sun);
+  localStorage.setItem("darkTheme", true)
+}
+
+function setDark() {
+  document.body.classList.add("light");
+  document.body.classList.remove("dark");
+  themeIcon.classList.add(moon);
+  themeIcon.classList.remove(sun);
+  localStorage.setItem("darkTheme", false)
+}
+const darkTheme = localStorage.getItem('darkTheme');
+if (darkTheme === 'true'){
+  setLight();
+}
+else{
+  setDark();
+}
+console.log(darkTheme);
+
+
+
 const divs = document.querySelectorAll(".like-btn");
 divs.forEach((el) =>
   el.addEventListener("click", (event) => {
@@ -241,51 +303,7 @@ rtlLink.href = localStorage.getItem("rtlcss")
   ? localStorage.getItem("rtlcss")
   : "/assets/css/vendors/bootstrap.css";
 
-/*====================
-  08. Dark js
-======================*/
-document.body.style = "transition: 0.5s;";
-const sun = "ri-sun-line";
-const moon = "ri-moon-line";
 
-var theme = "dark";
-const root = document.querySelector(":root");
-const container = document.getElementsByClassName("mode-change-button")[0];
-const themeIcon = document.getElementById("themeIcon");
-container.addEventListener("click", setTheme);
-
-function setTheme() {
-  switch (theme) {
-    case "dark":
-      setLight();
-      theme = "light";
-      break;
-    case "light":
-      setDark();
-      theme = "dark";
-      break;
-  }
-}
-
-function setLight() {
-  root.style.setProperty(
-    "--black-gradient",
-    " linear-gradient(318.32deg, #c3d1e4 0%, #dde7f3 55%, #d4e0ed 100%)"
-  );
-
-  container.classList.remove("shadow-dark");
-  document.body.classList.add("dark");
-  document.body.classList.remove("light");
-  themeIcon.classList.remove(moon);
-  themeIcon.classList.add(sun);
-}
-
-function setDark() {
-  document.body.classList.add("light");
-  document.body.classList.remove("dark");
-  themeIcon.classList.add(moon);
-  themeIcon.classList.remove(sun);
-}
 
 /*====================
   09. Menu sidebar

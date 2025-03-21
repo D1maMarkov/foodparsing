@@ -34,7 +34,7 @@
                 <ul class="filter-item-list">
                     {% for food in foods %}
                         <li>
-                            <a href="/{{ city.slug }}/{{ food.slug }}/">{{ food.name }}</a>
+                            <a href="/{{ city.dslug }}/{{ food.dslug }}/">{{ food.name }}</a>
                         </li>
                     {% endfor %}
                 </ul>
@@ -42,6 +42,16 @@
         </div>
     </section>
     <!-- foods section ends -->
+
+
+    <!-- text section start -->
+    <section>
+        <div class="container">
+            {{ seo.text|safe }}
+        </div>
+    </section>
+    <!-- text section end -->
+
 
     <!-- popular restaurant section starts -->
     <section class="restaurant-list section-b-space ratio3_2">

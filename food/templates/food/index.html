@@ -47,7 +47,7 @@
                         <div class="swiper-wrapper" style="height: auto;">
                             {% for city in block_cities %}
                                 <div class="swiper-slide">
-                                    <a href="{{ city.slug }}/" class="food-categories">
+                                    <a href="{{ city.dslug }}/" class="food-categories">
                                         <p class="dark-text">{{ city.name }}</p>
                                     </a>
                                 </div>
@@ -96,7 +96,7 @@
             <div class="accordion-body">
                 <ul class="filter-item-list" style="justify-content: center;">
                     {% for city in cities %}
-                        <li style="width: 30%;"><a href="{{ city.slug }}/">{{ city.name }}</a></li>
+                        <li style="width: 30%;"><a href="{{ city.dslug }}/">{{ city.name }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
@@ -183,10 +183,10 @@
                         {% for shop in shops %}
                         <div class="swiper-slide">
                             <div class="brand-box">
-                                <a href="/{{ shop.city.slug }}/place-market/{{ shop.slug }}/" class="food-brands">
+                                <a href="/{{ shop.city.dslug }}/magaziny/{{ shop.dslug }}/" class="food-brands">
                                     <img class="img-fluid brand-img" src="{{ shop.shop.image }}" alt="{{ shop.name }}">
                                 </a>
-                                <a href="/{{ shop.city.slug }}/place-market/{{ shop.slug }}/">
+                                <a href="/{{ shop.city.dslug }}/magaziny/{{ shop.dslug }}/">
                                     <p>{{ shop.name }}</p>
                                 </a>
                             </div>

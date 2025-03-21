@@ -13,9 +13,9 @@ from food.views.templates import (
 
 urlpatterns = [
     path("", Index.as_view()),
-    path("<city_slug>/place/<restoraunt_slug>/", RestorauntView.as_view()),
-    path("<city_slug>/place-market/<shop_slug>/", ShopView.as_view()),
-    path("<city_slug>/place/<restoraunt_slug>/menu/<dish_slug>/", DishView.as_view()),
+    path("<city_slug>/restorany/<restoraunt_slug>/", RestorauntView.as_view()),
+    path("<city_slug>/magaziny/<shop_slug>/", ShopView.as_view()),
+    path("<city_slug>/restorany/<restoraunt_slug>/menu/<dish_slug>/", DishView.as_view()),
     path("<city_slug>/", CityView.as_view()),
     path("<city_slug>/<food_slug>/", CityFoodView.as_view()),
     path("api/dishes", GetDishesView.as_view()),

@@ -28,6 +28,7 @@ def replace_wildcard_templates(string: str, wildcard_variables: dict[str, Any]) 
 
 
 def get_wildcard_seo(seo: Seo, wildcard_variables: dict[str, Any]) -> Seo:
+    print(wildcard_variables)
     if seo.title:
         seo.title = replace_wildcard_templates(seo.title, wildcard_variables)
 

@@ -23,6 +23,10 @@ class City(models.Model):
     class Meta:
         verbose_name = "Город"
         verbose_name_plural = "Города"
+        
+    @property
+    def dslug(self):
+        return self.slug.replace("_", "-")
 
 
 class Food(models.Model):
@@ -36,6 +40,10 @@ class Food(models.Model):
     class Meta:
         verbose_name = "Кухня"
         verbose_name_plural = "Кухни"
+        
+    @property
+    def dslug(self):
+        return self.slug.replace("_", "-")
 
 
 class Restoraunt(models.Model):
@@ -56,6 +64,10 @@ class Restoraunt(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+    @property
+    def dslug(self):
+        return self.slug.replace("_", "-")
     
     @property
     def image_link(self) -> str:
@@ -90,10 +102,9 @@ class Restoraunt(models.Model):
         verbose_name_plural = "Рестораны"
 
 
-class BaseRef(models.Model):
+class Ref(models.Model):
     ref = models.URLField(verbose_name="ссылка", max_length=350)
     text = models.CharField(max_length=50, default="Заказать")
-    unique_key = models.CharField(max_length=300, unique=True, null=True)
 
     def __str__(self):
         return self.text
@@ -102,7 +113,7 @@ class BaseRef(models.Model):
         abstract = True
 
 
-class RestorauntRef(BaseRef):
+class RestorauntRef(Ref):
     restoraunt = models.ForeignKey(Restoraunt, on_delete=models.CASCADE, related_name="refs")
 
     class Meta:
@@ -139,6 +150,10 @@ class Dish(models.Model):
         return self.name
     
     @property
+    def dslug(self):
+        return self.slug.replace("_", "-")
+    
+    @property
     def image_link(self):
         return f"/media/{self.restoraunt_id}/{self.image.split('/')[-1]}"
 
@@ -147,7 +162,7 @@ class Dish(models.Model):
         verbose_name_plural = "Блюда"
 
 
-class DishRef(BaseRef):
+class DishRef(Ref):
     dish = models.ForeignKey(Dish, on_delete=models.CASCADE, related_name="refs")
 
     class Meta:
@@ -204,6 +219,11 @@ class CityShop(models.Model):
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="shops")
     slug = models.CharField(max_length=90)
     unique_key = models.CharField(max_length=30, unique=True, null=True)
+    rating = models.CharField(max_length=3, null=True)
+    
+    @property
+    def dslug(self):
+        return self.slug.replace("_", "-")
 
     class Meta:
         verbose_name = "Магазин в городе"
@@ -243,6 +263,11 @@ class ShopProduct(models.Model):
     price = models.CharField(max_length=10, verbose_name="Цена", null=True)
     weight = models.CharField(max_length=15, verbose_name="Вес", null=True, blank=True)
     unique_key = models.CharField(max_length=40)
+    
+    
+    @property
+    def dslug(self):
+        return self.slug.replace("_", "-")
 
     class Meta:
         verbose_name = "продукт в магазине"
@@ -265,6 +290,9 @@ class Button(models.Model):
     
     class Meta:
         abstract = True
+        
+    def __str__(self) -> str:
+        return f"{self.type} - {self.text}"
 
 
 class IndexPageButton(Button):

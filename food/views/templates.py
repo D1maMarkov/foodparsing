@@ -2,11 +2,9 @@ import random
 
 from django.core.paginator import Paginator
 from django.db.models import Max, Q, Count, Exists, OuterRef
-from django.views.generic import TemplateView
 
-from food.interfaces import PageButton
+from food.get_buttons import get_buttons
 from food.models import (
-    Button,
     City,
     CityShop,
     Dish,
@@ -15,33 +13,21 @@ from food.models import (
     Restoraunt,
     RestorauntPageButton,
     RestorauntRef,
-    Seo,
     ShopPageButton,
 )
 from food.views.api import get_dishes_context, get_shop_context
 
-from food.seo import get_wildcard_seo
-from food.constants import BLOCK_CITIES, FOOTER_CITY_NAMES, ServicesEnum
-
-
-class BaseTemplateView(TemplateView):
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        footer_cities = City.objects.filter(name__in=FOOTER_CITY_NAMES)
-        context["footer_cities"] = footer_cities
-        return context
-
+from food.constants import BLOCK_CITIES
+from food.views.base import BaseTemplateView
+  
 
 class Index(BaseTemplateView):
     template_name = "food/index.html"
+    title = "Главная"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["cities"] = City.objects.filter(Exists(Restoraunt.objects.filter(city=OuterRef("pk"))))
-
-        seo = Seo.objects.get(page_type="Главная")
-
-        context["seo"] = seo
+        context["cities"] = City.objects.filter(Exists(Restoraunt.objects.filter(Exists(Dish.objects.filter(restoraunt=OuterRef("pk"))), city=OuterRef("pk"))))
 
         context["block_cities"] = City.objects.filter(name__in=BLOCK_CITIES)
 
@@ -66,10 +52,12 @@ class Index(BaseTemplateView):
 
 class CityView(BaseTemplateView):
     template_name = "food/city.html"
+    title = "Город"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         slug = kwargs.get("city_slug")
+        print(slug)
         city = City.objects.get(slug=slug)
         restoraunts = Restoraunt.objects.select_related("city").filter(city=city).filter(Exists(Dish.objects.filter(restoraunt=OuterRef("pk"))))
 
@@ -83,53 +71,19 @@ class CityView(BaseTemplateView):
         context["restoraunts_obj"] = restoraunts_obj
         context["foods"] = foods
 
-        context["seo"] = get_wildcard_seo(Seo.objects.get(page_type="Город"), {"city": city})
         context["shops"] = CityShop.objects.annotate(max_id=Max("id"), pc=Count('products')).filter(pc__gte=1, city_id=city.id).select_related("city", "shop")
 
         return context
 
 
-def get_buttons(refs: list[str], default_buttons: list[PageButton]) -> list[PageButton]:
-    buttons = []
-    for ref in refs:
-        if "market-delivery.yandex.ru" in ref:
-            buttons.append(
-                PageButton(
-                    ref=ref,
-                    text="Заказать доставку в Деливери",
-                    type=ServicesEnum.delivery
-                )
-            )
-        elif "eda.yandex.ru" in ref:
-            buttons.append(
-                PageButton(
-                    ref=ref,
-                    text="Заказать доставку в Яндекс Еда",
-                    type=ServicesEnum.yandex
-                )
-            )
-    
-    for service in ServicesEnum.list():
-        butt_exists = False
-        for button in buttons:
-            if button.type == service:
-                butt_exists = True
-        
-        if not butt_exists:
-            for default_button in default_buttons:
-                if default_button.type == service:
-                    buttons.append(default_button)
-
-    return buttons
-
-
 class RestorauntView(BaseTemplateView):
     template_name = "food/restoraunt.html"
+    title = "Ресторан"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        restoraunt_slug = kwargs.get("restoraunt_slug")
-        city_slug = kwargs.get("city_slug")
+        restoraunt_slug = kwargs.get("restoraunt_slug").replace("-", "_")
+        city_slug = kwargs.get("city_slug").replace("-", "_")
 
         foods = Food.objects.filter(
             restoraunt_foods__restoraunt__slug=restoraunt_slug
@@ -141,30 +95,27 @@ class RestorauntView(BaseTemplateView):
 
         context |= dishes_context
 
-
-        refs = RestorauntRef.objects.filter(restoraunt=dishes_context["restoraunt"]).values_list("ref", flat=True)
+        refs = RestorauntRef.objects.filter(restoraunt=dishes_context["restoraunt"])
         res_buttons = RestorauntPageButton.objects.all()
         buttons = get_buttons(refs, res_buttons)
-        
+
         context["buttons"] = buttons
-        context["seo"] = get_wildcard_seo(Seo.objects.get(page_type="Ресторан"), dishes_context | {"buttons": buttons})
 
         return context
 
 
 class ShopView(BaseTemplateView):
     template_name = "food/shop.html"
+    title = "Магазин"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        shop_slug = kwargs.get("shop_slug")
+        shop_slug = kwargs.get("shop_slug").replace("-", "_")
         city_slug = kwargs.get("city_slug")
 
         dishes_context = get_shop_context(shop_slug=shop_slug, city_slug=city_slug)
 
         context |= dishes_context
-
-        context["seo"] = get_wildcard_seo(Seo.objects.get(page_type="Магазин"), dishes_context)
 
         buttons = get_buttons([], ShopPageButton.objects.all())
         context["buttons"] = buttons
@@ -174,10 +125,11 @@ class ShopView(BaseTemplateView):
 
 class CityFoodView(BaseTemplateView):
     template_name = "food/city_food.html"
-
+    title = "Кухня"
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        city_slug = kwargs.get("city_slug")
+        city_slug = kwargs.get("city_slug").replace("-", "_")
         food_id = kwargs.get("food_slug")
 
         city = City.objects.get(slug=city_slug)
@@ -201,19 +153,18 @@ class CityFoodView(BaseTemplateView):
         context["foods"] = Food.objects.filter(restoraunt_foods__restoraunt__city_id=city.id).distinct()
         context["restoraunts_obj"] = restoraunts_obj
 
-        context["seo"] = get_wildcard_seo(Seo.objects.get(page_type="Кухня"), {"city": city, "food": food})
-
         return context
 
 
 class DishView(BaseTemplateView):
     template_name = "food/dish.html"
+    title = "Блюдо"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        city_slug = kwargs.get("city_slug")
-        restoraunt_slug = kwargs.get("restoraunt_slug")
-        dish_slug = kwargs.get("dish_slug")
+        city_slug = kwargs.get("city_slug").replace("-", "_")
+        restoraunt_slug = kwargs.get("restoraunt_slug").replace("-", "_")
+        dish_slug = kwargs.get("dish_slug").replace("-", "_")
 
         city = City.objects.get(slug=city_slug)
         restoraunt = Restoraunt.objects.filter(slug=restoraunt_slug).first()

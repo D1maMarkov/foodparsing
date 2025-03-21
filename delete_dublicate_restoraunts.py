@@ -21,17 +21,24 @@ class RestorauntInterface:
 
 def main():
     from food.models import Restoraunt
-    restoraunts = [
-        RestorauntInterface(city_id=r["city_id"], id=r["id"], slug=r["slug"])
-        for r in Restoraunt.objects.values("city_id", "slug", "id")
-    ][::-1]
+    #restoraunts = [
+    #    RestorauntInterface(city_id=r["city_id"], id=r["id"], slug=r["slug"])
+    #    for r in Restoraunt.objects.values("city_id", "slug", "id")
+    #][::-1]
+    #print(111)
+    #restoraunts = list(Restoraunt.objects.values("city_id", "slug", "id"))
+    #restoraunts = [RestorauntInterface(city_id=r["city_id"], id=r["id"], slug=r["slug"]) for r in restoraunts]
+    #print(222)
+    c = Restoraunt.objects.count()
+    print(c)
 
-    ids = [r.id for r in restoraunts]
+    '''ids = [r.id for r in restoraunts]
     set_ids = [r.id for r in set(restoraunts)]
 
     ids_to_delete = set(ids) - set(set_ids)
-
-    Restoraunt.objects.filter(id__in=ids_to_delete).delete()
+    print(ids_to_delete)
+    print(len(ids_to_delete))'''
+    #Restoraunt.objects.filter(id__in=ids_to_delete).delete()
 
 
 if __name__ == "__main__":

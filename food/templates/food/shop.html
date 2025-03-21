@@ -42,6 +42,14 @@
     </section>
     <!-- banner section end -->
 
+    <!-- text section start -->
+    <section>
+        <div class="container" style="color: rgba(var(--dark-text), 1);">
+            {{ seo.text|safe }}
+        </div>
+    </section>
+    <!-- text section end -->
+
     <!-- links section starts -->
     <section>
         <div class="container">
@@ -61,14 +69,14 @@
                 <div class="row g-4">
                     <div class="col-lg-9">
                         <div class="menu-button d-inline-block d-lg-none">
-                            <a href="#!"><i class="ri-book-open-line"></i> Menu</a>
+                            <a href="#!"><i class="ri-book-open-line"></i> Меню</a>
                         </div>
                         <div class="tab-content product-details-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="online" role="tabpanel" tabindex="0">
                                 <div class="row g-lg-3 g-2">
                                     <div class="col-lg-4">
                                         <div class="product-sidebar sticky-top">
-                                            <nav id="navbar" class="product-items pb-0">
+                                            <nav id="navbar" class="product-items pb-0" style="color: rgba(var(--dark-text), 1);">
                                                 <ul class="nav nav-pills">
                                                     {% for shop_category in shop_categories %}
                                                         <li data-id={{shop_category.id}} onclick="selectFoodCategory(this)">
@@ -89,64 +97,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="photo" role="tabpanel" tabindex="0">
-                                <div class="photos-section ratio_landscape">
-                                    <ul class="photos-list">
-                                        <li>
-                                            <a href="assets/images/service/6.jpg" data-fancybox="images"
-                                                data-type="image">
-                                                <img class="img-fluid bg-img" src="/assets/images/service/6.jpg" alt="6">
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="assets/images/service/7.jpg" data-fancybox="images"
-                                                data-type="image">
-                                                <img class="img-fluid bg-img" src="/assets/images/service/7.jpg" alt="7">
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="assets/images/service/8.jpg" data-fancybox="images"
-                                                data-type="image">
-                                                <img class="img-fluid bg-img" src="/assets/images/service/8.jpg" alt="8">
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="assets/images/service/9.jpg" data-fancybox="images"
-                                                data-type="image">
-                                                <img class="img-fluid bg-img" src="/assets/images/service/9.jpg" alt="9">
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="assets/images/service/10.jpg" data-fancybox="images"
-                                                data-type="image">
-                                                <img class="img-fluid bg-img" src="/assets/images/service/10.jpg"
-                                                    alt="10">
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="assets/images/service/11.jpg" data-fancybox="images"
-                                                data-type="image">
-                                                <img class="img-fluid bg-img" src="/assets/images/service/11.jpg"
-                                                    alt="11">
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="assets/images/service/12.jpg" data-fancybox="images"
-                                                data-type="image">
-                                                <img class="img-fluid bg-img" src="/assets/images/service/12.jpg"
-                                                    alt="12">
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="assets/images/service/13.jpg" data-fancybox="images"
-                                                data-type="image">
-                                                <img class="img-fluid bg-img" src="/assets/images/service/13.jpg"
-                                                    alt="13">
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -158,142 +108,6 @@
     <!-- footer section starts -->
     {% include "food/components/footer.html" %}
     <!-- footer section end -->
-
-    <!-- cart fix panel -->
-    <!-- <div class="fixed-btn d-lg-none d-block">
-        <div class="custom-container">
-            <div class="cart-fixed-bottom">
-                <h6 class="fw-medium">3 items</h6>
-                <a href="checkout.html" class="cart-fixed-right">
-                    <h6 class="fw-medium text-white">
-                        View cart <i class="ri-arrow-right-line"></i>
-                    </h6>
-                </a>
-            </div>
-        </div>
-    </div> -->
-    <!-- cart fix panel -->
-
-    <!-- location offcanvas start -->
-    <div class="modal fade location-modal" id="location" data-bs-backdrop="static" data-bs-keyboard="false"
-        tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="modal-title">
-                        <h5 class="fw-semibold">Select a Location</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <div class="search-section">
-                        <form class="form_search" role="form">
-                            <input type="search" placeholder="Search Location" class="nav-search nav-search-field">
-                        </form>
-                    </div>
-                    <a href="#!" class="current-location">
-                        <div class="current-address">
-                            <i class="ri-focus-3-line focus"></i>
-                            <div>
-                                <h5>Use current-location</h5>
-                                <h6>Wellington St., Ottawa, Ontario, Canada</h6>
-                            </div>
-                        </div>
-                        <i class="ri-arrow-right-s-line arrow"></i>
-                    </a>
-                    <h5 class="mt-sm-3 mt-2 fw-medium recent-title dark-text">
-                        Recent Location
-                    </h5>
-                    <a href="#!" class="recent-location">
-                        <div class="recant-address">
-                            <i class="ri-map-pin-line theme-color"></i>
-                            <div>
-                                <h5>Bayshore</h5>
-                                <h6>kingston St., Ottawa, Ontario, Canada</h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="modal-footer">
-                    <a href="#" class="btn gray-btn" data-bs-dismiss="modal">Close</a>
-                    <a href="#" class="btn theme-btn mt-0" data-bs-dismiss="modal">Save</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- location offcanvas end -->
-
-    <!-- customized modal starts -->
-    <div class="modal customized-modal" id="customized" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="container">
-                    <div class="filter-header">
-                        <h5 class="title">Custom Food</h5>
-                        <a href="#" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></a>
-                    </div>
-                    <div class="filter-body">
-                        <div class="filter-title">
-                            <h5 class="fw-medium dark-text">Choose Size</h5>
-                        </div>
-                        <ul class="filter-list">
-                            <li>
-                                <h6 class="product-size">Size S</h6>
-                                <div class="form-check product-price">
-                                    <label class="form-check-label" for="reverseCheck1">$18</label>
-                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck1">
-                                </div>
-                            </li>
-                            <li>
-                                <h6 class="product-size">Size M</h6>
-                                <div class="form-check product-price">
-                                    <label class="form-check-label" for="reverseCheck1">$20</label>
-                                    <input class="form-check-input" type="checkbox" id="reverseCheck2" checked>
-                                </div>
-                            </li>
-                            <li>
-                                <h6 class="product-size">Size L</h6>
-                                <div class="form-check product-price">
-                                    <label class="form-check-label" for="reverseCheck1">$22</label>
-                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck3">
-                                </div>
-                            </li>
-                        </ul>
-                        <div class="filter-title">
-                            <h5 class="fw-medium dark-text">Choose Size</h5>
-                        </div>
-                        <ul class="filter-list border-0">
-                            <li>
-                                <h6 class="product-size">Chili sauce</h6>
-                                <div class="form-check product-price">
-                                    <label class="form-check-label" for="reverseCheck1">$18</label>
-                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck4">
-                                </div>
-                            </li>
-                            <li>
-                                <h6 class="product-size">Mustard</h6>
-                                <div class="form-check product-price">
-                                    <label class="form-check-label" for="reverseCheck1">$20</label>
-                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck5" checked>
-                                </div>
-                            </li>
-                            <li>
-                                <h6 class="product-size">Special dipping sauce</h6>
-                                <div class="form-check product-price">
-                                    <label class="form-check-label" for="reverseCheck1">$22</label>
-                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck6">
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="filter-footer">
-                        <a href="#" class="btn theme-btn add-btn w-100 mt-0" data-bs-dismiss="modal">Apply</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- customized modal end -->
 
     <!-- toast starts -->
     <div class="toast-container position-fixed top-0 end-0 p-3">
