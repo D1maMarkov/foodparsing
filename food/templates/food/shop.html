@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block extra_styles %}
+{% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'food/css/restoraunt.css' %}">
 {% endblock %}
 
@@ -18,15 +18,15 @@
         <div class="container">
             <div class="restaurant-box">
                 <div class="restaurant-image">
-                    <img class="img-fluid img" style="width: auto;" src="{{ shop.shop.image }}" alt="brand13">
+                    <img class="img-fluid img" style="width: auto;" src="{{ shop.image }}" alt="{{ shop.name }}">
                 </div>
                 <div class="restaurant-details">
                     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                         <div>
                             <h1 class="restaurant-name">
-                                {{ shop.shop.name }}
+                                {{ seo.h1 }}
                             </h1>
-                            <p class="restaurant-place">{{ shop.shop.address }}</p>
+                            <p class="restaurant-place">{{ shop.city }}</p>
                         </div>
                         <div class="restaurant-description">
                             <div class="categories-icon">
@@ -51,6 +51,7 @@
     <!-- text section end -->
 
     <!-- links section starts -->
+    {% if buttons %}
     <section>
         <div class="container">
             <div class="button-container" style="opacity: 1;">
@@ -60,6 +61,7 @@
             </div>
         </div>
     </section>
+    {% endif %}
     <!-- links section end -->
 
     <!-- tab section starts -->

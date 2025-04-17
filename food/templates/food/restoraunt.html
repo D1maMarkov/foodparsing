@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block extra_styles %}
+{% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'food/css/restoraunt.css' %}">
 {% endblock %}
 
@@ -24,7 +24,7 @@
                     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                         <div>
                             <h1 class="restaurant-name">
-                                {{ restoraunt.name }}
+                                {{ seo.h1 }}
                             </h1>
                             <span class="restaurant-place">{{ restoraunt.full_address }}</span>
                         </div>

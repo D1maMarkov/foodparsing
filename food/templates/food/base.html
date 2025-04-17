@@ -1,5 +1,5 @@
 {% load static %}
-
+<!DOCTYPE html>
 <html lang="ru">
 
 <head>
@@ -7,8 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{{ seo.description }}">
-    <meta name="keywords" content="zomo">
-    <meta name="author" content="zomo">
     <link rel="icon" href="/assets/images/logo/favicon.png" type="image/x-icon">
     <title>{{ seo.title }}</title>
     <link rel="apple-touch-icon" href="/assets/images/logo/favicon.png">
@@ -40,7 +38,7 @@
     <link rel="stylesheet" id="change-link" type="text/css" href="/assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="{% static 'food/css/index.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    {% block extra_styles %}
+    {% block head %}
     {% endblock %}
 </head>
 

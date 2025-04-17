@@ -21,6 +21,9 @@ class ContextDecoratorMeta(type):
                 context["seo"] = get_wildcard_seo(Seo.objects.get(page_type=self.title), context)
                 footer_cities = City.objects.filter(name__in=FOOTER_CITY_NAMES)
                 context["footer_cities"] = footer_cities
+                request = getattr(self, "request")
+                if request:
+                    context["first_page_url"] = request.build_absolute_uri(request.path)
                 return context
 
             attrs['get_context_data'] = wrapped_get_context_data

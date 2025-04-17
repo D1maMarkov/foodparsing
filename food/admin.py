@@ -20,7 +20,7 @@ from food.models import (
 
 
 class CityAdmin(admin.ModelAdmin):
-    pass
+    search_fields = ["slug", "name"]
 
 
 class FoodAdmin(admin.ModelAdmin):
@@ -51,6 +51,10 @@ class RestourantAdmin(admin.ModelAdmin):
 
 class DishCategoryAdmin(admin.ModelAdmin):
     pass
+
+
+class CityShopAdmin(admin.ModelAdmin):
+    search_fields = ["slug"]
 
 
 class DishRefInline(admin.StackedInline):
@@ -106,6 +110,8 @@ class SeoAdmin(admin.ModelAdmin):
                 + "<br><code>[shop.address]</code>"
                 + "<br><code>[shop.min_order]</code>"
                 + "<br><code>[shop.price_category]</code>"
+                + "<br><code>[shop.product_categories_count]</code>"
+                + "<br><code>[shop.product_categories_html]</code>"
                 + "<br><code>[current_date]</code>"
                 + "<br><code>[button.delivery]</code>"
                 + "<br><code>[button.yandex]</code>"
@@ -121,7 +127,7 @@ admin.site.register(Restoraunt, RestourantAdmin)
 admin.site.register(City, CityAdmin)
 admin.site.register(Food, FoodAdmin)
 admin.site.register(Shop, ShopAdmin)
-admin.site.register(CityShop)
+admin.site.register(CityShop, CityShopAdmin)
 admin.site.register(Seo, SeoAdmin)
 admin.site.register(ShopProduct)
 admin.site.register(IndexPageButton)

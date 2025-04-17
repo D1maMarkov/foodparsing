@@ -2,6 +2,10 @@
 
 {% load static %}
 
+{% block head %}
+<link rel="canonical" href="{{ first_page_url }}">
+{% endblock %}
+
 {% block content %}
 <body class="bg-color">
 
@@ -34,7 +38,7 @@
                 <ul class="filter-item-list">
                     {% for food in foods %}
                     <li>
-                        <a href="/{{ city.dslug }}/{{ food.dslug }}/">{{ food.name }}</a>
+                        <a href="/{{ city.slug }}/{{ food.slug }}/">{{ food.name }}</a>
                     </li>
                     {% endfor %}
                 </ul>
@@ -42,6 +46,14 @@
         </div>
     </section>
     <!-- foods section ends -->
+
+    <!-- text section start -->
+    <section>
+        <div class="container" style="color: rgba(var(--dark-text), 1);">
+            {{ seo.text|safe }}
+        </div>
+    </section>
+    <!-- text section end -->
 
     <!-- popular restaurant section starts -->
     <section class="restaurant-list section-b-space ratio3_2">

@@ -28,31 +28,26 @@ def replace_wildcard_templates(string: str, wildcard_variables: dict[str, Any]) 
 
 
 def get_wildcard_seo(seo: Seo, wildcard_variables: dict[str, Any]) -> Seo:
-    print(wildcard_variables)
-    if seo.title:
-        seo.title = replace_wildcard_templates(seo.title, wildcard_variables)
+    buttons = wildcard_variables.get("buttons")
 
-    if seo.h1:
-        seo.h1 = replace_wildcard_templates(seo.h1, wildcard_variables)
+    for attr_name, attr_type in Seo.__annotations__.items():
+        seo_text = getattr(seo, attr_name)
+        if attr_type == str and seo_text:
+            seo_text = seo_text.replace("[current_date]", get_formatted_date())
+            if buttons:
+                for button in buttons:
+                    if button.type == ServicesEnum.delivery:
+                        button_html = render_template(app_name="food", template_name="components/link-button", context={"button": button})
+                        seo_text = seo_text.replace("[button.delivery]", button_html)
+                        seo_text = seo_text.replace("[link_mobile.delivery]", button.ref + "/apps")
+                        
+                    if button.type == ServicesEnum.yandex:
+                        button_html = render_template(app_name="food", template_name="components/link-button", context={"button": button})
+                        seo_text = seo_text.replace("[button.yandex]", button_html)
+                        seo_text = seo_text.replace("[link_mobile.yandex]", button.ref + "/apps")
 
-    if seo.text:
-        seo.text = seo.text.replace("[current_date]", get_formatted_date())
-        buttons = wildcard_variables.get("buttons")
-        if buttons:
-            for button in buttons:
-                if button.type == ServicesEnum.delivery:
-                    button_html = render_template(app_name="food", template_name="components/link-button", context={"button": button})
-                    seo.text = seo.text.replace("[button.delivery]", button_html)
-                    seo.text = seo.text.replace("[link_mobile.delivery]", button.ref + "/apps")
-                    
-                if button.type == ServicesEnum.yandex:
-                    button_html = render_template(app_name="food", template_name="components/link-button", context={"button": button})
-                    seo.text = seo.text.replace("[button.yandex]", button_html)
-                    seo.text = seo.text.replace("[link_mobile.yandex]", button.ref + "/apps")
+            seo_text = replace_wildcard_templates(seo_text, wildcard_variables)
+                        
+            setattr(seo, attr_name, seo_text)
 
-        seo.text = replace_wildcard_templates(seo.text, wildcard_variables)
-    
-    if seo.description:
-        seo.description = replace_wildcard_templates(seo.description, wildcard_variables)
-    
     return seo

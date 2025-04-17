@@ -24,17 +24,30 @@ from food.models import (
 )
 from parsing.db import get_cities, get_city_shops, get_restoraunts
 from parsing.models import Proxy
-
+import brotli
+from fake_useragent import UserAgent
 
 class WebScrapper:
     def __init__(self, maximum_connections: int = 10):
         self.semaphore: Semaphore = Semaphore(maximum_connections)
         self.url = settings.PARSE_URL
-        self.headers = {"User-Agent": "MyApp/1.0", "Accept": "application/json"}
+        ua = UserAgent()
+        self.headers = {
+            'User-Agent': ua.random,
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'DNT': '1',
+            'Connection': 'keep-alive',
+            'Upgrade-Insecure-Requests': '1',
+            'Sec-Fetch-Dest': 'document',
+            'Sec-Fetch-Mode': 'navigate',
+            'Sec-Fetch-Site': 'none',
+            'Sec-Fetch-User': '?1',
+        }
 
-    @sync_to_async
-    def get_proxies(self) -> list[str]:
-        return [str(proxy) for proxy in Proxy.objects.all()]
+    async def get_proxies(self) -> list[str]:
+        return [str(proxy) async for proxy in Proxy.objects.all()]
 
 
 class RestorauntPageScrapper(WebScrapper):
@@ -291,18 +304,20 @@ class RestorauntsParser(WebScrapper):
 
 class CityScrapper(WebScrapper):
     async def __call__(self):
-        # proxies = await self.get_proxies()
-        proxies = []
+        #proxies = await self.get_proxies()
+        proxies=[]
         if proxies:
             proxy = random.choice(proxies)
         else:
             proxy = None
 
         async with aiohttp.ClientSession() as session:
+            print(self.url)
             try:
                 async with self.semaphore:
-                    response = await session.get(self.url, headers=self.headers, proxy=proxy)
-                    print(response.status)
+                    response = await session.get(self.url, headers=self.headers, proxy=proxy, timeout=30)
+                    print(response.status, "status")
+
                     if response.status == 200:
                         page_content = await response.read()
                         soup = BeautifulSoup(page_content, "html.parser")
@@ -319,7 +334,7 @@ class CityScrapper(WebScrapper):
                             await City.objects.aupdate_or_create(name=name, defaults={"slug": slug, "title": title})
 
             except Exception as e:
-                print(e)
+                print(e, "error")
 
 
 class RestorauntFoodScrapper(WebScrapper):
@@ -329,7 +344,6 @@ class RestorauntFoodScrapper(WebScrapper):
     async def parse_restoraunt_page(self, session, city_slug, restoraunt_slug, restoraunt_id, ind, proxy):
         url = f"{self.url}/{city_slug}/place/{restoraunt_slug}/"
         try:
-            # if 2:
             async with self.semaphore:
                 response = await session.get(url, headers=self.headers, proxy=proxy)
 

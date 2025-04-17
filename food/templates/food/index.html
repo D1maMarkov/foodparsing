@@ -47,7 +47,7 @@
                         <div class="swiper-wrapper" style="height: auto;">
                             {% for city in block_cities %}
                                 <div class="swiper-slide">
-                                    <a href="{{ city.dslug }}/" class="food-categories">
+                                    <a href="{{ city.slug }}/" class="food-categories">
                                         <p class="dark-text">{{ city.name }}</p>
                                     </a>
                                 </div>
@@ -96,7 +96,7 @@
             <div class="accordion-body">
                 <ul class="filter-item-list" style="justify-content: center;">
                     {% for city in cities %}
-                        <li style="width: 30%;"><a href="{{ city.dslug }}/">{{ city.name }}</a></li>
+                        <li style="width: 30%;"><a href="{{ city.slug }}/">{{ city.name }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
@@ -110,30 +110,6 @@
             <div class="title restaurant-title w-border pb-0">
                 <h2>Рестораны</h2>
                 <div class="loader-line"></div>
-                <ul class="nav nav-pills restaurant-tab tab-style2 w-100 border-0 m-0" id="Tab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="pill-delivery-tab" data-bs-toggle="pill"
-                            data-bs-target="#delivery-tab">
-                            Быстрая доставка
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pill-rating-tab" data-bs-toggle="pill"
-                            data-bs-target="#rating-tab">
-                            Рейтинг
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pill-veg-tab" data-bs-toggle="pill" data-bs-target="#veg-tab">
-                            Овощи
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pill-cost-tab" data-bs-toggle="pill" data-bs-target="#cost-tab">
-                            Стоимость
-                        </button>
-                    </li>
-                </ul>
             </div>
             <div class="tab-content restaurant-content" id="TabContent">
                 <div class="tab-pane fade show active" id="delivery-tab">
@@ -177,16 +153,18 @@
                 <h2>Магазины</h2>
                 <div class="loader-line"></div>
             </div>
-            <div class="theme-arrow">
+            <div class="theme-arrow" style="background-color: rgb(90, 90, 90);
+            padding: 14px;
+            border-radius: 10px;">
                 <div class="swiper brands-logo">
                     <div class="swiper-wrapper" style="height: auto;">
                         {% for shop in shops %}
                         <div class="swiper-slide">
                             <div class="brand-box">
-                                <a href="/{{ shop.city.dslug }}/magaziny/{{ shop.dslug }}/" class="food-brands">
-                                    <img class="img-fluid brand-img" src="{{ shop.shop.image }}" alt="{{ shop.name }}">
+                                <a href="/{{ shop.city.slug }}/magaziny/{{ shop.slug }}/" class="food-brands">
+                                    <img class="img-fluid brand-img" src="{{ shop.image }}" alt="{{ shop.name }}">
                                 </a>
-                                <a href="/{{ shop.city.dslug }}/magaziny/{{ shop.dslug }}/">
+                                <a href="/{{ shop.city.slug }}/magaziny/{{ shop.slug }}/">
                                     <p>{{ shop.name }}</p>
                                 </a>
                             </div>

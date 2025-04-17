@@ -1,25 +1,25 @@
 <div class="col-xl-3 col-lg-4 col-sm-6">
     <div class="vertical-product-box shop">
         <div class="vertical-product-box-img">
-            <a href="/{{ city.dslug }}/magaziny/{{ shop.dslug }}/" style="background-color: rgb(220, 220, 220); ">
-                <img class="product-img-top w-100 bg-img" src="{{ shop.shop.image }}"
+            <a href="/{{ city.slug }}/magaziny/{{ shop.slug }}/" style="background-color: rgb(220, 220, 220); ">
+                <img class="product-img-top w-100 bg-img" src="{{ shop.image }}"
                     alt="vp1">
             </a>
         </div>
         <div class="vertical-product-body">
             <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
-                <a href="/{{ city.dslug }}/magaziny/{{ shop.dslug }}/">
-                    <p class="vertical-product-title">{{ shop.shop.name }}</p>
+                <a href="/{{ city.slug }}/magaziny/{{ shop.slug }}/">
+                    <p class="vertical-product-title">{{ shop.name }}</p>
                 </a>
                 <p class="rating-star">
                     <span class="star"><i class="ri-star-s-fill"></i></span>{{ shop.rating }}
                 </p>
             </div>
             <p class="product-items">
-                Минимальный заказ: {{ shop.shop.min_order }}
+                Минимальный заказ: {{ shop.min_order }}
             </p>
             <p class="product-items">
-                Ценовая категория: {{ shop.shop.price_category }}
+                Ценовая категория: {{ shop.price_category }}
             </p>
         </div>
     </div>

@@ -7,8 +7,6 @@ function selectFoodCategory(element){
 
     element.classList.add("selected")
 
-    const pathList = window.location.pathname.split("/");
-
     let categoryName = '';
 
     document.querySelectorAll(".nav-pills li.selected h2").forEach(

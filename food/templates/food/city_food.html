@@ -2,6 +2,10 @@
 
 {% load static %}
 
+{% block head %}
+<link rel="canonical" href="{{ first_page_url }}">
+{% endblock %}
+
 {% block content %}
 <body class="bg-color">
 
@@ -34,7 +38,7 @@
                 <ul class="filter-item-list">
                     {% for food in foods %}
                         <li>
-                            <a href="/{{ city.dslug }}/{{ food.dslug }}/">{{ food.name }}</a>
+                            <a href="/{{ city.slug }}/{{ food.slug }}/">{{ food.name }}</a>
                         </li>
                     {% endfor %}
                 </ul>
@@ -52,6 +56,17 @@
     </section>
     <!-- text section end -->
 
+    <!-- links section starts -->
+    <section style="padding: 0;">
+        <div class="container">
+            <div class="button-container">
+                {% for button in buttons %}
+                {% include "food/components/link-button.html" with button=button %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- links section end -->
 
     <!-- popular restaurant section starts -->
     <section class="restaurant-list section-b-space ratio3_2">

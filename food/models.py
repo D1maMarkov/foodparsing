@@ -1,5 +1,3 @@
-import random
-
 from ckeditor.fields import RichTextField
 from django.db import models
 
@@ -23,10 +21,6 @@ class City(models.Model):
     class Meta:
         verbose_name = "Город"
         verbose_name_plural = "Города"
-        
-    @property
-    def dslug(self):
-        return self.slug.replace("_", "-")
 
 
 class Food(models.Model):
@@ -41,10 +35,6 @@ class Food(models.Model):
         verbose_name = "Кухня"
         verbose_name_plural = "Кухни"
         
-    @property
-    def dslug(self):
-        return self.slug.replace("_", "-")
-
 
 class Restoraunt(models.Model):
     name = models.CharField(max_length=150, verbose_name="Ресторан")
@@ -64,31 +54,6 @@ class Restoraunt(models.Model):
 
     def __str__(self) -> str:
         return self.name
-
-    @property
-    def dslug(self):
-        return self.slug.replace("_", "-")
-    
-    @property
-    def image_link(self) -> str:
-        dish_ids = Dish.objects.filter(restoraunt_id=self.id).values_list("id", flat=True)
-        dish_id = random.choice(dish_ids)
-        dish = Dish.objects.get(id=dish_id)
-        return dish.image_link
-    
-    @property
-    def dish_categories_count(self) -> int:
-        return DishCategory.objects.filter(dishes__restoraunt_id=self.id).distinct().count()
-
-    @property
-    def dish_categories_html(self) -> str:
-        categories = DishCategory.objects.filter(dishes__restoraunt_id=self.id).distinct().values_list("name", flat=True)
-        html = ''
-        
-        for category in categories:
-            html += f'''&bull; &nbsp;<span style="cursor: pointer;" onclick="selectFoodCategory(this)" >{category}</span><br />'''
-
-        return html
     
     @property
     def full_address(self) -> str:
@@ -148,14 +113,6 @@ class Dish(models.Model):
 
     def __str__(self):
         return self.name
-    
-    @property
-    def dslug(self):
-        return self.slug.replace("_", "-")
-    
-    @property
-    def image_link(self):
-        return f"/media/{self.restoraunt_id}/{self.image.split('/')[-1]}"
 
     class Meta:
         verbose_name = "Блюдо"
@@ -186,6 +143,7 @@ class Seo(models.Model):
     page_type = models.CharField(max_length=100, choices=PAGE_TYPES, verbose_name="страница")
     title = models.CharField(max_length=300)
     h1 = models.CharField(max_length=300, null=True, blank=True)
+    h2 = models.CharField(max_length=300, null=True, blank=True)
     description = models.TextField(max_length=3000)
 
     text = RichTextField(max_length=7000, null=True, blank=True)
@@ -220,10 +178,6 @@ class CityShop(models.Model):
     slug = models.CharField(max_length=90)
     unique_key = models.CharField(max_length=30, unique=True, null=True)
     rating = models.CharField(max_length=3, null=True)
-    
-    @property
-    def dslug(self):
-        return self.slug.replace("_", "-")
 
     class Meta:
         verbose_name = "Магазин в городе"
@@ -263,11 +217,7 @@ class ShopProduct(models.Model):
     price = models.CharField(max_length=10, verbose_name="Цена", null=True)
     weight = models.CharField(max_length=15, verbose_name="Вес", null=True, blank=True)
     unique_key = models.CharField(max_length=40)
-    
-    
-    @property
-    def dslug(self):
-        return self.slug.replace("_", "-")
+
 
     class Meta:
         verbose_name = "продукт в магазине"
