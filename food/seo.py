@@ -21,6 +21,9 @@ def replace_wildcard_templates(string: str, wildcard_variables: dict[str, Any]) 
                replace_value = ""
         except KeyError:
             replace_value = ""
+        except AttributeError:
+            if not (replace_value := wildcard_variables[obj].get(attr)):
+               replace_value = ""
             
         string = string.replace("[" + wildcard_template + "]", str(replace_value))
 
@@ -30,9 +33,8 @@ def replace_wildcard_templates(string: str, wildcard_variables: dict[str, Any]) 
 def get_wildcard_seo(seo: Seo, wildcard_variables: dict[str, Any]) -> Seo:
     buttons = wildcard_variables.get("buttons")
 
-    for attr_name, attr_type in Seo.__annotations__.items():
-        seo_text = getattr(seo, attr_name)
-        if attr_type == str and seo_text:
+    for attr_name, seo_text in seo.__dict__.items():
+        if isinstance(seo_text, str) and seo_text:
             seo_text = seo_text.replace("[current_date]", get_formatted_date())
             if buttons:
                 for button in buttons:

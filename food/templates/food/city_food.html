@@ -22,8 +22,11 @@
                     <li class="breadcrumb-item">
                         <a href="/"><i class="ri-home-line"></i>Главная</a>
                     </li>
+                    <li class="breadcrumb-item" aria-current="page">
+                        <a href="/{{city.slug}}/">{{ city.name }}</a>
+                    </li>
                     <li class="breadcrumb-item active" aria-current="page">
-                        {{ seo.h1 }}
+                        <a href="/{{city.slug}}/{{food.slug}}/">{{ food.name }}</a>
                     </li>
                 </ol>
             </nav>
@@ -49,7 +52,7 @@
 
 
     <!-- text section start -->
-    <section>
+    <section {% if seo.text %}style="color: rgba(var(--dark-text), 1); padding-bottom: 30px;"{% else %}style="color: rgba(var(--dark-text), 1);"{% endif %}>
         <div class="container">
             {{ seo.text|safe }}
         </div>
@@ -66,13 +69,29 @@
             </div>
         </div>
     </section>
+
+    <style>
+        .button-container{
+            position: relative;
+        }
+        
+        .sticky {
+            margin-top: 0 !important;
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
+    </style>
+
     <!-- links section end -->
 
     <!-- popular restaurant section starts -->
     <section class="restaurant-list section-b-space ratio3_2">
         <div class="container">
             <div class="title restaurant-title pb-0 w-border">
-                <h2>Рестораны</h2>
+                <h2>{{ seo.h2 }}</h2>
             </div>
             <div class="tab-content restaurant-content" id="TabContent">
                 <div class="tab-pane fade show active" id="delivery-tab">
@@ -160,6 +179,7 @@
 
     <!-- script js -->
     <script src="/assets/js/script.js"></script>
+    <script src="{% static 'food/js/restoraunt-page.js' %}"></script>
 </body>
 
 {% endblock %}

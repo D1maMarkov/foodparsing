@@ -14,7 +14,7 @@ class CitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = City
-        fields = ['name', 'slug', 'id']
+        fields = ['name', 'slug', 'id', 'genitive_case']
 
 
 class RestorauntFoodSerializer(serializers.ModelSerializer):
@@ -39,35 +39,43 @@ class RestorauntSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Restoraunt
-        fields = ["slug", "name", "image", "id", "rating", "min_order", "price_category", "address", "city", "image_link"]
-
-    def get_image_link(self) -> str:
-        dish_ids = Dish.objects.filter(restoraunt_id=self.id).values_list("id", flat=True)
+        fields = ["slug", "name", "image", "id", "rating", "min_order", "price_category", "address", "city", "image_link", "full_address"]
+    
+    def get_image_link(self, restoraunt) -> str:
+        dish_ids = Dish.objects.filter(restoraunt_id=restoraunt.id).values_list("id", flat=True)
         dish_id = random.choice(dish_ids)
         dish = Dish.objects.get(id=dish_id)
-        return dish.image_link
+        return f"/media/{dish.restoraunt_id}/{dish.image.split('/')[-1]}"
 
 
 class RestorauntItemSerializer(RestorauntSerializer):
     dish_categories_count = serializers.SerializerMethodField()
     dish_categories_html = serializers.SerializerMethodField()
+    full_address = serializers.SerializerMethodField()
 
     class Meta:
         model = Restoraunt
         fields = RestorauntSerializer.Meta.fields + [
             "dish_categories_count",
-            "dish_categories_html"
+            "dish_categories_html",
+            "full_address"
         ]
 
-    def get_dish_categories_count(self) -> int:
-        return DishCategory.objects.filter(dishes__restoraunt_id=self.id).distinct().count()
+    def get_full_address(self, restoraunt) -> str:
+        if restoraunt.address.startswith(restoraunt.city.name):
+            return restoraunt.address
+        
+        return f'''{restoraunt.city.name}, {restoraunt.address}'''
 
-    def get_dish_categories_html(self) -> str:
-        categories = DishCategory.objects.filter(dishes__restoraunt_id=self.id).distinct().values_list("name", flat=True)
+    def get_dish_categories_count(self, restoraunt) -> int:
+        return DishCategory.objects.filter(dishes__restoraunt_id=restoraunt.id).distinct().count()
+
+    def get_dish_categories_html(self, restoraunt) -> str:
+        categories = DishCategory.objects.filter(dishes__restoraunt_id=restoraunt.id).order_by("-id").distinct().values("name", "id")
         html = ''
         
         for category in categories:
-            html += f'''&bull; &nbsp;<span style="cursor: pointer;" onclick="selectFoodCategory(this)"><a href="#" onclick="return false;">{category}</a></span><br />'''
+            html += f'''&bull; &nbsp;<span data-id="{category['id']}" style="cursor: pointer;" onclick="selectFoodCategory(this, '{category['name']}')"><a style="color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));">{category['name']}</a></span><br />'''
 
         return html
 
@@ -77,10 +85,14 @@ class FoodSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Food
-        fields = ["slug", "genitive_case", "name", "title"]
+        fields = ["slug", "genitive_case", "name", "id"]
 
 class DishSerializer(serializers.ModelSerializer):
     image_link = serializers.SerializerMethodField()
+    category = serializers.SerializerMethodField()
+
+    def get_category(self, dish):
+        return dish.category
 
     class Meta:
         model = Dish
@@ -95,9 +107,8 @@ class DishSerializer(serializers.ModelSerializer):
             "image_link"
         ]
 
-    @property
-    def get_image_link(self):
-        return f"/media/{self.restoraunt_id}/{self.image.split('/')[-1]}"
+    def get_image_link(self, dish):
+        return f"/media/{dish.restoraunt_id}/{dish.image.split('/')[-1]}"
 
 
 class DishCategorySerialzier(serializers.ModelSerializer):
@@ -129,10 +140,11 @@ class CityShopSerializer(serializers.ModelSerializer):
     city = CitySerializer()
     image = serializers.SerializerMethodField()
     name = serializers.SerializerMethodField()
+    price_category = serializers.SerializerMethodField()
 
     class Meta:
         model = CityShop
-        fields = ["shop","city","slug","rating", "image"]
+        fields = ["shop","city","slug","rating", "image", "name", "price_category"]
 
     def get_price_category(self, shop) -> str:
         return shop.shop.price_category
@@ -158,14 +170,14 @@ class ShopItemSerializer(CityShopSerializer):
             "product_categories_html"
         ]
 
-    def get_product_categories_count(self) -> int:
-        return ShopCategory.objects.filter(products__shop_id=self.id).distinct().count()
+    def get_product_categories_count(self, shop) -> int:
+        return ShopCategory.objects.filter(products__shop_id=shop.id).distinct().count()
 
-    def get_product_categories_html(self) -> str:
-        categories = ShopCategory.objects.filter(products__shop_id=self.id).distinct().values_list("name", flat=True)
+    def get_product_categories_html(self, shop) -> str:
+        categories = ShopCategory.objects.filter(products__shop_id=shop.id).order_by("-id").distinct().values("name", "id")
         html = ''
         
         for category in categories:
-            html += f'''&bull; &nbsp;<span style="cursor: pointer;" onclick="selectFoodCategory(this)" ><a href="#" onclick="return false;">{category}</a></span><br />'''
+            html += f'''&bull; &nbsp;<span data-id="{category['id']}" style="cursor: pointer;" onclick="selectFoodCategory(this, '{category['name']}')" ><a style="color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));">{category['name']}</a></span><br />'''
 
         return html

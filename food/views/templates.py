@@ -33,16 +33,22 @@ class Index(BaseTemplateView):
         all_cities = City.objects.filter(Exists(Restoraunt.objects.filter(Exists(Dish.objects.filter(restoraunt=OuterRef("pk"))), city=OuterRef("pk"))))
         block_cities = City.objects.filter(name__in=BLOCK_CITIES)
 
-        context["cities"] = CitySerializer(all_cities, many=True).data
+        serialized_cities = CitySerializer(all_cities, many=True).data
+        context["cities"] = serialized_cities
         context["block_cities"] = CitySerializer(block_cities, many=True).data
 
-        ids = list(Restoraunt.objects.filter(Exists(Dish.objects.filter(restoraunt=OuterRef("pk")))).values_list("id", flat=True))
+        random_cities = random.sample(serialized_cities, 8)
+        restoraunts = []
+        for city in random_cities:
+            restoraunts.append(Restoraunt.objects.select_related('city').filter(city_id=city["id"]).order_by("?").first())
         
-        random_ids = random.sample(ids, 8)
-        random_records = Restoraunt.objects.select_related("city").filter(id__in=random_ids)[0:8]
-        restoraunts = Restoraunt.objects.filter(Exists(Dish.objects.filter(restoraunt=OuterRef("pk")))).select_related("city").all()[0:16]
+        random_cities = random.sample(serialized_cities, 8)
 
-        context["popular_restoraunts"] = RestorauntSerializer(random_records, many=True).data
+        popular_restoraunts = []
+        for city in random_cities:
+            popular_restoraunts.append(Restoraunt.objects.select_related('city').filter(city_id=city["id"]).order_by("?").first())
+
+        context["popular_restoraunts"] = RestorauntSerializer(popular_restoraunts, many=True).data
 
         context["restoraunts"] = RestorauntSerializer(restoraunts, many=True).data
 
@@ -104,7 +110,7 @@ class RestorauntView(BaseTemplateView):
 
         context |= dishes_context
 
-        refs = RestorauntRef.objects.filter(restoraunt=dishes_context["restoraunt"])
+        refs = RestorauntRef.objects.filter(restoraunt=dishes_context["restoraunt"]["id"])
         res_buttons = RestorauntPageButton.objects.all()
         buttons = get_buttons(refs, res_buttons)
 
@@ -164,6 +170,7 @@ class CityFoodView(BaseTemplateView):
         context["food"] = FoodSerializer(food).data
         context["foods"] = FoodSerializer(foods, many=True).data
         context["restoraunts_obj"] = restoraunts_obj
+        context["buttons"] = IndexPageButton.objects.all()
 
         return context
 

@@ -79,8 +79,8 @@
                                             <nav id="navbar" class="product-items pb-0"style="color: rgba(var(--dark-text), 1);">
                                                 <ul class="nav nav-pills">
                                                     {% for dish_category in dish_categories %}
-                                                        <li data-id={{dish_category.id}} onclick="selectFoodCategory(this)">
-                                                            <h2 style="cursor: pointer; font-size: calc(13px + 6*(100vw - 320px) / 1600); font-weight: normal;">{{ dish_category.name }}</h2>
+                                                        <li data-id="{{dish_category.id}}" onclick="selectFoodCategory(this, '{{dish_category.name }}')">
+                                                            <h2 style="cursor: pointer; font-size: calc(13px + 6*(100vw - 320px) / 1600); font-weight: normal; color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));">{{ dish_category.name }}</h2>
                                                         </li>
                                                     {% endfor %}
                                                 </ul>

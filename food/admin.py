@@ -81,6 +81,7 @@ class SeoAdmin(admin.ModelAdmin):
                     "page_type",
                     "title",
                     "h1",
+                    "h2",
                     "description",
                     "text",
                 ],

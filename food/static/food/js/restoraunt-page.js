@@ -1,4 +1,4 @@
-function selectFoodCategory(element){
+function selectFoodCategory(element, categoryName){
     document.querySelectorAll(".nav-pills li").forEach(
         li => {
             li.classList.remove("selected")
@@ -7,13 +7,7 @@ function selectFoodCategory(element){
 
     element.classList.add("selected")
 
-    let categoryName = '';
-
-    document.querySelectorAll(".nav-pills li.selected h2").forEach(
-        a => {
-            categoryName = a.innerHTML;
-        }
-    )
+    console.log(categoryName)
 
     document.querySelectorAll(".product-details-box-title").forEach(
         category => {

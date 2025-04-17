@@ -54,13 +54,6 @@ class Restoraunt(models.Model):
 
     def __str__(self) -> str:
         return self.name
-    
-    @property
-    def full_address(self) -> str:
-        if self.address.startswith(self.city.name):
-            return self.address
-        
-        return f'''{self.city.name}, {self.address}'''
 
     class Meta:
         verbose_name = "Ресторан"
@@ -247,8 +240,8 @@ class Button(models.Model):
 
 class IndexPageButton(Button):
     class Meta:
-        verbose_name = "Кнопка на главной"
-        verbose_name_plural = "Кнопки на главной"
+        verbose_name = "Кнопка"
+        verbose_name_plural = "Кнопки на главной и кухни"
 
 
 class RestorauntPageButton(Button):

@@ -26,7 +26,7 @@
                             <h1 class="restaurant-name">
                                 {{ seo.h1 }}
                             </h1>
-                            <p class="restaurant-place">{{ shop.city }}</p>
+                            <p class="restaurant-place">{{ shop.city.name }}</p>
                         </div>
                         <div class="restaurant-description">
                             <div class="categories-icon">
@@ -81,8 +81,8 @@
                                             <nav id="navbar" class="product-items pb-0" style="color: rgba(var(--dark-text), 1);">
                                                 <ul class="nav nav-pills">
                                                     {% for shop_category in shop_categories %}
-                                                        <li data-id={{shop_category.id}} onclick="selectFoodCategory(this)">
-                                                            <h2 style="cursor: pointer; font-size: calc(13px + 6*(100vw - 320px) / 1600); font-weight: normal;">{{ shop_category.name }}</h2>
+                                                        <li data-id={{shop_category.id}} onclick="selectFoodCategory(this, '{{shop_category.name }}')">
+                                                            <h2 style="cursor: pointer; font-size: calc(13px + 6*(100vw - 320px) / 1600); font-weight: normal; color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));">{{ shop_category.name }}</h2>
                                                         </li>
                                                     {% endfor %}
                                                 </ul>

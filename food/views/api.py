@@ -5,7 +5,7 @@ from django.template import loader
 from django.views import View
 
 from food.models import CityShop, Dish, DishCategory, Restoraunt, ShopCategory
-from food.serializers import CitySerializer, RestorauntHintSerialzier, RestorauntItemSerializer, ShopItemSerializer
+from food.serializers import CitySerializer, DishSerializer, RestorauntHintSerialzier, RestorauntItemSerializer, ShopItemSerializer
 from food.utils import get_city_by_slug
 
 
@@ -23,10 +23,10 @@ def get_dishes_context(restoraunt_slug, city_slug, categories) -> dict[str, Any]
 
     categories = DishCategory.objects.filter(query).order_by("-id").distinct()
 
-    dishes_query = Dish.objects.select_related("category").filter(restoraunt_id=restoraunt.id)
+    dishes = Dish.objects.select_related("category").filter(restoraunt_id=restoraunt.id)
 
     return {
-        "dishes": dishes_query, 
+        "dishes": DishSerializer(dishes, many=True).data, 
         "dish_categories": categories,
         "city": CitySerializer(city).data, 
         "restoraunt": RestorauntItemSerializer(restoraunt).data
