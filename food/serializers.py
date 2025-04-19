@@ -39,7 +39,7 @@ class RestorauntSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Restoraunt
-        fields = ["slug", "name", "image", "id", "rating", "min_order", "price_category", "address", "city", "image_link", "full_address"]
+        fields = ["slug", "name", "image", "id", "rating", "min_order", "price_category", "address", "city", "image_link"]
     
     def get_image_link(self, restoraunt) -> str:
         dish_ids = Dish.objects.filter(restoraunt_id=restoraunt.id).values_list("id", flat=True)

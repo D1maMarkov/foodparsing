@@ -51,7 +51,7 @@ class Restoraunt(models.Model):
     min_order = models.CharField(null=True, max_length=20, verbose_name="Минимальный заказ")
     unique_key = models.CharField(null=True, max_length=100, unique=True, blank=True)
     rating = models.CharField(null=True, max_length=3, verbose_name="Рейтинг")
-
+    image_link = models.CharField(null=True, max_length=2000)
     def __str__(self) -> str:
         return self.name
 

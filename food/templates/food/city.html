@@ -55,6 +55,33 @@
     </section>
     <!-- text section end -->
 
+    <!-- links section starts -->
+    <section style="padding: 0;">
+        <div class="container">
+            <div class="button-container">
+                {% for button in buttons %}
+                {% include "food/components/link-button.html" with button=button %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .button-container{
+            position: relative;
+        }
+        
+        .sticky {
+            margin-top: 0 !important;
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
+    </style>
+    <!-- links section end -->
+
     <!-- popular restaurant section starts -->
     <section class="restaurant-list section-b-space ratio3_2">
         <div class="container">

@@ -15,6 +15,7 @@ from food.models import (
     RestorauntPageButton,
     RestorauntRef,
     ShopPageButton,
+    ShopProduct,
 )
 from food.serializers import CitySerializer, CityShopSerializer, FoodSerializer, RestorauntSerializer
 from food.utils import get_city_by_slug
@@ -68,25 +69,27 @@ class CityView(BaseTemplateView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        slug = kwargs.get("city_slug").lower()
-        city = get_city_by_slug(slug)
+        slug = kwargs.get("city_slug")
+        city = City.objects.get(slug=slug)
         
-        restoraunts = Restoraunt.objects.select_related("city").filter(city=city).filter(Exists(Dish.objects.filter(restoraunt=OuterRef("pk"))))
-        serialized_restoraunts = RestorauntSerializer(restoraunts, many=True).data
+        restoraunts = Restoraunt.objects.select_related("city").filter(Exists(Dish.objects.filter(restoraunt=OuterRef("pk"))), city=city)
 
-        paginator = Paginator(serialized_restoraunts, 24)  # Show 25 contacts per page.
+        paginator = Paginator(restoraunts, 24)  # Show 25 contacts per page.
 
         page_number = self.request.GET.get("page")
         restoraunts_obj = paginator.get_page(page_number)
+        restoraunts_obj.object_list = RestorauntSerializer(restoraunts_obj.object_list, many=True).data
 
         foods = Food.objects.filter(restoraunt_foods__restoraunt__city_id=city.id).distinct()
         context["city"] = CitySerializer(city).data
         context["restoraunts_obj"] = restoraunts_obj
         context["foods"] = FoodSerializer(foods, many=True).data
 
-        shops = CityShop.objects.annotate(max_id=Max("id"), pc=Count('products')).filter(pc__gte=1, city_id=city.id).select_related("city", "shop")
+        #shops = CityShop.objects.annotate(max_id=Max("id"), pc=Count('products')).filter(pc__gte=1, city_id=city.id).select_related("city", "shop")
+        shops = CityShop.objects.filter(Exists(ShopProduct.objects.filter(shop=OuterRef('pk'))), city=city).select_related("city", "shop")
 
         context["shops"] = CityShopSerializer(shops, many=True).data
+        context["buttons"] = IndexPageButton.objects.all()
 
         return context
 
@@ -157,12 +160,12 @@ class CityFoodView(BaseTemplateView):
             .filter(Exists(Dish.objects.filter(restoraunt=OuterRef("pk"))))
             .distinct()
         )
-        serialized_restoraunts = RestorauntSerializer(restoraunts, many=True).data
 
-        paginator = Paginator(serialized_restoraunts, 24)
+        paginator = Paginator(restoraunts, 24)
 
         page_number = self.request.GET.get("page")
         restoraunts_obj = paginator.get_page(page_number)
+        restoraunts_obj.object_list = RestorauntSerializer(restoraunts_obj.object_list, many=True).data
 
         foods = Food.objects.filter(restoraunt_foods__restoraunt__city_id=city.id).distinct()
 
