@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 
 from food.views.api import GetDishesView, GetFilteredRestorauntsView
 from food.views.templates import (
@@ -6,6 +6,7 @@ from food.views.templates import (
     CityView,
     DishView,
     Index,
+    PageNotFound,
     RestorauntView,
     ShopView,
 )
@@ -20,4 +21,5 @@ urlpatterns = [
     path("<city_slug>/<food_slug>/", CityFoodView.as_view()),
     path("api/dishes", GetDishesView.as_view()),
     path("api/restoraunts", GetFilteredRestorauntsView.as_view()),
+    re_path(r".*", PageNotFound.as_view())
 ]

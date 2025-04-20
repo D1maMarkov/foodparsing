@@ -18,7 +18,12 @@ class ContextDecoratorMeta(type):
             @wraps(original_get_context_data)
             def wrapped_get_context_data(self, *args, **kwargs):
                 context = original_get_context_data(self, *args, **kwargs)
-                context["seo"] = get_wildcard_seo(Seo.objects.get(page_type=self.title), context)
+                title = getattr(self, 'title', '')
+                try:
+                    context["seo"] = get_wildcard_seo(Seo.objects.get(page_type=title), context)
+                except Seo.DoesNotExist:
+                    context["seo"] = dict()
+
                 footer_cities = City.objects.filter(name__in=FOOTER_CITY_NAMES)
                 context["footer_cities"] = footer_cities
                 request = getattr(self, "request")

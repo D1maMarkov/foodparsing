@@ -1,0 +1,119 @@
+{% extends "food/base.html" %}
+
+{% block content %}
+<body class="white-bg">
+    <!-- Header section start -->
+    {% include "food/components/navbar.html" %}
+    <!-- Header Section end -->
+
+    <!-- page head section starts -->
+    <section class="page-head-section">
+        <div class="container page-heading">
+            <h2 class="h3 mb-3 text-white text-center">404 страница не найдена</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb flex-lg-nowrap justify-content-center justify-content-lg-star">
+                    <li class="breadcrumb-item">
+                        <a href="/"><i class="ri-home-line"></i>Главная</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">404</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+    <!-- page head section end -->
+
+    <!-- 404 section starts -->
+    <section class="error-section pt-0">
+        <div class="container">
+            <div class="banner-content text-center">
+                <img class="img-fluid banner-img mx-auto" src="assets/images/404.png" alt="404">
+                <p>
+                    Страница, которую вы ищете, не найдена. Возможно, ссылка на этот
+                    адрес устарела или мы переместили ее с тех пор, как вы в последний
+                    раз добавляли ее в закладки.
+                </p>
+                <a href="/" class="btn theme-outline d-inline-flex mx-auto">На главную</a>
+            </div>
+        </div>
+    </section>
+    <!-- 404 section end -->
+
+    <!-- footer section starts -->
+    {% include "food/components/footer.html" %}
+    <!-- footer section end -->
+
+    <!-- theme btn start -->
+    <div class="theme-btns">
+        <button type="button" class="btntheme mode-change-button">
+            <i id="themeIcon" class="ri-moon-line icon mode-icon"></i>
+            <span class="text-value">Тёмная тема</span>
+        </button>
+    </div>
+    <!-- theme btn end -->
+
+    <!-- tap to top start -->
+    <button class="scroll scroll-to-top">
+        <i class="ri-arrow-up-s-line arrow"></i>
+    </button>
+    <!-- tap to top end -->
+
+    <!-- location offcanvas start -->
+    <div class="modal fade location-modal" id="location" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">
+                        <h5 class="fw-semibold">Select a Location</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="search-section">
+                        <form class="form_search" role="form">
+                            <input type="search" placeholder="Search Location" class="nav-search nav-search-field">
+                        </form>
+                    </div>
+                    <a href="#!" class="current-location">
+                        <div class="current-address">
+                            <i class="ri-focus-3-line focus"></i>
+                            <div>
+                                <h5>Use current-location</h5>
+                                <h6>Wellington St., Ottawa, Ontario, Canada</h6>
+                            </div>
+                        </div>
+                        <i class="ri-arrow-right-s-line arrow"></i>
+                    </a>
+                    <h5 class="mt-sm-3 mt-2 fw-medium recent-title dark-text">
+                        Recent Location
+                    </h5>
+                    <a href="#!" class="recent-location">
+                        <div class="recant-address">
+                            <i class="ri-map-pin-line theme-color"></i>
+                            <div>
+                                <h5>Bayshore</h5>
+                                <h6>kingston St., Ottawa, Ontario, Canada</h6>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn gray-btn" data-bs-dismiss="modal">Close</a>
+                    <a href="#" class="btn theme-btn mt-0" data-bs-dismiss="modal">Save</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- location offcanvas end -->
+
+    <!-- bootstrap js -->
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+
+    <!-- footer accordion js -->
+    <script src="assets/js/footer-accordion.js"></script>
+
+    <!-- script js -->
+    <script src="assets/js/script.js"></script>
+</body>
+
+{% endblock %}

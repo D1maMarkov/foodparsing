@@ -43,15 +43,17 @@ class Restoraunt(models.Model):
         City, verbose_name="Город", on_delete=models.CASCADE, related_name="restoraunts"
     )
 
-    image = models.CharField(null=True, verbose_name="Картинка", max_length=2000)
-    owner = models.TextField(max_length=7000, null=True, verbose_name="Владелец")
+    image = models.CharField(null=True, verbose_name="Картинка", max_length=200)
+    owner = models.TextField(max_length=500, null=True, verbose_name="Владелец")
     schedule = models.CharField(max_length=300, null=True, verbose_name="Расписание")
-    address = models.CharField(max_length=500, null=True, verbose_name="Адрес")
+    address = models.CharField(max_length=200, null=True, verbose_name="Адрес")
     price_category = models.CharField(null=True, max_length=20, verbose_name="Ценовая категория")
     min_order = models.CharField(null=True, max_length=20, verbose_name="Минимальный заказ")
     unique_key = models.CharField(null=True, max_length=100, unique=True, blank=True)
     rating = models.CharField(null=True, max_length=3, verbose_name="Рейтинг")
-    image_link = models.CharField(null=True, max_length=2000)
+    image_link = models.CharField(null=True, max_length=70)
+    have_dishes = models.BooleanField(null=True, default=True)
+
     def __str__(self) -> str:
         return self.name
 

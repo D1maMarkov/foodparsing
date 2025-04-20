@@ -18,7 +18,6 @@ from food.models import (
     ShopProduct,
 )
 from food.serializers import CitySerializer, CityShopSerializer, FoodSerializer, RestorauntSerializer
-from food.utils import get_city_by_slug
 from food.views.api import get_dishes_context, get_shop_context
 
 from food.constants import BLOCK_CITIES
@@ -31,23 +30,31 @@ class Index(BaseTemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        all_cities = City.objects.filter(Exists(Restoraunt.objects.filter(Exists(Dish.objects.filter(restoraunt=OuterRef("pk"))), city=OuterRef("pk"))))
+        all_cities = City.objects.filter(Exists(Restoraunt.objects.filter(have_dishes=True, city=OuterRef("pk"))))
         block_cities = City.objects.filter(name__in=BLOCK_CITIES)
 
         serialized_cities = CitySerializer(all_cities, many=True).data
         context["cities"] = serialized_cities
         context["block_cities"] = CitySerializer(block_cities, many=True).data
 
-        random_cities = random.sample(serialized_cities, 8)
+        random_cities = random.sample(serialized_cities, 16)
         restoraunts = []
         for city in random_cities:
-            restoraunts.append(Restoraunt.objects.select_related('city').filter(city_id=city["id"]).order_by("?").first())
+            if len(restoraunts) >= 8:
+                break
+            r = Restoraunt.objects.select_related('city').filter(city_id=city["id"]).filter(~Q(image_link__isnull=True)).order_by("?").first()
+            if r:
+                restoraunts.append(r)
         
-        random_cities = random.sample(serialized_cities, 8)
+        random_cities = random.sample(serialized_cities, 16)
 
         popular_restoraunts = []
         for city in random_cities:
-            popular_restoraunts.append(Restoraunt.objects.select_related('city').filter(city_id=city["id"]).order_by("?").first())
+            if len(popular_restoraunts) >= 8:
+                break
+            r = Restoraunt.objects.select_related('city').filter(city_id=city["id"]).filter(~Q(image_link__isnull=True)).order_by("?").first()
+            if r:
+                popular_restoraunts.append(r)
 
         context["popular_restoraunts"] = RestorauntSerializer(popular_restoraunts, many=True).data
 
@@ -72,9 +79,13 @@ class CityView(BaseTemplateView):
         slug = kwargs.get("city_slug")
         city = City.objects.get(slug=slug)
         
-        restoraunts = Restoraunt.objects.select_related("city").filter(Exists(Dish.objects.filter(restoraunt=OuterRef("pk"))), city=city)
+        restoraunts = (
+            Restoraunt.objects.select_related("city")
+            .filter(have_dishes=True, city=city)
+            .order_by('-image_link')
+        )
 
-        paginator = Paginator(restoraunts, 24)  # Show 25 contacts per page.
+        paginator = Paginator(restoraunts, 24)
 
         page_number = self.request.GET.get("page")
         restoraunts_obj = paginator.get_page(page_number)
@@ -147,18 +158,19 @@ class CityFoodView(BaseTemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        city_slug = kwargs.get("city_slug").replace("-", "_")
+        city_slug = kwargs.get("city_slug")
         food_id = kwargs.get("food_slug")
 
-        city = get_city_by_slug(city_slug)
+        city = City.objects.get(slug=city_slug)
         food = Food.objects.get(slug=food_id)
 
         restoraunts = (
             Restoraunt.objects.prefetch_related("foods")
             .select_related("city")
-            .filter(Q(city=city, foods__food=food))
-            .filter(Exists(Dish.objects.filter(restoraunt=OuterRef("pk"))))
+            .filter(city=city, foods__food=food)
+            .filter(have_dishes=True)
             .distinct()
+            .order_by('-image_link')
         )
 
         paginator = Paginator(restoraunts, 24)
@@ -186,9 +198,9 @@ class DishView(BaseTemplateView):
         context = super().get_context_data(**kwargs)
         city_slug = kwargs.get("city_slug")
         restoraunt_slug = kwargs.get("restoraunt_slug")
-        dish_slug = kwargs.get("dish_slug").replace("-", "_")
+        dish_slug = kwargs.get("dish_slug")
 
-        city = get_city_by_slug(city_slug)
+        city = City.objects.get(slug=city_slug)
         restoraunt = Restoraunt.objects.filter(slug=restoraunt_slug).first()
 
         dish = Dish.objects.filter(slug=dish_slug, restoraunt_id=restoraunt.id).first()
@@ -198,3 +210,10 @@ class DishView(BaseTemplateView):
         context["dish"] = dish
 
         return context
+
+
+class PageNotFound(BaseTemplateView):
+    template_name = "food/404.html"
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs)

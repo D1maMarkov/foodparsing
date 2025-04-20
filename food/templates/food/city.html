@@ -8,9 +8,8 @@
 
 {% block content %}
 <body class="bg-color">
-
     <!-- Header section start -->
-    {% include "food/navbar.html" %}
+    {% include "food/components/navbar.html" %}
     <!-- Header Section end -->
 
     <!-- page head section starts -->
@@ -48,8 +47,8 @@
     <!-- foods section ends -->
 
     <!-- text section start -->
-    <section>
-        <div class="container" style="color: rgba(var(--dark-text), 1);">
+    <section {% if seo.text %}style="color: rgba(var(--dark-text), 1); padding-bottom: 30px;"{% else %}style="color: rgba(var(--dark-text), 1);"{% endif %}>
+        <div class="container">
             {{ seo.text|safe }}
         </div>
     </section>
@@ -240,6 +239,7 @@
 
     <!-- script js -->
     <script src="/assets/js/script.js"></script>
+    <script src="{% static 'food/js/restoraunt-page.js' %}"></script>
 </body>
 
 {% endblock %}

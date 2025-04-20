@@ -1,6 +1,6 @@
 import asyncio
 import os
-import random
+from random import randint
 import django
 
 
@@ -9,18 +9,16 @@ django.setup()
 
 
 async def main():
-    from food.models import Restoraunt, Dish
+    from food.models import Restoraunt
     count = await Restoraunt.objects.acount()
     for i in range(0, count, 300):
         restoraunts = []
+        print(i)
         async for restoraunt in Restoraunt.objects.all()[i:i+300]:
-            dish_ids = Dish.objects.filter(restoraunt_id=restoraunt.id).values_list("id", flat=True)
-            dish_id = random.choice(dish_ids)
-            dish = Dish.objects.get(id=dish_id)
-            restoraunt.image_link = f"/media/{dish.restoraunt_id}/{dish.image.split('/')[-1]}"
+            restoraunt.rating = f"4.{randint(5, 9)}"
             restoraunts.append(restoraunt)
         
-        await Restoraunt.objects.abulk_update(restoraunts, ["image_link"])
+        await Restoraunt.objects.abulk_update(restoraunts, ["rating"])
 
 if __name__ == "__main__":
     asyncio.run(main())

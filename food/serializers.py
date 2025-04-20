@@ -1,8 +1,7 @@
-import random
 from rest_framework import serializers
 
 from food.models import City, CityShop, Dish, DishCategory, Food, Restoraunt, RestorauntFood, ShopCategory
-
+from django.conf import settings
 
 class SlugField(serializers.Field):
     def to_representation(self, value: str) -> str:
@@ -10,8 +9,6 @@ class SlugField(serializers.Field):
 
 
 class CitySerializer(serializers.ModelSerializer):
-    slug = SlugField()
-
     class Meta:
         model = City
         fields = ['name', 'slug', 'id', 'genitive_case']
@@ -34,19 +31,17 @@ class RestorauntFoodSerializer(serializers.ModelSerializer):
 
 class RestorauntSerializer(serializers.ModelSerializer):
     city = CitySerializer()
-    slug = SlugField()
     image_link = serializers.SerializerMethodField()
 
     class Meta:
         model = Restoraunt
         fields = ["slug", "name", "image", "id", "rating", "min_order", "price_category", "address", "city", "image_link"]
-    
-    def get_image_link(self, restoraunt) -> str:
-        dish_ids = Dish.objects.filter(restoraunt_id=restoraunt.id).values_list("id", flat=True)
-        dish_id = random.choice(dish_ids)
-        dish = Dish.objects.get(id=dish_id)
-        return f"/media/{dish.restoraunt_id}/{dish.image.split('/')[-1]}"
 
+    def get_image_link(self, restoraunt) -> str:
+        if restoraunt.image_link:
+            return settings.MEDIA_URL + restoraunt.image_link
+        else:
+            return settings.MEDIA_URL + "nophoto.png"
 
 class RestorauntItemSerializer(RestorauntSerializer):
     dish_categories_count = serializers.SerializerMethodField()
@@ -68,14 +63,18 @@ class RestorauntItemSerializer(RestorauntSerializer):
         return f'''{restoraunt.city.name}, {restoraunt.address}'''
 
     def get_dish_categories_count(self, restoraunt) -> int:
-        return DishCategory.objects.filter(dishes__restoraunt_id=restoraunt.id).distinct().count()
-
+        categories = self.context.get("categories", [])
+        return len(categories)
+        
     def get_dish_categories_html(self, restoraunt) -> str:
-        categories = DishCategory.objects.filter(dishes__restoraunt_id=restoraunt.id).order_by("-id").distinct().values("name", "id")
+        categories = self.context.get("categories")
+        if not categories:
+            return ""
+
         html = ''
         
         for category in categories:
-            html += f'''&bull; &nbsp;<span data-id="{category['id']}" style="cursor: pointer;" onclick="selectFoodCategory(this, '{category['name']}')"><a style="color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));">{category['name']}</a></span><br />'''
+            html += f'''&bull; &nbsp;<span data-id="{category.id}" style="cursor: pointer;" onclick="selectFoodCategory(this, '{category.name}')"><a style="color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));">{category.name}</a></span><br />'''
 
         return html
 
